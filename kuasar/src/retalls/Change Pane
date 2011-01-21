@@ -1,0 +1,8 @@
+pn_ShareContainerFrame.setSize(pn_PluginFrame.getWidth() - pn_ShareContainerFrame.getLocation().x*2, pn_PluginFrame.getHeight()-pn_ShareContainerFrame.getLocation().y*2);
+         pn_Config cfg = new pn_Config();
+         pn_ShareContainerFrame.removeAll();
+         cfg.setBounds(pn_ShareContainerFrame.getBounds());
+         pn_ShareContainerFrame.add(cfg,null);
+         pn_ShareContainerFrame.updateUI();
+         pn_ShareContainerFrame.removeAll();
+         System.err.println(pn_ShareContainerFrame.getComponentCount());
