@@ -1,0 +1,15 @@
+ Class testClass = MainWindow.getClass();
+        Object type = MainWindow;
+        try {
+            Class arg[]= new Class[1];
+
+            Object objRef =
+            arg[0] = String.class;
+            Method metodo = testClass.getDeclaredMethod("launchInfo",arg );
+            System.out.println(metodo);
+            Object o = metodo.invoke(type, "Això funciona !!!");
+            //metodo.invoke(testClass, "ss");
+            System.out.println(o);
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } 

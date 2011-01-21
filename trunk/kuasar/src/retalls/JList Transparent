@@ -1,0 +1,10 @@
+        lst_Plugins.setCellRenderer(new CheckRenderer());
+
+        DefaultListModel model = new DefaultListModel();
+        lst_Plugins.setModel(model);
+        ImageIcon image = new ImageIcon("/home/jnavalon/Documents/programacio/PFC/Taller/icones/MIB-Ossigeno-Icons-1.9/32x32/categories/applications-toys.png");
+        pn_PluginTemplate flit= new pn_PluginTemplate();
+        flit.lbl_Plugin.setText("Insert Text");
+        flit.lbl_Plugin.setIcon(image);
+        flit.lbl_Plugin.setOpaque(false);
+        model.addElement(flit);
