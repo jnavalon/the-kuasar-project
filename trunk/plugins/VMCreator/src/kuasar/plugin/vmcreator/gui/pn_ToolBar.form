@@ -131,6 +131,20 @@
                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbl_addGroupMouseReleased"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="lbl_Favorite">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icons/favorites_deact.png"/>
+                </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Show Favorites"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lbl_FavoriteMouseReleased"/>
+              </Events>
+            </Component>
             <Component class="javax.swing.JLabel" name="lbl_addHost">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">

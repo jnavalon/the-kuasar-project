@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import kuasar.plugin.vmcreator.utils.Others;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.utils.XML;
@@ -242,6 +243,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         }
         if (saveObject(path + File.separator + filename, toolbar.data)) {
             GUI.launchInfo("Virtual Machine has been saved! ( " + filename + " )");
+            toolbar.panel.reloadFavorites();
             return true;
         }
         return false;
@@ -262,22 +264,6 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         return true;
     }
 
-    private String getIcon() {
-        switch ((Integer) toolbar.data.get(keyMaps.OS + ".id")) {
-            case 0:
-                return "windows.png";
-            case 1:
-                return "linux.png";
-            case 2:
-                return "solaris.png";
-            case 3:
-                return "bsd.png";
-            case 5:
-                return "mac.png";
-        }
-        return "other.png";
-    }
-
     protected void save(String name) {
         String path = ((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR")) + File.separator + kuasar.plugin.vmcreator.Config.path + File.separator + kuasar.plugin.vmcreator.Config.virtualmachine;
         int i = 0;
@@ -296,7 +282,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         List<String[]> attributs = new ArrayList<String[]>();
         attributs.add(new String[]{"name", name.replace('_', ' ')});
         attributs.add(new String[]{"type", "vm"});
-        attributs.add(new String[]{"icon", getIcon()});
+        attributs.add(new String[]{"icon", Others.getIcon((Integer) toolbar.data.get(keyMaps.OS + ".id"))});
         attributs.add(new String[]{"path", filename});
         Element root = XML.getElementOnPath(toolbar.panel.onAir, (Element) ODR.getValue(Config.path + "." + Config.network));
         root = XML.getElementOnPath(".", (Element) ODR.getValue(Config.path + "." + Config.network));
@@ -308,8 +294,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
             GUI.launchInfo("VM \"" + name.replace('_', ' ') + "\" added successfully!");
         }
         XML.Save(Config.path, Config.network, root);
-        toolbar.panel.fillList(toolbar.panel.onAir, false);
-        
+        toolbar.panel.reloadList();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancel;

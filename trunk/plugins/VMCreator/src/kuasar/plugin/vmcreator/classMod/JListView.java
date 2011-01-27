@@ -2,7 +2,6 @@ package kuasar.plugin.vmcreator.classMod;
 
 import java.awt.*;
 import javax.swing.*;
-import kuasar.plugin.vmcreator.gui.pn_Main;
 
 /**
  *
