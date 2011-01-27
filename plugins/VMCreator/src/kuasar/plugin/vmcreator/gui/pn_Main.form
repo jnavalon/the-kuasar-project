@@ -21,12 +21,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-              <Component id="lbl_Info" pref="445" max="32767" attributes="0"/>
+              <Component id="lbl_Info" pref="457" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="scp_List" pref="279" max="32767" attributes="0"/>
+              <Component id="scp_List" pref="291" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="pn_aux" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="1"/>
@@ -60,7 +60,6 @@
             <EmptyBorder/>
           </Border>
         </Property>
-        <Property name="opaque" type="boolean" value="false"/>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
@@ -106,6 +105,9 @@
       <Properties>
         <Property name="opaque" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="pn_auxComponentResized"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">

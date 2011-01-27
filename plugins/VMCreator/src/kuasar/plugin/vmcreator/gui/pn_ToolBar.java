@@ -23,6 +23,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
 
     /** Creates new form pn_ToolBar */
     pn_Main panel = null;
+    boolean favorites=false;
 
     public pn_ToolBar(pn_Main panel) {
         initComponents();
@@ -49,6 +50,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         lbl_next = new javax.swing.JLabel();
         tob_Add = new javax.swing.JToolBar();
         lbl_addGroup = new javax.swing.JLabel();
+        lbl_Favorite = new javax.swing.JLabel();
         lbl_addHost = new javax.swing.JLabel();
         tob_Dialog = new javax.swing.JToolBar();
         lbl_Edit = new javax.swing.JLabel();
@@ -116,6 +118,16 @@ public class pn_ToolBar extends javax.swing.JPanel {
             }
         });
         tob_Add.add(lbl_addGroup);
+
+        lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites_deact.png"))); // NOI18N
+        lbl_Favorite.setToolTipText("Show Favorites");
+        lbl_Favorite.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_Favorite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_FavoriteMouseReleased(evt);
+            }
+        });
+        tob_Add.add(lbl_Favorite);
 
         lbl_addHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/host.png"))); // NOI18N
         lbl_addHost.setToolTipText("Add Virtual Host");
@@ -229,6 +241,18 @@ public class pn_ToolBar extends javax.swing.JPanel {
         panel.editVM();
     }//GEN-LAST:event_lbl_EditMouseReleased
 
+    private void lbl_FavoriteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_FavoriteMouseReleased
+        if(favorites){
+            lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites_deact.png")));
+            lbl_Favorite.setToolTipText("Show Favorites");
+            panel.hideFavorites();
+        }else{
+            lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites.png")));
+            lbl_Favorite.setToolTipText("Hide Favorites");
+            panel.showFavorites();
+        }
+        favorites = !favorites;
+    }//GEN-LAST:event_lbl_FavoriteMouseReleased
 
     protected void activateDialog(){
         tob_Nav.setVisible(false);
@@ -265,6 +289,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbl_DialogClose;
     private javax.swing.JLabel lbl_Edit;
+    private javax.swing.JLabel lbl_Favorite;
     private javax.swing.JLabel lbl_addGroup;
     private javax.swing.JLabel lbl_addHost;
     private javax.swing.JLabel lbl_back;

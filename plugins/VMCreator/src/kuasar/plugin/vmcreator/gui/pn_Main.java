@@ -40,6 +40,7 @@ import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.vmcreator.Config;
 import kuasar.plugin.utils.XML;
 import kuasar.plugin.vmcreator.Config.VMList;
+import kuasar.plugin.vmcreator.gui.Favorites.pn_Favorites;
 import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.pn_Properties;
 import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.pn_TB_AddHost;
 import org.jdom.Element;
@@ -48,13 +49,13 @@ import org.jdom.Element;
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
+public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     public String onAir = ".";
     protected Stack<String> back = new Stack<String>();
     protected Stack<String> next = new Stack<String>();
     public pn_ToolBar tb = null;
-
+    private pn_Favorites favorites = null;
     /** Creates new form pn_Main */
     public pn_Main() {
         checkPaths();
@@ -83,7 +84,6 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
         scp_List.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         scp_List.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        scp_List.setOpaque(false);
 
         lst_Nets.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         lst_Nets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -109,6 +109,11 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         lbl_Info.setForeground(new java.awt.Color(204, 204, 204));
 
         pn_aux.setOpaque(false);
+        pn_aux.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                pn_auxComponentResized(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_auxLayout = new javax.swing.GroupLayout(pn_aux);
         pn_aux.setLayout(pn_auxLayout);
@@ -131,7 +136,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
                 .addGap(25, 25, 25))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scp_List, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                .addComponent(scp_List, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_aux, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -182,6 +187,29 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         }
     }//GEN-LAST:event_lst_NetsMouseMoved
 
+    private void pn_auxComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_pn_auxComponentResized
+        pn_aux.getComponent(0).setBounds(0,0,pn_aux.getWidth(),pn_aux.getHeight());
+    }//GEN-LAST:event_pn_auxComponentResized
+
+    public void reloadList(){
+        fillList(onAir, false);
+    }
+
+    public void reloadFavorites(){
+        if(favorites != null)
+            favorites.reload();
+    }
+
+    protected void showFavorites(){
+        pn_aux.setVisible(true);
+        favorites = new pn_Favorites();
+        pn_aux.removeAll();
+        pn_aux.add(favorites);
+    }
+    protected void hideFavorites(){
+        pn_aux.setVisible(false);
+        favorites=null;
+    }
     private HashMap<String,Object> loadMapVM(String filename){
         String path = ((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR")) + File.separator + kuasar.plugin.vmcreator.Config.path + File.separator + kuasar.plugin.vmcreator.Config.virtualmachine + File.separator + filename;
         HashMap<String, Object> map = null;
@@ -247,7 +275,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         }
     }
 
-    public final boolean fillList(String netpath, boolean saveAddr) {
+    public boolean fillList(String netpath, boolean saveAddr) {
         lbl_Info.setText("");
         try {
 

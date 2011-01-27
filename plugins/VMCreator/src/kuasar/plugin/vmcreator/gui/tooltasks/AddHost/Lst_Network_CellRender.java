@@ -29,8 +29,7 @@ public class Lst_Network_CellRender implements ListCellRenderer {
 
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
-        try {
-         
+        try {   
             Object data[] = (Object[]) value;
             pn_NetList pn_Device=null;
             ImageIcon icon = null;
