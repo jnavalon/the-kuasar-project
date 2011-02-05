@@ -28,15 +28,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import kuasar.plugin.vmcreator.utils.Others;
 import kuasar.plugin.Intercom.GUI;
-import kuasar.plugin.Intercom.ODR;
-import kuasar.plugin.utils.XML;
-import kuasar.plugin.vmcreator.Config;
-import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.Namespace.keyMaps;
-import org.jdom.Element;
 
 /**
  *
@@ -268,32 +261,15 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         String path = ((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR")) + File.separator + kuasar.plugin.vmcreator.Config.path + File.separator + kuasar.plugin.vmcreator.Config.virtualmachine;
         int i = 0;
         String filename = "0.bin";
+        File file;
         if (toolbar.filename == null) {
-            while (new File(path + File.separator + filename).exists()) {
-                filename = i + ".bin";
-                i++;
-            }
+            file = Others.nextFileAvailable(path);
         }else{
-            filename = toolbar.filename;
+            file =new File(path + File.separator + toolbar.filename);
         }
 
-        saveObject(path + File.separator + filename, toolbar.data);
-
-        List<String[]> attributs = new ArrayList<String[]>();
-        attributs.add(new String[]{"name", name.replace('_', ' ')});
-        attributs.add(new String[]{"type", "vm"});
-        attributs.add(new String[]{"icon", Others.getIcon((Integer) toolbar.data.get(keyMaps.OS + ".id"))});
-        attributs.add(new String[]{"path", filename});
-        Element root = XML.getElementOnPath(toolbar.panel.onAir, (Element) ODR.getValue(Config.path + "." + Config.network));
-        root = XML.getElementOnPath(".", (Element) ODR.getValue(Config.path + "." + Config.network));
-        Element node = root.getChild(name);
-        if(node!=null){
-            root.removeChild(name);
-        }
-        if (XML.AddElement(toolbar.panel.onAir, root, name, attributs)) {
-            GUI.launchInfo("VM \"" + name.replace('_', ' ') + "\" added successfully!");
-        }
-        XML.Save(Config.path, Config.network, root);
+        saveObject(file.getAbsolutePath(), toolbar.data);
+        Others.saveXML(name, file, toolbar.data, toolbar.panel.onAir, true);
         toolbar.panel.reloadList();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
