@@ -43,27 +43,79 @@ public class pn_ToolBar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tob_ToolBar = new javax.swing.JToolBar();
-        tob_Nav = new javax.swing.JToolBar();
-        lbl_back = new javax.swing.JLabel();
-        lbl_up = new javax.swing.JLabel();
-        lbl_next = new javax.swing.JLabel();
+        tob_Dialog = new javax.swing.JToolBar();
+        lbl_Edit = new javax.swing.JLabel();
+        lbl_DialogClose = new javax.swing.JLabel();
         tob_Add = new javax.swing.JToolBar();
         lbl_addGroup = new javax.swing.JLabel();
         lbl_Favorite = new javax.swing.JLabel();
         lbl_addHost = new javax.swing.JLabel();
-        tob_Dialog = new javax.swing.JToolBar();
-        lbl_Edit = new javax.swing.JLabel();
-        lbl_DialogClose = new javax.swing.JLabel();
+        tob_Nav = new javax.swing.JToolBar();
+        lbl_back = new javax.swing.JLabel();
+        lbl_up = new javax.swing.JLabel();
+        lbl_next = new javax.swing.JLabel();
 
         setOpaque(false);
         setPreferredSize(new java.awt.Dimension(400, 60));
 
-        tob_ToolBar.setFloatable(false);
-        tob_ToolBar.setRollover(true);
-        tob_ToolBar.setDoubleBuffered(true);
-        tob_ToolBar.setOpaque(false);
-        tob_ToolBar.setPreferredSize(new java.awt.Dimension(400, 60));
+        tob_Dialog.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tob_Dialog.setFloatable(false);
+        tob_Dialog.setBorderPainted(false);
+        tob_Dialog.setOpaque(false);
+
+        lbl_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
+        lbl_Edit.setToolTipText("Edit");
+        lbl_Edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_Edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_EditMouseReleased(evt);
+            }
+        });
+        tob_Dialog.add(lbl_Edit);
+
+        lbl_DialogClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-close.png"))); // NOI18N
+        lbl_DialogClose.setToolTipText("Exit");
+        lbl_DialogClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_DialogClose.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_DialogCloseMouseReleased(evt);
+            }
+        });
+        tob_Dialog.add(lbl_DialogClose);
+
+        tob_Add.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tob_Add.setFloatable(false);
+        tob_Add.setOpaque(false);
+
+        lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Group.png"))); // NOI18N
+        lbl_addGroup.setToolTipText("Add Group");
+        lbl_addGroup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_addGroup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_addGroupMouseReleased(evt);
+            }
+        });
+        tob_Add.add(lbl_addGroup);
+
+        lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites_deact.png"))); // NOI18N
+        lbl_Favorite.setToolTipText("Show Favorites");
+        lbl_Favorite.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_Favorite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_FavoriteMouseReleased(evt);
+            }
+        });
+        tob_Add.add(lbl_Favorite);
+
+        lbl_addHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/host.png"))); // NOI18N
+        lbl_addHost.setToolTipText("Add Virtual Host");
+        lbl_addHost.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_addHost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lbl_addHostMouseReleased(evt);
+            }
+        });
+        tob_Add.add(lbl_addHost);
 
         tob_Nav.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tob_Nav.setFloatable(false);
@@ -103,81 +155,31 @@ public class pn_ToolBar extends javax.swing.JPanel {
         });
         tob_Nav.add(lbl_next);
 
-        tob_ToolBar.add(tob_Nav);
-
-        tob_Add.setBorder(null);
-        tob_Add.setFloatable(false);
-        tob_Add.setOpaque(false);
-
-        lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Group.png"))); // NOI18N
-        lbl_addGroup.setToolTipText("Add Group");
-        lbl_addGroup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbl_addGroup.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_addGroupMouseReleased(evt);
-            }
-        });
-        tob_Add.add(lbl_addGroup);
-
-        lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites_deact.png"))); // NOI18N
-        lbl_Favorite.setToolTipText("Show Favorites");
-        lbl_Favorite.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbl_Favorite.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_FavoriteMouseReleased(evt);
-            }
-        });
-        tob_Add.add(lbl_Favorite);
-
-        lbl_addHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/host.png"))); // NOI18N
-        lbl_addHost.setToolTipText("Add Virtual Host");
-        lbl_addHost.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbl_addHost.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_addHostMouseReleased(evt);
-            }
-        });
-        tob_Add.add(lbl_addHost);
-
-        tob_ToolBar.add(tob_Add);
-
-        tob_Dialog.setFloatable(false);
-        tob_Dialog.setBorderPainted(false);
-        tob_Dialog.setOpaque(false);
-
-        lbl_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
-        lbl_Edit.setToolTipText("Edit");
-        lbl_Edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbl_Edit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_EditMouseReleased(evt);
-            }
-        });
-        tob_Dialog.add(lbl_Edit);
-
-        lbl_DialogClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-close.png"))); // NOI18N
-        lbl_DialogClose.setToolTipText("Exit");
-        lbl_DialogClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbl_DialogClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_DialogCloseMouseReleased(evt);
-            }
-        });
-        tob_Dialog.add(lbl_DialogClose);
-
-        tob_ToolBar.add(tob_Dialog);
-        tob_Dialog.setVisible(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tob_ToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tob_Nav, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tob_Add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tob_Dialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tob_ToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tob_Dialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tob_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tob_Nav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
+
+        tob_Dialog.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void lbl_addGroupMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_addGroupMouseReleased
@@ -298,6 +300,5 @@ public class pn_ToolBar extends javax.swing.JPanel {
     private javax.swing.JToolBar tob_Add;
     private javax.swing.JToolBar tob_Dialog;
     private javax.swing.JToolBar tob_Nav;
-    private javax.swing.JToolBar tob_ToolBar;
     // End of variables declaration//GEN-END:variables
 }

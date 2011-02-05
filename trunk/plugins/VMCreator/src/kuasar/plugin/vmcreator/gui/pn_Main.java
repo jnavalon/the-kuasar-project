@@ -43,6 +43,7 @@ import kuasar.plugin.vmcreator.Config.VMList;
 import kuasar.plugin.vmcreator.gui.Favorites.pn_Favorites;
 import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.pn_Properties;
 import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.pn_TB_AddHost;
+import kuasar.plugin.vmcreator.utils.Others;
 import org.jdom.Element;
 
 /**
@@ -158,6 +159,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             for (int i = 0; i < lst_Nets.getSelectedIndices().length; i++) {
                 Object[] values = (Object[]) lst_Nets.getSelectedValues()[lst_Nets.getSelectedValues().length - i - 1];
+                Others.removeVMFile((String) values[3]);
                 XML.RemoveElement(onAir, root, (String) values[2]);
             }
             if (XML.Save(Config.path, Config.network, root)) {
@@ -202,7 +204,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     protected void showFavorites(){
         pn_aux.setVisible(true);
-        favorites = new pn_Favorites();
+        favorites = new pn_Favorites(this);
         pn_aux.removeAll();
         pn_aux.add(favorites);
     }
