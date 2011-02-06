@@ -105,7 +105,7 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
         cbb_Type.setSelectedIndex(1);
         cbb_Type.setRequestFocusEnabled(false);
 
-        btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/attach.png"))); // NOI18N
+        btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/attach.png"))); // NOI18N
         btn_Add.setText("Add");
         btn_Add.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         btn_Add.setRequestFocusEnabled(false);
@@ -170,11 +170,11 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
                         .addComponent(lbl_info))
                     .addGroup(pn_ContainerLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(spn_NetDevices, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)))
+                        .addComponent(spn_NetDevices, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +182,7 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-next.png"))); // NOI18N
+        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-next.png"))); // NOI18N
         btn_Next.setText("Next");
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,7 +190,7 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-previous.png"))); // NOI18N
+        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +205,7 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(184, Short.MAX_VALUE)
+                        .addContainerGap(238, Short.MAX_VALUE)
                         .addComponent(btn_Previous)
                         .addGap(6, 6, 6)
                         .addComponent(btn_Next)

@@ -56,7 +56,7 @@ public class pn_NetList extends javax.swing.JPanel {
 
         lbl_NetDevice.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lbl_NetDevice.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_NetDevice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/nat.png"))); // NOI18N
+        lbl_NetDevice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/nat.png"))); // NOI18N
 
         pn_Selected.setBackground(new java.awt.Color(204, 204, 255));
 
@@ -83,7 +83,7 @@ public class pn_NetList extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lbl_NetDevice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_NetDevice, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
             .addComponent(pn_Selected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );

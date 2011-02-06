@@ -11,7 +11,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_IDE">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/ide_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/ide_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add IDE Module"/>
           </Properties>
@@ -22,7 +22,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_SATA">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/sata_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/sata_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add SATA Module"/>
           </Properties>
@@ -33,7 +33,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_SCSI">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/scsi_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/scsi_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add SCSI Module"/>
           </Properties>
@@ -44,7 +44,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_SAS">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/sata_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/sata_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add SAS Controller"/>
           </Properties>
@@ -55,7 +55,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_floppy">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/floppy_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/floppy_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add Floppy Module"/>
           </Properties>
@@ -74,7 +74,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_addDVD">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/cd_device_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/cd_device_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add CD/DVD Device"/>
           </Properties>
@@ -85,7 +85,7 @@
         <MenuItem class="javax.swing.JMenuItem" name="mni_addHDD">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/hdd_device_add.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/hdd_device_add.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Add Hard Disk"/>
           </Properties>
@@ -138,11 +138,11 @@
                   <Component id="lbl_addModule" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="spn_Features" pref="166" max="32767" attributes="0"/>
+              <Component id="spn_Features" pref="144" max="32767" attributes="0"/>
               <EmptySpace min="25" pref="25" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <Component id="lbl_Info" pref="224" max="32767" attributes="0"/>
+              <Component id="lbl_Info" pref="251" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_Previous" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -158,7 +158,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="spn_Features" alignment="0" pref="217" max="32767" attributes="0"/>
+                  <Component id="spn_Features" alignment="0" pref="222" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="lbl_SafeMode" alignment="1" max="32767" attributes="1"/>
@@ -200,7 +200,7 @@
     <Component class="javax.swing.JButton" name="btn_Previous">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-previous.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-previous.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Previous"/>
       </Properties>
@@ -211,7 +211,7 @@
     <Component class="javax.swing.JButton" name="btn_Next">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-next.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-next.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Next"/>
       </Properties>
@@ -222,7 +222,7 @@
     <Component class="javax.swing.JButton" name="btn_Cancel">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-cancel.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
@@ -273,7 +273,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/security-medium.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/security-medium.png"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -335,7 +335,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/noGPL/addDevice22.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/noGPL/addDevice22.png"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -352,7 +352,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/noGPL/remDevice22.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/noGPL/remDevice22.png"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -369,7 +369,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/noGPL/addModule22.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/noGPL/addModule22.png"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -385,7 +385,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/noGPL/remModule22.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/noGPL/remModule22.png"/>
         </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>

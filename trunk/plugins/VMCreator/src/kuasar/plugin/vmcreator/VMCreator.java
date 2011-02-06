@@ -22,8 +22,7 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
 
     public ImageIcon getIcon() {
         try {
-
-            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/icons/icon"));
+            ImageIcon icon = new javax.swing.ImageIcon(this.getClass().getResource("/kuasar/plugin/vmcreator/icons/icon"));
             return icon;
         } catch (Exception ex) {
             System.err.println(ex.getMessage());

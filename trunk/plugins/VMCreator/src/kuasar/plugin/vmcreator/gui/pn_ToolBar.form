@@ -29,7 +29,7 @@
               <Component id="tob_Add" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tob_Dialog" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="116" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,9 +38,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="tob_Dialog" alignment="0" max="32767" attributes="0"/>
-                  <Component id="tob_Add" alignment="0" max="32767" attributes="0"/>
-                  <Component id="tob_Nav" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tob_Dialog" alignment="0" pref="34" max="32767" attributes="0"/>
+                  <Component id="tob_Add" alignment="0" pref="34" max="32767" attributes="0"/>
+                  <Component id="tob_Nav" alignment="0" pref="34" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
           </Group>
@@ -68,7 +68,7 @@
         <Component class="javax.swing.JLabel" name="lbl_Edit">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/edit.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/edit.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Edit"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -82,7 +82,7 @@
         <Component class="javax.swing.JLabel" name="lbl_DialogClose">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/dialog-close.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-close.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Exit"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -111,7 +111,7 @@
         <Component class="javax.swing.JLabel" name="lbl_addGroup">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/Group.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/Group.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Add Group"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -125,7 +125,7 @@
         <Component class="javax.swing.JLabel" name="lbl_Favorite">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/favorites_deact.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/favorites_deact.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Show Favorites"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -139,7 +139,7 @@
         <Component class="javax.swing.JLabel" name="lbl_addHost">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/host.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/host.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Add Virtual Host"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -169,7 +169,7 @@
         <Component class="javax.swing.JLabel" name="lbl_back">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/previous.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/previous.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Back"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -184,7 +184,7 @@
         <Component class="javax.swing.JLabel" name="lbl_up">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/up.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/up.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Up"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -199,7 +199,7 @@
         <Component class="javax.swing.JLabel" name="lbl_next">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/next.png"/>
+              <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/next.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Forward"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
