@@ -80,7 +80,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-next.png"))); // NOI18N
+        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-next.png"))); // NOI18N
         btn_Next.setText("Next");
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,7 +88,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,7 +96,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-previous.png"))); // NOI18N
+        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +106,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
 
         jPanel1.setOpaque(false);
 
-        lbl_logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/windows.png"))); // NOI18N
+        lbl_logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/windows.png"))); // NOI18N
 
         cmb_OS.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -150,7 +150,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmb_OS, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmb_Version, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +170,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
                         .addComponent(cmb_OS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addComponent(cmb_Version, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -179,7 +179,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(215, Short.MAX_VALUE)
+                .addContainerGap(165, Short.MAX_VALUE)
                 .addComponent(btn_Previous)
                 .addGap(7, 7, 7)
                 .addComponent(btn_Next)
@@ -229,7 +229,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
     private ImageIcon getIcon(int OS, int version){
         switch(OS){
             case 0:
-                return new javax.swing.ImageIcon(getClass().getResource("/icons/windows.png"));
+                return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/windows.png"));
             case 1:
                 switch(version){
                     case 0:
@@ -238,42 +238,42 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
                     case 10:
                     case 12:
                     case 14:
-                         return new javax.swing.ImageIcon(getClass().getResource("/icons/penguin.png"));
+                         return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/penguin.png"));
                     case 3:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/archlin.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/archlin.png"));
                     case 4:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/debian.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/debian.png"));
                     case 5:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/suse.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/suse.png"));
                     case 6:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/fedora.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/fedora.png"));
                     case 7:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/gentoo.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/gentoo.png"));
                     case 8:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/mandriva.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/mandriva.png"));
                     case 9:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/redhat.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/redhat.png"));
                     case 11:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/ubuntu.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/ubuntu.png"));
                     case 13:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/oracle.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/oracle.png"));
                 }
             case 2:
-                return new javax.swing.ImageIcon(getClass().getResource("/icons/opensolaris.png"));
+                return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/opensolaris.png"));
             case 3:
                 switch(version){
                     case 0:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/freebsd.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/freebsd.png"));
                     case 1:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/openbsd.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/openbsd.png"));
                     case 2:
-                        return new javax.swing.ImageIcon(getClass().getResource("/icons/netbsd.png"));
+                        return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/netbsd.png"));
                 }
             case 4:
             case 6:
-                return new javax.swing.ImageIcon(getClass().getResource("/icons/oos.png"));
+                return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/oos.png"));
             case 5:
-                return new javax.swing.ImageIcon(getClass().getResource("/icons/mac.png"));
+                return new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/mac.png"));
         }
         return null;
     }

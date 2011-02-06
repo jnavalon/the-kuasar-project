@@ -66,11 +66,11 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        lbl_info.setFont(new java.awt.Font("URW Gothic L", 1, 14));
+        lbl_info.setFont(new java.awt.Font("URW Gothic L", 1, 14)); // NOI18N
         lbl_info.setForeground(new java.awt.Color(204, 204, 204));
         lbl_info.setText("Insert a project name:");
 
-        btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-ok-apply.png"))); // NOI18N
+        btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-ok-apply.png"))); // NOI18N
         btn_Add.setText("Add");
         btn_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,7 +78,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,7 +101,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
 
         lbl_Error.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_Error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/forbidden.png"))); // NOI18N
+        lbl_Error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/forbidden.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -119,9 +119,9 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(75, 75, 75)
-                                .addComponent(txt_name, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
+                                .addComponent(txt_name, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(200, Short.MAX_VALUE)
+                                .addContainerGap(235, Short.MAX_VALUE)
                                 .addComponent(btn_Add)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_Cancel)))
@@ -156,7 +156,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
 
          lockANDnotify(false, "");
         if(txt_name.getText().trim().length() > 9){
-            lbl_Error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/warning.png")));
+            lbl_Error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/warning.png")));
             lbl_Error.setText("The group name is too long. Name won't be shown completly at a glance.");
             lbl_Error.setVisible(true);
         }
@@ -205,7 +205,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
     }
 
     private void lockANDnotify(boolean activate, String error) {
-        lbl_Error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/forbidden.png")));
+        lbl_Error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/forbidden.png")));
         lbl_Error.setVisible(activate);
         lbl_Error.setText(error);
         btn_Add.setEnabled(!activate);

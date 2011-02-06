@@ -80,35 +80,35 @@ public class TreeCellModRenderer extends javax.swing.JPanel implements TreeCellR
             int device = (Integer) ((HashMap) data[2]).get("id");
             switch (device) {
                 case 0:
-                    icon = new ImageIcon(getClass().getResource("/icons/cd_device.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/cd_device.png"));
                     break;
                 case 1:
-                    icon = new ImageIcon(getClass().getResource("/icons/hdd_device.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/hdd_device.png"));
                     break;
                 case 2:
-                    icon = new ImageIcon(getClass().getResource("/icons/floppy_device.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/floppy_device.png"));
                     break;
             }
         } else {
             switch (module) {
                 case -1:
-                    icon = new ImageIcon(getClass().getResource("/icons/computer.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/computer.png"));
                     break;
                 case 0:
-                    icon = new ImageIcon(getClass().getResource("/icons/ide.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/ide.png"));
                     break;
                 case 1:
                 case 3:
-                    icon = new ImageIcon(getClass().getResource("/icons/sata.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/sata.png"));
                     break;
                 case 2:
-                    icon = new ImageIcon(getClass().getResource("/icons/scsi.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/scsi.png"));
                     break;
                 case 4:
-                    icon = new ImageIcon(getClass().getResource("/icons/floppy.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/floppy.png"));
                     break;
                 default:
-                    icon = new ImageIcon(getClass().getResource("/icons/floppy.png"));
+                    icon = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/floppy.png"));
             }
         }
         lbl_cell.setIcon(icon);

@@ -63,7 +63,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tob_Dialog.setBorderPainted(false);
         tob_Dialog.setOpaque(false);
 
-        lbl_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/edit.png"))); // NOI18N
+        lbl_Edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/edit.png"))); // NOI18N
         lbl_Edit.setToolTipText("Edit");
         lbl_Edit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Edit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -73,7 +73,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         });
         tob_Dialog.add(lbl_Edit);
 
-        lbl_DialogClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-close.png"))); // NOI18N
+        lbl_DialogClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-close.png"))); // NOI18N
         lbl_DialogClose.setToolTipText("Exit");
         lbl_DialogClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_DialogClose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -87,7 +87,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tob_Add.setFloatable(false);
         tob_Add.setOpaque(false);
 
-        lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Group.png"))); // NOI18N
+        lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/Group.png"))); // NOI18N
         lbl_addGroup.setToolTipText("Add Group");
         lbl_addGroup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addGroup.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -97,7 +97,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         });
         tob_Add.add(lbl_addGroup);
 
-        lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites_deact.png"))); // NOI18N
+        lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/favorites_deact.png"))); // NOI18N
         lbl_Favorite.setToolTipText("Show Favorites");
         lbl_Favorite.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Favorite.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -107,7 +107,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         });
         tob_Add.add(lbl_Favorite);
 
-        lbl_addHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/host.png"))); // NOI18N
+        lbl_addHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/host.png"))); // NOI18N
         lbl_addHost.setToolTipText("Add Virtual Host");
         lbl_addHost.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addHost.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -122,7 +122,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tob_Nav.setBorderPainted(false);
         tob_Nav.setOpaque(false);
 
-        lbl_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/previous.png"))); // NOI18N
+        lbl_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/previous.png"))); // NOI18N
         lbl_back.setToolTipText("Back");
         lbl_back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_back.setEnabled(false);
@@ -133,7 +133,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         });
         tob_Nav.add(lbl_back);
 
-        lbl_up.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/up.png"))); // NOI18N
+        lbl_up.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/up.png"))); // NOI18N
         lbl_up.setToolTipText("Up");
         lbl_up.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_up.setEnabled(false);
@@ -144,7 +144,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         });
         tob_Nav.add(lbl_up);
 
-        lbl_next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/next.png"))); // NOI18N
+        lbl_next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/next.png"))); // NOI18N
         lbl_next.setToolTipText("Forward");
         lbl_next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_next.setEnabled(false);
@@ -166,16 +166,16 @@ public class pn_ToolBar extends javax.swing.JPanel {
                 .addComponent(tob_Add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tob_Dialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tob_Dialog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tob_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tob_Nav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tob_Dialog, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(tob_Add, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(tob_Nav, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
                 .addGap(14, 14, 14))
         );
 
@@ -245,11 +245,11 @@ public class pn_ToolBar extends javax.swing.JPanel {
 
     private void lbl_FavoriteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_FavoriteMouseReleased
         if(favorites){
-            lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites_deact.png")));
+            lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/favorites_deact.png")));
             lbl_Favorite.setToolTipText("Show Favorites");
             panel.hideFavorites();
         }else{
-            lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/favorites.png")));
+            lbl_Favorite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/favorites.png")));
             lbl_Favorite.setToolTipText("Hide Favorites");
             panel.showFavorites();
         }

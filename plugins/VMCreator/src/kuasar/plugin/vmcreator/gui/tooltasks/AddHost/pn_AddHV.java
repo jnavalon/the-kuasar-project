@@ -93,7 +93,7 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
 
         lbl_icon.setForeground(new java.awt.Color(204, 204, 204));
         lbl_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/random.png"))); // NOI18N
+        lbl_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/random.png"))); // NOI18N
         lbl_icon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lbl_icon.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -107,7 +107,7 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
 
         lbl_default.setForeground(new java.awt.Color(204, 204, 204));
         lbl_default.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/unlock.png"))); // NOI18N
+        lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/unlock.png"))); // NOI18N
         lbl_default.setText("Define as default Hipervisor for this session");
         lbl_default.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -135,11 +135,11 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        lbl_help.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/info.png"))); // NOI18N
+        lbl_help.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/info.png"))); // NOI18N
         lbl_help.setToolTipText("Hypervisor ID is required for identify a Hypervisor Virtual Machine.\nFor exemple 'VBOX' ID represents a VirtualBox Hypervisor.\nYou'll find available ID's on blasar help, just type the argument '-I'. ");
         lbl_help.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,7 +147,7 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-next.png"))); // NOI18N
+        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-next.png"))); // NOI18N
         btn_Next.setText("Next");
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,7 +202,7 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
                     .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(lbl_default)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Cancel)
                     .addComponent(btn_Next))
@@ -218,26 +218,26 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
         URL iconpath = null;
         switch(cmb_hvs.getSelectedIndex()){
             case 0:
-                iconpath = getClass().getResource("/icons/random.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/random.png");
                 break;
             case 1:
-                iconpath = getClass().getResource("/icons/noGPL/virtualbox.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/virtualbox.png");
                 break;
             case 2:
-                iconpath = getClass().getResource("/icons/noGPL/vmware.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/vmware.png");
                 break;
             case 3:
-                iconpath = getClass().getResource("/icons/noGPL/qemu.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/qemu.png");
                 break;
             case 4:
-                iconpath = getClass().getResource("/icons/noGPL/xen.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/xen.png");
                 break;
             case 5:
-                iconpath = getClass().getResource("/icons/noGPL/virtualpc.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/virtualpc.png");
                 break;
             case 6:
             default:
-                iconpath = getClass().getResource("/icons/unknownhv.png");
+                iconpath = getClass().getResource("/kuasar/plugin/vmcreator/icons/unknownhv.png");
         }
         if(cmb_hvs.getSelectedIndex()==6){
             showID();
@@ -272,9 +272,9 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
     private void changelock(boolean lock){
          locked =lock;
          if(locked)
-            lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/lock.png")));
+            lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/lock.png")));
         else
-            lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/unlock.png")));
+            lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/unlock.png")));
         GUI.updateUI();
     }
     

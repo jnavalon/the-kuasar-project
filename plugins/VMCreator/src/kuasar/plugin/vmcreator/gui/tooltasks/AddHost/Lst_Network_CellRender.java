@@ -35,16 +35,16 @@ public class Lst_Network_CellRender implements ListCellRenderer {
             ImageIcon icon = null;
             switch ((Integer) data[1]) {
                 case 0:
-                    icon=new javax.swing.ImageIcon(getClass().getResource("/icons/nat.png"));
+                    icon=new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/nat.png"));
                     break;
                 case 1:
-                    icon=new javax.swing.ImageIcon(getClass().getResource("/icons/bridge.png"));
+                    icon=new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/bridge.png"));
                     break;
                 case 2:
-                    icon=new javax.swing.ImageIcon(getClass().getResource("/icons/intnet.png"));
+                    icon=new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/intnet.png"));
                     break;
                 case 3:
-                    icon=new javax.swing.ImageIcon(getClass().getResource("/icons/nethost.png"));
+                    icon=new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/nethost.png"));
                     break;
             }
             if(data.length==2)

@@ -129,10 +129,10 @@ public class pn_Properties extends javax.swing.JPanel {
 
         setOpaque(false);
 
-        lbl_Hypervisor.setFont(new java.awt.Font("Droid Sans", 1, 14));
+        lbl_Hypervisor.setFont(new java.awt.Font("Droid Sans", 1, 14)); // NOI18N
         lbl_Hypervisor.setForeground(new java.awt.Color(0, 51, 102));
-        lbl_Hypervisor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_Hypervisor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hvsx16.png"))); // NOI18N
+        lbl_Hypervisor.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_Hypervisor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/hvsx16.png"))); // NOI18N
         lbl_Hypervisor.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Hypervisor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -140,10 +140,10 @@ public class pn_Properties extends javax.swing.JPanel {
             }
         });
 
-        lbl_General1.setFont(new java.awt.Font("Droid Sans", 1, 14)); // NOI18N
+        lbl_General1.setFont(new java.awt.Font("Droid Sans", 1, 14));
         lbl_General1.setForeground(new java.awt.Color(8, 20, 42));
         lbl_General1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_General1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/general.png"))); // NOI18N
+        lbl_General1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/general.png"))); // NOI18N
         lbl_General1.setText("General");
         lbl_General1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_General1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -152,20 +152,20 @@ public class pn_Properties extends javax.swing.JPanel {
             }
         });
 
-        lbl_OSf.setFont(new java.awt.Font("Droid Sans Mono", 1, 14)); // NOI18N
+        lbl_OSf.setFont(new java.awt.Font("Droid Sans Mono", 1, 14));
         lbl_OSf.setForeground(new java.awt.Color(116, 139, 175));
         lbl_OSf.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_OSf.setText("OS:");
 
-        lbl_Versionf.setFont(new java.awt.Font("Droid Sans Mono", 1, 14)); // NOI18N
+        lbl_Versionf.setFont(new java.awt.Font("Droid Sans Mono", 1, 14));
         lbl_Versionf.setForeground(new java.awt.Color(116, 139, 175));
         lbl_Versionf.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_Versionf.setText("Version:");
 
-        lbl_General2.setFont(new java.awt.Font("Droid Sans", 1, 14)); // NOI18N
+        lbl_General2.setFont(new java.awt.Font("Droid Sans", 1, 14));
         lbl_General2.setForeground(new java.awt.Color(8, 20, 42));
         lbl_General2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_General2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sys.png"))); // NOI18N
+        lbl_General2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/sys.png"))); // NOI18N
         lbl_General2.setText("System & Storage");
         lbl_General2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_General2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -174,7 +174,7 @@ public class pn_Properties extends javax.swing.JPanel {
             }
         });
 
-        lbl_Memoryf.setFont(new java.awt.Font("Droid Sans Mono", 1, 14)); // NOI18N
+        lbl_Memoryf.setFont(new java.awt.Font("Droid Sans Mono", 1, 14));
         lbl_Memoryf.setForeground(new java.awt.Color(116, 139, 175));
         lbl_Memoryf.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_Memoryf.setText("Memory:");
@@ -186,10 +186,10 @@ public class pn_Properties extends javax.swing.JPanel {
         lbl_Version.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Version.setText(" ");
 
-        lbl_General3.setFont(new java.awt.Font("Droid Sans", 1, 14)); // NOI18N
+        lbl_General3.setFont(new java.awt.Font("Droid Sans", 1, 14));
         lbl_General3.setForeground(new java.awt.Color(8, 20, 42));
         lbl_General3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_General3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/netdev.png"))); // NOI18N
+        lbl_General3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/netdev.png"))); // NOI18N
         lbl_General3.setText("Network Devices");
         lbl_General3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_General3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -235,24 +235,22 @@ public class pn_Properties extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_Hypervisor)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(lbl_General1))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
+                                .addGap(36, 36, 36)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(24, 24, 24)
                                         .addComponent(lbl_OSf, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(lbl_OS, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(24, 24, 24)
                                         .addComponent(lbl_Versionf)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lbl_Version, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)))))
-                        .addGap(24, 24, 24))
+                                        .addComponent(lbl_Version, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))))
+                            .addComponent(lbl_Hypervisor, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,7 +286,7 @@ public class pn_Properties extends javax.swing.JPanel {
                     .addComponent(lbl_Memory, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spn_Devices, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                    .addComponent(spn_Devices, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbl_Versionf)

@@ -33,10 +33,10 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="75" max="-2" attributes="1"/>
-                              <Component id="txt_name" pref="210" max="32767" attributes="0"/>
+                              <Component id="txt_name" pref="225" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="200" max="32767" attributes="0"/>
+                              <EmptySpace pref="235" max="32767" attributes="0"/>
                               <Component id="btn_Add" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -82,7 +82,7 @@
     <Component class="javax.swing.JButton" name="btn_Add">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-ok-apply.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-ok-apply.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
@@ -93,7 +93,7 @@
     <Component class="javax.swing.JButton" name="btn_Cancel">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-cancel.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
@@ -120,7 +120,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/forbidden.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/forbidden.png"/>
         </Property>
       </Properties>
     </Component>

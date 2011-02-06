@@ -74,7 +74,7 @@
               </Group>
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Component id="lbl_default" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_Cancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_Next" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -100,7 +100,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/random.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/random.png"/>
         </Property>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="verticalTextPosition" type="int" value="3"/>
@@ -132,7 +132,7 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/unlock.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/unlock.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Define as default Hipervisor for this session"/>
       </Properties>
@@ -167,7 +167,7 @@
     <Component class="javax.swing.JLabel" name="lbl_help">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/info.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/info.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Hypervisor ID is required for identify a Hypervisor Virtual Machine.&#xa;For exemple &apos;VBOX&apos; ID represents a VirtualBox Hypervisor.&#xa;You&apos;ll find available ID&apos;s on blasar help, just type the argument &apos;-I&apos;. "/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -178,7 +178,7 @@
     <Component class="javax.swing.JButton" name="btn_Cancel">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-cancel.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
@@ -189,7 +189,7 @@
     <Component class="javax.swing.JButton" name="btn_Next">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-next.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-next.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Next"/>
       </Properties>

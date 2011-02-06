@@ -43,7 +43,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="spn_Summary" pref="260" max="32767" attributes="0"/>
+              <Component id="spn_Summary" pref="256" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -63,7 +63,7 @@
     <Component class="javax.swing.JButton" name="btn_Previous">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-previous.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-previous.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Previous"/>
       </Properties>
@@ -74,7 +74,7 @@
     <Component class="javax.swing.JButton" name="btn_Next">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/save.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/save.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
@@ -85,7 +85,7 @@
     <Component class="javax.swing.JButton" name="btn_Cancel">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/dialog-cancel.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/dialog-cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
@@ -119,7 +119,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/star_bl.png"/>
+          <Image iconType="3" name="/kuasar/plugin/vmcreator/icons/star_bl.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Add to Favorites"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

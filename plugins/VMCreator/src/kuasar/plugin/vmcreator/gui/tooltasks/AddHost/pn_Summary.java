@@ -71,7 +71,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-previous.png"))); // NOI18N
+        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +79,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save.png"))); // NOI18N
+        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/save.png"))); // NOI18N
         btn_Next.setText("Save");
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,7 +87,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +105,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         });
 
         lbl_Favorites.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_Favorites.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star_bl.png"))); // NOI18N
+        lbl_Favorites.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/star_bl.png"))); // NOI18N
         lbl_Favorites.setText("Add to Favorites");
         lbl_Favorites.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Favorites.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -132,7 +132,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
                         .addComponent(lbl_Favorites)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_Favorites, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addComponent(btn_Previous)
                         .addGap(6, 6, 6)
                         .addComponent(btn_Next)
@@ -144,7 +144,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spn_Summary, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                .addComponent(spn_Summary, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -196,7 +196,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
                 txt_Favorites.setVisible(false);
                 lbl_Favorites.setVisible(true);
                 txt_Favorites.setBackground(Color.white);
-                lbl_Favorites.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star.png")));
+                lbl_Favorites.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/star.png")));
                 txt_Favorites.setText("");
                 return;
             }

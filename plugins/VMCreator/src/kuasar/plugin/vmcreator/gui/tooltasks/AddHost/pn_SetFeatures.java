@@ -146,7 +146,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         lbl_Info = new javax.swing.JLabel();
         spn_Features = new javax.swing.JScrollPane();
 
-        mni_IDE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ide_add.png"))); // NOI18N
+        mni_IDE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/ide_add.png"))); // NOI18N
         mni_IDE.setText("Add IDE Module");
         mni_IDE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +155,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
         pmn_addModule.add(mni_IDE);
 
-        mni_SATA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sata_add.png"))); // NOI18N
+        mni_SATA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/sata_add.png"))); // NOI18N
         mni_SATA.setText("Add SATA Module");
         mni_SATA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +164,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
         pmn_addModule.add(mni_SATA);
 
-        mni_SCSI.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/scsi_add.png"))); // NOI18N
+        mni_SCSI.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/scsi_add.png"))); // NOI18N
         mni_SCSI.setText("Add SCSI Module");
         mni_SCSI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,7 +173,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
         pmn_addModule.add(mni_SCSI);
 
-        mni_SAS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/sata_add.png"))); // NOI18N
+        mni_SAS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/sata_add.png"))); // NOI18N
         mni_SAS.setText("Add SAS Controller");
         mni_SAS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +182,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
         pmn_addModule.add(mni_SAS);
 
-        mni_floppy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/floppy_add.png"))); // NOI18N
+        mni_floppy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/floppy_add.png"))); // NOI18N
         mni_floppy.setText("Add Floppy Module");
         mni_floppy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,7 +191,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
         pmn_addModule.add(mni_floppy);
 
-        mni_addDVD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cd_device_add.png"))); // NOI18N
+        mni_addDVD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/cd_device_add.png"))); // NOI18N
         mni_addDVD.setText("Add CD/DVD Device");
         mni_addDVD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,7 +200,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
         pmn_addDevices.add(mni_addDVD);
 
-        mni_addHDD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hdd_device_add.png"))); // NOI18N
+        mni_addHDD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/hdd_device_add.png"))); // NOI18N
         mni_addHDD.setText("Add Hard Disk");
         mni_addHDD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,7 +211,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-previous.png"))); // NOI18N
+        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,7 +219,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-next.png"))); // NOI18N
+        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-next.png"))); // NOI18N
         btn_Next.setText("Next");
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,7 +227,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +238,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         lbl_mem.setForeground(new java.awt.Color(204, 204, 204));
         lbl_mem.setText("Memory :");
 
-        txt_mem.setFont(new java.awt.Font("DejaVu Sans", 0, 18));
+        txt_mem.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
         txt_mem.setForeground(new java.awt.Color(0, 0, 0));
         txt_mem.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_mem.setText("8");
@@ -256,7 +256,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         cmb_unit.setSelectedIndex(1);
 
         lbl_SafeMode.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/security-medium.png"))); // NOI18N
+        lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/security-medium.png"))); // NOI18N
         lbl_SafeMode.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_SafeMode.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -283,7 +283,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         spn_Devices.setViewportView(tre_Devices);
 
         lbl_addDevice.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_addDevice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/noGPL/addDevice22.png"))); // NOI18N
+        lbl_addDevice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/addDevice22.png"))); // NOI18N
         lbl_addDevice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addDevice.setEnabled(false);
         lbl_addDevice.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -293,7 +293,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
 
         lbl_remDevice.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_remDevice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/noGPL/remDevice22.png"))); // NOI18N
+        lbl_remDevice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/remDevice22.png"))); // NOI18N
         lbl_remDevice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_remDevice.setEnabled(false);
         lbl_remDevice.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -303,7 +303,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
 
         lbl_addModule.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_addModule.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/noGPL/addModule22.png"))); // NOI18N
+        lbl_addModule.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/addModule22.png"))); // NOI18N
         lbl_addModule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addModule.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -312,7 +312,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
 
         lbl_remModule.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_remModule.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/noGPL/remModule22.png"))); // NOI18N
+        lbl_remModule.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/remModule22.png"))); // NOI18N
         lbl_remModule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_remModule.setEnabled(false);
         lbl_remModule.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -357,10 +357,10 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
                     .addComponent(lbl_remDevice)
                     .addComponent(lbl_addModule))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spn_Features, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addComponent(spn_Features, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_Previous)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -374,7 +374,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spn_Features, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                    .addComponent(spn_Features, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lbl_SafeMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -425,9 +425,9 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
     private void lbl_SafeModeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_SafeModeMouseReleased
         safeMode = !safeMode;
         if (safeMode) {
-            lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/security-high.png")));
+            lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/security-high.png")));
         } else {
-            lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/security-medium.png")));
+            lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/security-medium.png")));
         }
         GUI.updateUI();
     }//GEN-LAST:event_lbl_SafeModeMouseReleased

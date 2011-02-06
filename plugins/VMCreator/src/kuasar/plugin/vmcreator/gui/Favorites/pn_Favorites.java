@@ -106,7 +106,7 @@ public class pn_Favorites extends kuasar.plugin.classMod.AbstractPanel {
 
         lbl_Info.setForeground(java.awt.Color.pink);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/remove.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/remove.png"))); // NOI18N
         jLabel1.setToolTipText("Remove Favorite");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -160,12 +160,12 @@ public class pn_Favorites extends kuasar.plugin.classMod.AbstractPanel {
         jPanel1.setOpaque(false);
 
         lbl_Title.setForeground(new java.awt.Color(205, 205, 205));
-        lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/star.png"))); // NOI18N
+        lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/star.png"))); // NOI18N
         lbl_Title.setText("Favorites");
 
         pn_Search.setOpaque(false);
 
-        lbl_Search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search.png"))); // NOI18N
+        lbl_Search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/search.png"))); // NOI18N
         lbl_Search.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Search.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         lbl_Search.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -221,8 +221,8 @@ public class pn_Favorites extends kuasar.plugin.classMod.AbstractPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pn_Search, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(lbl_Title, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                    .addComponent(pn_Search, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_Title, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -382,7 +382,7 @@ public class pn_Favorites extends kuasar.plugin.classMod.AbstractPanel {
                 HashMap<String, Object> map = Others.getVM(file);
                 if(map==null)return;
                 Object[] data = new Object[2];
-                data[0] = new ImageIcon(getClass().getResource("/icons/netlist/" + Others.getIcon((Integer) map.get(keyMaps.OS + ".id"))));
+                data[0] = new ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/netlist/" + Others.getIcon((Integer) map.get(keyMaps.OS + ".id"))));
                 data[1] = file.getName().substring(0, file.getName().lastIndexOf('.'));
                 model.addElement(data);
                 lst_Favorites.setModel(model);

@@ -296,9 +296,9 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
                 Element lastelem = (Element) ellist.get(i);
                 Object[] cell = new Object[5];
                 if (lastelem.getAttributeValue("type").trim().length() == 0) {
-                    cell[VMList.ICON] = new javax.swing.ImageIcon(getClass().getResource("/icons/icon"));
+                    cell[VMList.ICON] = new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/icon"));
                 } else {
-                    cell[VMList.ICON] = new javax.swing.ImageIcon(getClass().getResource("/icons/netlist/" + lastelem.getAttributeValue("icon").trim()));
+                    cell[VMList.ICON] = new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/netlist/" + lastelem.getAttributeValue("icon").trim()));
                     cell[VMList.PATHMAP] = lastelem.getAttributeValue("path");
                 }
 

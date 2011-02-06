@@ -88,7 +88,7 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         jToolBar1.setOpaque(false);
         jToolBar1.add(jSeparator1);
 
-        lbl_level0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/hvs.png"))); // NOI18N
+        lbl_level0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/hvs.png"))); // NOI18N
         lbl_level0.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_level0.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -97,10 +97,10 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         });
         jToolBar1.add(lbl_level0);
 
-        lbl_sep0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/next-separate.png"))); // NOI18N
+        lbl_sep0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/next-separate.png"))); // NOI18N
         jToolBar1.add(lbl_sep0);
 
-        lbl_level1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/noGPL/os.png"))); // NOI18N
+        lbl_level1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/noGPL/os.png"))); // NOI18N
         lbl_level1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_level1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -109,10 +109,10 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         });
         jToolBar1.add(lbl_level1);
 
-        lbl_sep1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/next-separate.png"))); // NOI18N
+        lbl_sep1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/next-separate.png"))); // NOI18N
         jToolBar1.add(lbl_sep1);
 
-        lbl_level2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/media.png"))); // NOI18N
+        lbl_level2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/media.png"))); // NOI18N
         lbl_level2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_level2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -121,10 +121,10 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         });
         jToolBar1.add(lbl_level2);
 
-        lbl_sep2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/next-separate.png"))); // NOI18N
+        lbl_sep2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/next-separate.png"))); // NOI18N
         jToolBar1.add(lbl_sep2);
 
-        lbl_level3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/net.png"))); // NOI18N
+        lbl_level3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/net.png"))); // NOI18N
         lbl_level3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_level3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -133,10 +133,10 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         });
         jToolBar1.add(lbl_level3);
 
-        lbl_sep3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/next-separate.png"))); // NOI18N
+        lbl_sep3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/next-separate.png"))); // NOI18N
         jToolBar1.add(lbl_sep3);
 
-        lbl_level4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/legalmoves.png"))); // NOI18N
+        lbl_level4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/legalmoves.png"))); // NOI18N
         lbl_level4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_level4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -151,7 +151,7 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
