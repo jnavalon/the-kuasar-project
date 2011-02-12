@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,23 +15,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package kuasar.plugin;
-
-import javax.swing.ImageIcon;
+package kuasar.plugin.netcreator;
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public interface PluginInterface {
-
-    String getName();
-    String getPluginName();
-    ImageIcon getIcon();
-    String getError();
-    boolean Start(Object ODRClassInstance, Class ODRClass);
-    boolean Load(Object mainClassInstance, Class mainClass);
-    boolean unLoad();
-    boolean Stop();
+public final class Config {
+    public static String VMnodes;
+    public static String VMpath;
+    public static String VMdata;
 
 }

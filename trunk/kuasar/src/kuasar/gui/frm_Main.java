@@ -135,7 +135,6 @@ public class frm_Main extends javax.swing.JFrame {
         spp_Base.setBorder(null);
         spp_Base.setDividerLocation(150);
         spp_Base.setDividerSize(0);
-        spp_Base.setOpaque(false);
         spp_Base.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 spp_BaseComponentResized(evt);
@@ -434,9 +433,9 @@ public class frm_Main extends javax.swing.JFrame {
 // </editor-fold>
    // <editor-fold defaultstate="collapsed" desc="Functions">
     private void hideShowToolBar() {
-        if (pn_ToolBar.getName().equals("hide")) {
+        if (pn_ToolBar.getName().equals("hiden")) {
             pn_ToolBarShare.setVisible(true);
-            pn_ToolBar.setName("show");
+            pn_ToolBar.setName("shown");
             if (pn_ToolBarShare.getComponentCount() > 0) {
                 pn_ToolBar.setSize(pn_ToolBarShare.getComponent(0).getPreferredSize().width + lbl_ToolBarShow.getWidth() + pn_ToolBar.getLocation().x * -1 + 5, pn_ToolBar.getHeight());
                 pn_ToolBarShare.setSize(pn_ToolBarShare.getComponent(0).getPreferredSize().width, pn_ToolBar.getHeight());
@@ -451,7 +450,7 @@ public class frm_Main extends javax.swing.JFrame {
 
         } else {
             pn_ToolBarShare.setVisible(false);
-            pn_ToolBar.setName("hide");
+            pn_ToolBar.setName("hiden");
             pn_ToolBarShare.setSize(0, pn_ToolBar.getHeight());
             pn_ToolBar.setSize(pn_ToolBar.getLocation().x * -1 + lbl_ToolBarShow.getWidth(), pn_ToolBar.getHeight());
             if ((new File(Configuration.startDir + Configuration.Interfice.pathskins + File.separator + Configuration.Interfice.skin + File.separator + Configuration.Interfice.Images.show).exists())) {
@@ -571,7 +570,8 @@ public class frm_Main extends javax.swing.JFrame {
         unLoadTB();
         panel.setBounds(0, 0, panel.getPreferredSize().width, panel.getPreferredSize().height);
         pn_ToolBarShare.add(panel, null);
-        pn_ToolBarShare.updateUI();
+        this.hideShowToolBar();
+        this.hideShowToolBar();
     }
 
     protected void unLoadTB() {

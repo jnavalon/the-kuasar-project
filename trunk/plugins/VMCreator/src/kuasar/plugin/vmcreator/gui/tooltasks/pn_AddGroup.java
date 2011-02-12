@@ -46,6 +46,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
         initComponents();
         this.panel = panel;
         lbl_Error.setVisible(false);
+        GUI.invisibleToolBar();
         this.requestFocus();
     }
 
@@ -225,6 +226,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
         GUI.loadPlugin(panel);
         GUI.updateUI();
         panel.tb.setVisible(true);
+        GUI.visibleToolBar();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

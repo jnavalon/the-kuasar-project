@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,31 +14,31 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package kuasar.plugin.vmcreator;
 
-import kuasar.plugin.vmcreator.gui.pn_Main;
-import kuasar.plugin.vmcreator.gui.pn_ToolBar;
+package kuasar.plugin.netcreator;
+
 import javax.swing.ImageIcon;
 import kuasar.plugin.Global;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.Intercom.ODR;
-import kuasar.plugin.utils.XML;
+import kuasar.plugin.PluginInterface;
+import kuasar.plugin.netcreator.gui.pn_Main;
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class VMCreator implements kuasar.plugin.PluginInterface {
+public class netCreator implements kuasar.plugin.PluginInterface{
 
     private String state = "";
 
     public String getName() {
-        return "VM Creator";
+        return "Network Creator";
     }
 
     public ImageIcon getIcon() {
         try {
-            ImageIcon icon = new javax.swing.ImageIcon(this.getClass().getResource("/kuasar/plugin/vmcreator/icons/icon"));
+            ImageIcon icon = new javax.swing.ImageIcon(this.getClass().getResource("/kuasar/plugin/netcreator/icons/icon"));
             return icon;
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
@@ -47,47 +47,39 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
     }
 
     public boolean Start(Object ODRClassInstance, Class ODRClass) {
-
-        Global.ODRClass = ODRClass;
+        Global.ODRClass=ODRClass;
         Global.ODRClassInstance = ODRClassInstance;
-        XML.Load(Config.path, Config.network);
-        ODR.setValue("vmcreator.path", Config.path);
-        ODR.setValue("vmcreator.data", Config.network);
-        ODR.setValue("vmcreator.nodes", Config.virtualmachine);
         return true;
-
     }
 
     public boolean Load(Object mainClassInstance, Class mainClass) {
-        try {
-            Global.mainClass = mainClass;
-            Global.mainClassInstance = mainClassInstance;
-            pn_Main panel = new pn_Main();
-            kuasar.plugin.Intercom.GUI.loadToolBar(new pn_ToolBar(panel));
-            kuasar.plugin.Intercom.GUI.loadPlugin(panel);
-            kuasar.plugin.Intercom.GUI.visibleToolBar();
-            return true;
-        }catch(Exception ex){
-            state=ex.getMessage();
+        Global.mainClass = mainClass;
+        Global.mainClassInstance = mainClassInstance;
+        PluginInterface[] plugins = (PluginInterface[]) ODR.getValue("$PLUGINS");
+        boolean loaded= false;
+        for(PluginInterface plugin : plugins){
+            if(plugin.getPluginName().equals("vmcreator")){
+                loaded=true;
+                break;
+            }
+        }
+        if(!loaded){
+            state="<html><body>We sorry but netCreator plugin require VMCreator.<br> Please, check if VMCreator is installed!";
             return false;
         }
-
-        
+        Config.VMdata=(String) ODR.getValue("vmcreator.data");
+        Config.VMpath=(String) ODR.getValue("vmcreator.path");
+        Config.VMnodes=(String) ODR.getValue("vmcreator.nodes");
+ 
+        pn_Main panel = new pn_Main();
+        kuasar.plugin.Intercom.GUI.loadPlugin(panel);
+        return true;
     }
 
     public boolean unLoad() {
-        short cent = 0;
-        GUI.unLoadToolBar();
-        GUI.unLoadPlugin();
-        if (!GUI.unLoadToolBar()) {
-            cent++;
-        }
-        if (!GUI.unLoadPlugin()) {
-            cent++;
-        } else {
-            kuasar.plugin.Intercom.GUI.invisibleToolBar();
-        }
-        return cent > 0 ? false : true;
+        if(state.isEmpty())
+        return GUI.unLoadPlugin();
+        else return true;
     }
 
     public boolean Stop() {
@@ -99,6 +91,7 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
     }
 
     public String getPluginName() {
-        return ("vmcreator");
+        return ("netcreator");
     }
+
 }
