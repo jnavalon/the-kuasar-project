@@ -56,7 +56,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         lbl_next = new javax.swing.JLabel();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(400, 60));
+        setPreferredSize(new java.awt.Dimension(220, 60));
 
         tob_Dialog.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tob_Dialog.setFloatable(false);
@@ -166,7 +166,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
                 .addComponent(tob_Add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tob_Dialog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

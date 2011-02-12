@@ -159,7 +159,6 @@
                     </Property>
                     <Property name="dividerLocation" type="int" value="150"/>
                     <Property name="dividerSize" type="int" value="0"/>
-                    <Property name="opaque" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="spp_BaseComponentResized"/>

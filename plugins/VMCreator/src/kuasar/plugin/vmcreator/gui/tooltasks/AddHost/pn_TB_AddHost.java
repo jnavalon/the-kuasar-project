@@ -78,14 +78,15 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         lbl_sep3 = new javax.swing.JLabel();
         lbl_level4 = new javax.swing.JLabel();
 
-        setMaximumSize(new java.awt.Dimension(400, 60));
+        setMaximumSize(new java.awt.Dimension(330, 60));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(400, 60));
+        setPreferredSize(new java.awt.Dimension(330, 60));
 
         jToolBar1.setBorder(null);
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
         jToolBar1.setOpaque(false);
+        jToolBar1.setPreferredSize(new java.awt.Dimension(340, 48));
         jToolBar1.add(jSeparator1);
 
         lbl_level0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/hvs.png"))); // NOI18N
@@ -149,9 +150,7 @@ public class pn_TB_AddHost extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
