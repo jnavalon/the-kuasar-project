@@ -22,6 +22,9 @@ package kuasar.plugin.netcreator;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public final class Config {
+    public static final String PluginName="netcreator";
+    public static final String path = "netcreator";
+
     public static String VMnodes;
     public static String VMpath;
     public static String VMdata;

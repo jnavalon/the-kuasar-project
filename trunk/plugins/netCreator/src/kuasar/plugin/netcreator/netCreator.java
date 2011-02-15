@@ -49,6 +49,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
     public boolean Start(Object ODRClassInstance, Class ODRClass) {
         Global.ODRClass=ODRClass;
         Global.ODRClassInstance = ODRClassInstance;
+        ODR.setValue(getPluginName()+".path", ODRClassInstance);
         return true;
     }
 
@@ -64,7 +65,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
             }
         }
         if(!loaded){
-            state="<html><body>We sorry but netCreator plugin require VMCreator.<br> Please, check if VMCreator is installed!";
+            state="<html><body>We sorry but netCreator plugin requires VMCreator.<br> Please, check if VMCreator is installed!";
             return false;
         }
         Config.VMdata=(String) ODR.getValue("vmcreator.data");

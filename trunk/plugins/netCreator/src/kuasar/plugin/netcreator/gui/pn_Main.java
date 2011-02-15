@@ -20,8 +20,27 @@
  *
  * Created on 07/02/2011, 17:24:45
  */
-
 package kuasar.plugin.netcreator.gui;
+
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.Timer;
+import kuasar.plugin.Intercom.ODR;
+import kuasar.plugin.netcreator.Config;
+import kuasar.plugin.netcreator.gui.dirlist.Lst_Cell_Renderer;
+import kuasar.plugin.utils.XML;
+import org.jdom.Element;
 
 /**
  *
@@ -29,10 +48,20 @@ package kuasar.plugin.netcreator.gui;
  */
 public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
+    Element root = XML.getRoot(new File((String) ODR.getValue("$PLUGINDIR") + File.separator + Config.VMpath + File.separator + Config.VMdata));
+    DefaultListModel model = new DefaultListModel();
+    ArrayList<JButton> paths = new ArrayList<JButton>();
+    String actdir = ".";
+    String namePath = ".";
+
     /** Creates new form pn_Main */
     public pn_Main() {
         initComponents();
-        
+        scp_Dir.getViewport().setOpaque(false);
+        lst_Dir.setCellRenderer(new Lst_Cell_Renderer());
+        lst_Dir.setModel(model);
+        loadData(actdir);
+        spn_Panel.getViewport().setOpaque(false);
     }
 
     /** This method is called from within the constructor to
@@ -44,89 +73,318 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new kuasar.plugin.classMod.Panel_Opaque();
-        jLabel1 = new javax.swing.JLabel();
+        pn_Dir = new javax.swing.JPanel();
+        btn_Next = new javax.swing.JButton();
+        btn_Previous = new javax.swing.JButton();
+        spn_Panel = new javax.swing.JScrollPane();
+        pn_Bt_Dir = new javax.swing.JPanel();
         spp_Panel = new javax.swing.JSplitPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jPanel2 = new javax.swing.JPanel();
+        scp_Dir = new javax.swing.JScrollPane();
+        lst_Dir = new javax.swing.JList();
+        pn_Config = new javax.swing.JPanel();
 
         setOpaque(false);
 
-        jPanel1.setOpaque(false);
+        pn_Dir.setOpaque(false);
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18));
-        jLabel1.setForeground(new java.awt.Color(205, 205, 205));
-        jLabel1.setText("/");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/next.png"))); // NOI18N
+        btn_Next.setContentAreaFilled(false);
+        btn_Next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Next.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_NextMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_NextMouseEntered(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-                .addGap(41, 41, 41))
+        btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/previous.png"))); // NOI18N
+        btn_Previous.setContentAreaFilled(false);
+        btn_Previous.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Previous.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_PreviousMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_PreviousMouseEntered(evt);
+            }
+        });
+
+        spn_Panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        spn_Panel.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        spn_Panel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        spn_Panel.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        spn_Panel.setDoubleBuffered(true);
+        spn_Panel.setOpaque(false);
+        spn_Panel.setWheelScrollingEnabled(false);
+
+        pn_Bt_Dir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        pn_Bt_Dir.setOpaque(false);
+
+        javax.swing.GroupLayout pn_Bt_DirLayout = new javax.swing.GroupLayout(pn_Bt_Dir);
+        pn_Bt_Dir.setLayout(pn_Bt_DirLayout);
+        pn_Bt_DirLayout.setHorizontalGroup(
+            pn_Bt_DirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 558, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+        pn_Bt_DirLayout.setVerticalGroup(
+            pn_Bt_DirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 47, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(jTree1);
+        spn_Panel.setViewportView(pn_Bt_Dir);
 
-        spp_Panel.setLeftComponent(jScrollPane1);
-
-        jPanel2.setOpaque(false);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 476, Short.MAX_VALUE)
+        javax.swing.GroupLayout pn_DirLayout = new javax.swing.GroupLayout(pn_Dir);
+        pn_Dir.setLayout(pn_DirLayout);
+        pn_DirLayout.setHorizontalGroup(
+            pn_DirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_DirLayout.createSequentialGroup()
+                .addComponent(btn_Previous, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spn_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_Next, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 257, Short.MAX_VALUE)
+        pn_DirLayout.setVerticalGroup(
+            pn_DirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_Previous, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+            .addComponent(btn_Next, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+            .addComponent(spn_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        spp_Panel.setRightComponent(jPanel2);
+        spp_Panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        spp_Panel.setDividerLocation(150);
+        spp_Panel.setDividerSize(0);
+
+        scp_Dir.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        scp_Dir.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        scp_Dir.setOpaque(false);
+
+        lst_Dir.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lst_Dir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lst_Dir.setOpaque(false);
+        lst_Dir.setPreferredSize(new java.awt.Dimension(140, 80));
+        lst_Dir.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lst_DirValueChanged(evt);
+            }
+        });
+        scp_Dir.setViewportView(lst_Dir);
+
+        spp_Panel.setLeftComponent(scp_Dir);
+
+        pn_Config.setOpaque(false);
+
+        javax.swing.GroupLayout pn_ConfigLayout = new javax.swing.GroupLayout(pn_Config);
+        pn_Config.setLayout(pn_ConfigLayout);
+        pn_ConfigLayout.setHorizontalGroup(
+            pn_ConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 594, Short.MAX_VALUE)
+        );
+        pn_ConfigLayout.setVerticalGroup(
+            pn_ConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 307, Short.MAX_VALUE)
+        );
+
+        spp_Panel.setRightComponent(pn_Config);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spp_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(spp_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                        .addGap(12, 12, 12))
+                    .addComponent(pn_Dir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(spp_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)))
+                .addComponent(pn_Dir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spp_Panel, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lst_DirValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_DirValueChanged
+        if (lst_Dir.getSelectedIndices().length == 0) {
+            return;
+        }
+        Element e = (Element) lst_Dir.getSelectedValue();
+        if (!e.getAttributeValue("type").toString().isEmpty()) {
+            return;
+        }
+        namePath = namePath.concat(namePath.endsWith(".") ? e.getAttributeValue("name") : "." + e.getAttributeValue("name"));
+        loadData(actdir.endsWith(".") ? actdir + e.getName() : actdir + "." + e.getName());
+    }//GEN-LAST:event_lst_DirValueChanged
+
+    private void btn_PreviousMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_PreviousMouseEntered
+        move2Right.start();
+    }//GEN-LAST:event_btn_PreviousMouseEntered
+
+    private void btn_PreviousMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_PreviousMouseExited
+        move2Right.stop();
+    }//GEN-LAST:event_btn_PreviousMouseExited
+
+    private void btn_NextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NextMouseEntered
+        move2Left.start();
+    }//GEN-LAST:event_btn_NextMouseEntered
+
+    private void btn_NextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NextMouseExited
+        move2Left.stop();
+    }//GEN-LAST:event_btn_NextMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JButton btn_Next;
+    private javax.swing.JButton btn_Previous;
+    private javax.swing.JList lst_Dir;
+    private javax.swing.JPanel pn_Bt_Dir;
+    private javax.swing.JPanel pn_Config;
+    private javax.swing.JPanel pn_Dir;
+    private javax.swing.JScrollPane scp_Dir;
+    private javax.swing.JScrollPane spn_Panel;
     private javax.swing.JSplitPane spp_Panel;
     // End of variables declaration//GEN-END:variables
+    Timer move2Right = new Timer(50, new ActionListener() {
 
+        public void actionPerformed(ActionEvent e) {
+            if (spn_Panel.getViewport().getViewPosition().x <= 0) {
+                return;
+            } else if (spn_Panel.getViewport().getViewPosition().x > 30) {
+                spn_Panel.getViewport().setViewPosition(new Point(spn_Panel.getViewport().getViewPosition().x - 30, spn_Panel.getViewport().getViewPosition().y));
+            } else {
+                spn_Panel.getViewport().setViewPosition(new Point(0, spn_Panel.getViewport().getViewPosition().y));
+            }
+        }
+    });
+    Timer move2Left = new Timer(50, new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+            if (spn_Panel.getViewport().getViewPosition().x + spn_Panel.getWidth() >= pn_Bt_Dir.getWidth()) {
+                return;
+            }
+            spn_Panel.getViewport().setViewPosition(new Point(spn_Panel.getViewport().getViewPosition().x + 30, spn_Panel.getViewport().getViewPosition().y));
+        }
+    });
+
+    private void loadData(String netpath) {
+        Element aux = XML.getElementOnPath(netpath, root);
+        if (aux == null) {
+            System.err.println("netCreator : XML path not found!");
+            return;
+        }
+        model.removeAllElements();
+        Iterator it = aux.getChildren().iterator();
+        while (it.hasNext()) {
+            Element e = (Element) it.next();
+            if (e.getAttributeValue("type").isEmpty()) {
+                model.addElement(e);
+            }
+        }
+        it = aux.getChildren().iterator();
+        while (it.hasNext()) {
+            Element e = (Element) it.next();
+            if (!e.getAttributeValue("type").isEmpty()) {
+                model.addElement(e);
+            }
+        }
+        actdir = netpath;
+        reloadButtons();
+    }
+
+    private void reloadButtons() {
+
+        String[] dirs = namePath.split("[.]");
+        int i = 0;
+        paths.clear();
+        pn_Bt_Dir.removeAll();
+        if (dirs.length == 0) {
+            dirs = new String[]{""};
+        }
+        for (String dir : dirs) {
+            JButton aux;
+            if (dir.isEmpty()) {
+                aux = new JButton(new ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/home.png")));
+            } else {
+                aux = new JButton(dir);
+            }
+            aux.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            aux.setFont(new java.awt.Font("Verdana", 0, 15));
+            aux.setName(Integer.toString(i++));
+            aux.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    JButton bt = (JButton) e.getSource();
+                    try {
+                        returnToPath(Integer.parseInt(bt.getName()));
+                    } catch (NumberFormatException ex) {
+                        System.err.println("Button id isn't a correct number.");
+                    }
+                }
+            });
+            aux.updateUI();
+            paths.add(aux);
+        }
+
+        javax.swing.GroupLayout pn_Bt_DirLayout = new javax.swing.GroupLayout(pn_Bt_Dir);
+        pn_Bt_Dir.setLayout(pn_Bt_DirLayout);
+        pn_Bt_DirLayout.setAutoCreateGaps(true);
+        pn_Bt_DirLayout.setAutoCreateContainerGaps(true);
+
+        SequentialGroup hsg = pn_Bt_DirLayout.createSequentialGroup();
+
+        Iterator<JButton> ibuttons = paths.iterator();
+        while (ibuttons.hasNext()) {
+            hsg.addComponent(ibuttons.next());
+        }
+
+        pn_Bt_DirLayout.setHorizontalGroup(hsg);
+
+        SequentialGroup vsg = pn_Bt_DirLayout.createSequentialGroup();
+        ParallelGroup vgrp = pn_Bt_DirLayout.createParallelGroup(Alignment.LEADING);
+
+        ibuttons = paths.iterator();
+        while (ibuttons.hasNext()) {
+            vgrp.addComponent(ibuttons.next(), 34, 34, 34);
+        }
+
+        vsg.addGroup(vgrp);
+
+        pn_Bt_DirLayout.setVerticalGroup(vsg);
+        spn_Panel.getViewport().setViewPosition(new Point(spn_Panel.getViewport().getViewSize().getSize().width, spn_Panel.getViewport().getViewSize().height));
+        pn_Bt_Dir.updateUI();
+    }
+
+    private void returnToPath(int position) {
+        String path = "";
+        String[] dirs = actdir.split("[.]");
+        String[] names = namePath.split("[.]");
+        namePath = "";
+        if (dirs.length != names.length) {
+            System.err.println("Directories and Names Vector haven't same length");
+            return;
+        }
+        if (position > dirs.length) {
+            System.err.println("Position is bigger than directories lenght");
+            return;
+        }
+        for (int i = 0; i <= position; i++) {
+            if (!dirs[i].isEmpty()) {
+                path = path.concat("." + dirs[i]);
+                namePath = namePath.concat("." + names[i]);
+            }
+        }
+        if (path.isEmpty()) {
+            path = path.concat(".");
+            namePath = namePath.concat(".");
+        }
+
+        loadData(path);
+    }
 }
