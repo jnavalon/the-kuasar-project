@@ -17,6 +17,7 @@
 
 package kuasar.plugin.netcreator;
 
+import java.io.File;
 import javax.swing.ImageIcon;
 import kuasar.plugin.Global;
 import kuasar.plugin.Intercom.GUI;
@@ -57,6 +58,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
         Global.mainClass = mainClass;
         Global.mainClassInstance = mainClassInstance;
         PluginInterface[] plugins = (PluginInterface[]) ODR.getValue("$PLUGINS");
+        Config.skinpath=ODR.getValue("$STARTDIR").toString() + ODR.getValue("$SKINDIR").toString() + File.separator + ODR.getValue("$SKINNAME");
         boolean loaded= false;
         for(PluginInterface plugin : plugins){
             if(plugin.getPluginName().equals("vmcreator")){

@@ -101,7 +101,7 @@ public final class XML {
             fos.flush();
             fos.close();
         } catch (IOException ex) {
-            System.err.println("I couldn't create network file on vmcreator path, changes won't be saved!");
+            System.err.println("I couldn't create network file on " + cfgPath + " path, changes won't be saved!");
             return false;
         }
         return true;
@@ -116,7 +116,7 @@ public final class XML {
         }
         if (!file.exists()) {
             if (!file.mkdir()) {
-                System.err.println("I couldn't create vmcreator path, changes won't be saved!");
+                System.err.println("I couldn't create +" + cfgPath  + " path, changes won't be saved!");
                 return;
             }
         }
@@ -134,7 +134,7 @@ public final class XML {
                 fos.flush();
                 fos.close();
             } catch (IOException ex) {
-                System.err.println("I couldn't create network file on vmcreator path, changes won't be saved!");
+                System.err.println("I couldn't create network file on "+cfgPath +" path, changes won't be saved!");
                 return;
             }
         }

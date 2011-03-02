@@ -20,7 +20,9 @@ package kuasar.util.plugins;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 import java.util.Stack;
@@ -66,6 +68,8 @@ public class PluginLoader {
                         return name.endsWith(Plugins.extPlug);
                     }
                 });
+                if(plugins.length>1)
+                    plugins = sortPlugins(plugins);
                 files.addAll(Arrays.asList(plugins));
             }
 
@@ -74,7 +78,17 @@ public class PluginLoader {
         }
         return files.toArray(new File[0]);
     }
-
+    public static File[] sortPlugins(File[] files){
+        ArrayList<String> names = new ArrayList<String>();
+        for(File file : files){
+            names.add(file.getAbsolutePath());
+        }
+        Collections.sort(names);
+        for(int i=0; i<names.size(); i++){
+            files[i] = new File(names.get(i));
+        }
+        return files;
+    }
     public static PluginInterface[] getPlugins(){
         ServiceLoader < PluginInterface > sl = ServiceLoader.load(PluginInterface.class);
         sl.reload();

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *  Copyright (C) 2011 jnavalon
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,26 +16,22 @@
  */
 
 /*
- * pn_DirList.java
+ * pn_NetworkSettings.java
  *
- * Created on 13/02/2011, 19:40:46
+ * Created on 02/03/2011, 19:25:34
  */
 
-package kuasar.plugin.netcreator.gui.dirlist;
-
-import javax.swing.ImageIcon;
+package kuasar.plugin.netcreator.gui.network;
 
 /**
  *
- * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ * @author jnavalon
  */
-public class pn_DirListSelected extends kuasar.plugin.classMod.AbstractPanel {
+public class pn_VMNetwork extends javax.swing.JPanel {
 
-    /** Creates new form pn_DirList */
-    public pn_DirListSelected(String text, boolean isFolder) {
+    /** Creates new form pn_NetworkSettings */
+    public pn_VMNetwork() {
         initComponents();
-        lbl_Name.setText(text);
-        lbl_Name.setIcon(isFolder ? new ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/folder.png")): new ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/computer.png")));
     }
 
     /** This method is called from within the constructor to
@@ -47,34 +43,20 @@ public class pn_DirListSelected extends kuasar.plugin.classMod.AbstractPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_Name = new javax.swing.JLabel();
-
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(5, 40));
-
-        lbl_Name.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
-        lbl_Name.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_Name.setText("<Insert Text>");
-        lbl_Name.setMinimumSize(new java.awt.Dimension(1, 1));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_Name, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_Name, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+            .addGap(0, 304, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lbl_Name;
     // End of variables declaration//GEN-END:variables
 
 }

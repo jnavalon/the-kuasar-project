@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2011 jnavalon
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,12 +21,11 @@ import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import kuasar.plugin.classMod.Panel_Opaque;
 import org.jdom.Element;
 
 /**
  *
- * @author jnavalon
+ * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class Lst_Cell_Renderer implements ListCellRenderer{
 

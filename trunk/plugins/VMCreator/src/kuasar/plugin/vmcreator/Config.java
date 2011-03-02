@@ -22,6 +22,7 @@ package kuasar.plugin.vmcreator;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public final class Config {
+    public static final String PluginName="vmcreator";
     public static final String path = "vmcreator";
     public static final String network = "network";
     public static final String favorites = "favorites";

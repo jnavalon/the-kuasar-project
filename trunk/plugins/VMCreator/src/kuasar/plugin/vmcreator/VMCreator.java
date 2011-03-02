@@ -51,9 +51,9 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
         Global.ODRClass = ODRClass;
         Global.ODRClassInstance = ODRClassInstance;
         XML.Load(Config.path, Config.network);
-        ODR.setValue("vmcreator.path", Config.path);
-        ODR.setValue("vmcreator.data", Config.network);
-        ODR.setValue("vmcreator.nodes", Config.virtualmachine);
+        ODR.setValue(getPluginName()+".path", Config.path);
+        ODR.setValue(getPluginName()+".data", Config.network);
+        ODR.setValue(getPluginName()+".nodes", Config.virtualmachine);
         return true;
 
     }
@@ -99,6 +99,6 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
     }
 
     public String getPluginName() {
-        return ("vmcreator");
+        return (Config.PluginName);
     }
 }

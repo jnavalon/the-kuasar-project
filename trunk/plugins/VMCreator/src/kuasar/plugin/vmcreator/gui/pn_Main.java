@@ -170,8 +170,10 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
     }//GEN-LAST:event_lst_NetsKeyReleased
 
     private void lst_NetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_NetsMouseClicked
+
         if (!evt.isShiftDown() && !evt.isControlDown()) {
             Object[] cell = (Object[]) lst_Nets.getSelectedValue();
+            if(cell == null) return;
             if (cell[3] == null) {
                 groupClicked((String) cell[2]);
             } else {
