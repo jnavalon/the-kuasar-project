@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2011 jnavalon
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author jnavalon
+ * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class pn_DirListUnSelected extends javax.swing.JPanel {
 
@@ -51,18 +51,20 @@ public class pn_DirListUnSelected extends javax.swing.JPanel {
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(177, 44));
+        setPreferredSize(new java.awt.Dimension(5, 40));
 
         lbl_Name.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         lbl_Name.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_Name.setText("<Insert Text>");
+        lbl_Name.setMinimumSize(new java.awt.Dimension(1, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_Name, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                .addComponent(lbl_Name, javax.swing.GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

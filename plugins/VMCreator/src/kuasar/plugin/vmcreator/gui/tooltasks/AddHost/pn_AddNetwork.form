@@ -81,7 +81,7 @@
                   </Group>
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   <Component id="spn_NetDevices" min="-2" pref="245" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="66" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -91,20 +91,20 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" alignment="0" attributes="1">
                                   <Component id="lbl_Name" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="22" pref="22" max="22" attributes="0"/>
-                                  <Component id="lbl_type" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Component id="lbl_type" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txt_Name" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="18" pref="18" max="18" attributes="0"/>
                                   <Component id="cbb_Type" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="22" pref="22" max="22" attributes="0"/>
-                                  <Component id="btn_Add" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace min="22" pref="22" max="22" attributes="0"/>
+                          <Component id="btn_Add" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="lbl_info" min="-2" max="-2" attributes="0"/>
                       </Group>

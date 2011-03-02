@@ -241,7 +241,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         txt_mem.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
         txt_mem.setForeground(new java.awt.Color(0, 0, 0));
         txt_mem.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_mem.setText("8");
+        txt_mem.setText("512");
         txt_mem.setOpaque(false);
         txt_mem.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -253,7 +253,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
 
         cmb_unit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mb", "Gb", "Tb" }));
-        cmb_unit.setSelectedIndex(1);
+        cmb_unit.setSelectedIndex(0);
 
         lbl_SafeMode.setForeground(new java.awt.Color(204, 204, 204));
         lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/security-medium.png"))); // NOI18N
@@ -357,7 +357,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
                     .addComponent(lbl_remDevice)
                     .addComponent(lbl_addModule))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spn_Features, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                .addComponent(spn_Features, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
@@ -392,7 +392,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
                                 .addComponent(lbl_addModule)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lbl_remModule))
-                            .addComponent(spn_Devices, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+                            .addComponent(spn_Devices, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                             .addComponent(lbl_Disks))))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

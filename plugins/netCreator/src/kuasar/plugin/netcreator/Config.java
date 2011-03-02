@@ -25,6 +25,8 @@ public final class Config {
     public static final String PluginName="netcreator";
     public static final String path = "netcreator";
 
+    public static String skinpath;
+
     public static String VMnodes;
     public static String VMpath;
     public static String VMdata;
