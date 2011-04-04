@@ -1,16 +1,16 @@
 /*
  *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
- * 
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- * 
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,24 +20,35 @@
  *
  * Created on 02/03/2011, 19:49:23
  */
-
 package kuasar.plugin.netcreator.gui.network;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import kuasar.plugin.netcreator.utils.IP;
+import kuasar.plugin.utils.pn_Info;
 import org.jdom.Element;
 
 /**
  *
- * @author jnavalon
+ * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
+    private Element node;
+    private boolean dhcp4 = false;
+    private boolean dhcp6 = false;
+
     /** Creates new form pn_GroupNetwork */
     public pn_GroupNetwork(Element node) {
+        this.node = node;
         initComponents();
-    }
-    public void getFocus(){
-        txt_ipv4_1.requestFocus();
+        pn_container.setVisible(false);
+        btn_check.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -49,6 +60,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pn_container = new javax.swing.JPanel();
         lbl_ipv4 = new javax.swing.JLabel();
         lbl_t_net_add4 = new javax.swing.JLabel();
         pn_ipv4 = new javax.swing.JPanel();
@@ -83,13 +95,21 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
         lbl_ipv6_prefix = new javax.swing.JLabel();
         txt_ipv6_prefix = new javax.swing.JTextField();
         lbl_ipv6_dhcp = new javax.swing.JLabel();
-        btn_check = new javax.swing.JButton();
-        lbl_warning = new javax.swing.JLabel();
         lbl_title = new javax.swing.JLabel();
+        lbl_warning = new javax.swing.JLabel();
+        btn_check = new javax.swing.JButton();
 
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setOpaque(false);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
-        lbl_ipv4.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        pn_container.setOpaque(false);
+
+        lbl_ipv4.setFont(new java.awt.Font("Dialog", 1, 16));
         lbl_ipv4.setForeground(new java.awt.Color(204, 204, 204));
         lbl_ipv4.setText("IPv4:");
 
@@ -101,73 +121,143 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv4_1.setBackground(new Color(0,0,0,0));
         txt_ipv4_1.setColumns(3);
-        txt_ipv4_1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv4_1.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv4_1.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv4_1.setOpaque(false);
+        txt_ipv4_1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv4_1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv4released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv4typed(evt);
+            }
+        });
         pn_ipv4.add(txt_ipv4_1);
 
-        lbl_dot_1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_dot_1.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_dot_1.setForeground(new java.awt.Color(204, 204, 204));
         lbl_dot_1.setText(".");
         pn_ipv4.add(lbl_dot_1);
 
         txt_ipv4_2.setBackground(new Color(0,0,0,0));
         txt_ipv4_2.setColumns(3);
-        txt_ipv4_2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv4_2.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv4_2.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv4_2.setOpaque(false);
+        txt_ipv4_2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv4_2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv4released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv4typed(evt);
+            }
+        });
         pn_ipv4.add(txt_ipv4_2);
 
-        lbl_dot_2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_dot_2.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_dot_2.setForeground(new java.awt.Color(204, 204, 204));
         lbl_dot_2.setText(".");
         pn_ipv4.add(lbl_dot_2);
 
         txt_ipv4_3.setBackground(new Color(0,0,0,0));
         txt_ipv4_3.setColumns(3);
-        txt_ipv4_3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv4_3.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv4_3.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv4_3.setOpaque(false);
+        txt_ipv4_3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv4_3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv4released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv4typed(evt);
+            }
+        });
         pn_ipv4.add(txt_ipv4_3);
 
-        lbl_dot_3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_dot_3.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_dot_3.setForeground(new java.awt.Color(204, 204, 204));
         lbl_dot_3.setText(".");
         pn_ipv4.add(lbl_dot_3);
 
         txt_ipv4_4.setBackground(new Color(0,0,0,0));
         txt_ipv4_4.setColumns(3);
-        txt_ipv4_4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv4_4.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv4_4.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv4_4.setOpaque(false);
+        txt_ipv4_4.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv4_4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv4released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv4typed(evt);
+            }
+        });
         pn_ipv4.add(txt_ipv4_4);
 
-        lbl_bar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_bar.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_bar.setForeground(new java.awt.Color(204, 204, 204));
         lbl_bar.setText("/");
         pn_ipv4.add(lbl_bar);
 
         txt_ipv4_mask.setBackground(new Color(0,0,0,0));
         txt_ipv4_mask.setColumns(3);
-        txt_ipv4_mask.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv4_mask.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv4_mask.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_mask.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_mask.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv4_mask.setOpaque(false);
+        txt_ipv4_mask.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv4_mask.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_ipv4_maskKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ipv4_maskKeyTyped(evt);
+            }
+        });
         pn_ipv4.add(txt_ipv4_mask);
 
         lbl_ipv4_dhcp.setForeground(new java.awt.Color(204, 204, 204));
         lbl_ipv4_dhcp.setText("DHCP");
+        lbl_ipv4_dhcp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_ipv4_dhcpMouseClicked(evt);
+            }
+        });
 
-        lbl_t_ipv6.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lbl_t_ipv6.setFont(new java.awt.Font("Dialog", 1, 16));
         lbl_t_ipv6.setForeground(new java.awt.Color(204, 204, 204));
         lbl_t_ipv6.setText("IPv6:");
 
@@ -179,109 +269,213 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv6_1.setBackground(new Color(0,0,0,0));
         txt_ipv6_1.setColumns(3);
-        txt_ipv6_1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_1.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_1.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_1.setOpaque(false);
+        txt_ipv6_1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_1);
 
-        lbl_colon_1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_1.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_1.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_1.setText(":");
         pn_ipv6.add(lbl_colon_1);
 
         txt_ipv6_2.setBackground(new Color(0,0,0,0));
         txt_ipv6_2.setColumns(3);
-        txt_ipv6_2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_2.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_2.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_2.setOpaque(false);
+        txt_ipv6_2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_2);
 
-        lbl_colon_2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_2.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_2.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_2.setText(":");
         pn_ipv6.add(lbl_colon_2);
 
         txt_ipv6_3.setBackground(new Color(0,0,0,0));
         txt_ipv6_3.setColumns(3);
-        txt_ipv6_3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_3.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_3.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_3.setOpaque(false);
+        txt_ipv6_3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_3);
 
-        lbl_colon_3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_3.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_3.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_3.setText(":");
         pn_ipv6.add(lbl_colon_3);
 
         txt_ipv6_4.setBackground(new Color(0,0,0,0));
         txt_ipv6_4.setColumns(3);
-        txt_ipv6_4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_4.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_4.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_4.setOpaque(false);
+        txt_ipv6_4.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_4);
 
-        lbl_colon_4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_4.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_4.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_4.setText(":");
         pn_ipv6.add(lbl_colon_4);
 
         txt_ipv6_5.setBackground(new Color(0,0,0,0));
         txt_ipv6_5.setColumns(3);
-        txt_ipv6_5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_5.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_5.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_5.setOpaque(false);
+        txt_ipv6_5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_5);
 
-        lbl_colon_5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_5.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_5.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_5.setText(":");
         pn_ipv6.add(lbl_colon_5);
 
         txt_ipv6_6.setBackground(new Color(0,0,0,0));
         txt_ipv6_6.setColumns(3);
-        txt_ipv6_6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_6.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_6.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_6.setOpaque(false);
+        txt_ipv6_6.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_6);
 
-        lbl_colon_6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_6.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_6.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_6.setText(":");
         pn_ipv6.add(lbl_colon_6);
 
         txt_ipv6_7.setBackground(new Color(0,0,0,0));
         txt_ipv6_7.setColumns(3);
-        txt_ipv6_7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_7.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_7.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_7.setOpaque(false);
+        txt_ipv6_7.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_7);
 
-        lbl_colon_7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_colon_7.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_colon_7.setForeground(new java.awt.Color(204, 204, 204));
         lbl_colon_7.setText(":");
         pn_ipv6.add(lbl_colon_7);
 
         txt_ipv6_8.setBackground(new Color(0,0,0,0));
         txt_ipv6_8.setColumns(3);
-        txt_ipv6_8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_8.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_8.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_8.setOpaque(false);
+        txt_ipv6_8.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ipv6released(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ipv6typed(evt);
+            }
+        });
         pn_ipv6.add(txt_ipv6_8);
 
         lbl_ipv6_prefix.setForeground(new java.awt.Color(204, 204, 204));
@@ -289,90 +483,334 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv6_prefix.setBackground(new Color(0,0,0,0));
         txt_ipv6_prefix.setColumns(3);
-        txt_ipv6_prefix.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_prefix.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_prefix.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_prefix.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_prefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_ipv6_prefix.setOpaque(false);
+        txt_ipv6_prefix.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TextFieldFocus(evt);
+            }
+        });
+        txt_ipv6_prefix.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_ipv6_prefixKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_ipv4_maskKeyTyped(evt);
+            }
+        });
 
         lbl_ipv6_dhcp.setForeground(new java.awt.Color(204, 204, 204));
         lbl_ipv6_dhcp.setText("DHCP");
+        lbl_ipv6_dhcp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_ipv6_dhcpMouseClicked(evt);
+            }
+        });
 
-        btn_check.setText("Check");
+        javax.swing.GroupLayout pn_containerLayout = new javax.swing.GroupLayout(pn_container);
+        pn_container.setLayout(pn_containerLayout);
+        pn_containerLayout.setHorizontalGroup(
+            pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_containerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pn_containerLayout.createSequentialGroup()
+                            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lbl_t_net_add6)
+                                .addComponent(lbl_ipv6_prefix))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pn_ipv6, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)))
+                        .addGroup(pn_containerLayout.createSequentialGroup()
+                            .addComponent(lbl_t_net_add4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(pn_ipv4, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
+                        .addComponent(lbl_ipv4)
+                        .addComponent(lbl_t_ipv6)
+                        .addComponent(lbl_ipv4_dhcp)
+                        .addComponent(lbl_ipv6_dhcp))
+                    .addContainerGap()))
+        );
+        pn_containerLayout.setVerticalGroup(
+            pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 204, Short.MAX_VALUE)
+            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_containerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(lbl_ipv4)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbl_t_net_add4, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                        .addComponent(pn_ipv4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lbl_ipv4_dhcp)
+                    .addGap(18, 18, 18)
+                    .addComponent(lbl_t_ipv6)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbl_t_net_add6, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                        .addComponent(pn_ipv6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbl_ipv6_prefix))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lbl_ipv6_dhcp)
+                    .addGap(70, 70, 70)))
+        );
 
-        lbl_warning.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_warning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/warning.png"))); // NOI18N
-        lbl_warning.setText("First network device on VM will be modified");
-
-        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/groupip.png"))); // NOI18N
-        lbl_title.setText("Group IP Generator");
+        lbl_title.setText(node.getAttributeValue("name")==null? "Group IP Generator < ROOT >" : "Group IP Generator < " + node.getAttributeValue("name") + " >");
+
+        lbl_warning.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_warning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/info.png"))); // NOI18N
+        lbl_warning.setText("Click to activate AutoIP feature");
+
+        btn_check.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/check.png"))); // NOI18N
+        btn_check.setText("Check");
+        btn_check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_checkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbl_warning)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                        .addComponent(btn_check))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pn_container, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_title, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_t_net_add6)
-                            .addComponent(lbl_ipv6_prefix))
+                        .addComponent(lbl_warning, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pn_ipv6, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_t_net_add4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pn_ipv4, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))
-                    .addComponent(lbl_ipv4)
-                    .addComponent(lbl_t_ipv6)
-                    .addComponent(lbl_ipv4_dhcp)
-                    .addComponent(lbl_ipv6_dhcp))
+                        .addComponent(btn_check)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
-                .addComponent(lbl_ipv4)
+                .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_t_net_add4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(pn_ipv4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_ipv4_dhcp)
-                .addGap(18, 18, 18)
-                .addComponent(lbl_t_ipv6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_t_net_add6, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(pn_ipv6, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_ipv6_prefix))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_ipv6_dhcp)
-                .addGap(33, 33, 33)
+                .addComponent(pn_container, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_check)
-                    .addComponent(lbl_warning))
-                .addContainerGap())
+                    .addComponent(lbl_warning)
+                    .addComponent(btn_check)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (!pn_container.isVisible()) {
+            this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            pn_container.setVisible(true);
+            btn_check.setVisible(true);
+            lbl_warning.setText("First network device on VMs will be modified!");
+            lbl_warning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/warning.png")));
+            this.setBounds(0, 0, this.getParent().getWidth(), this.getParent().getHeight());
+            this.updateUI();
+            txt_ipv4_1.requestFocus();
+        }
+    }//GEN-LAST:event_formMouseClicked
 
+    private void TextFieldFocus(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextFieldFocus
+        ((javax.swing.JTextField) evt.getSource()).selectAll();
+    }//GEN-LAST:event_TextFieldFocus
+
+    private void ipv4typed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipv4typed
+        JTextField tf = (JTextField) evt.getSource();
+        tf.setForeground(new Color(204, 204, 204));
+        if (evt.getKeyChar() == '.') {
+            tf.transferFocus();
+            evt.consume();
+            return;
+        }
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+            return;
+        }
+    }//GEN-LAST:event_ipv4typed
+
+    private void ipv4released(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipv4released
+        JTextField tf = (JTextField) evt.getSource();
+
+        boolean transfer = false;
+
+        if (tf.getText().length() > 3) {
+            tf.setText(tf.getText().substring(0, 3));
+            transfer = true;
+        } else if (tf.getText().length() == 3) {
+            transfer = true;
+        }
+        if (!IP.checkIP4Block(tf.getText())) {
+            tf.setForeground(Color.pink);
+            transfer = false;
+        }
+        if (transfer) {
+            tf.transferFocus();
+        }
+
+    }//GEN-LAST:event_ipv4released
+
+    private void txt_ipv4_maskKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ipv4_maskKeyReleased
+        JTextField tf = (JTextField) evt.getSource();
+        if (tf.getText().length() > 2) {
+            tf.setText(tf.getText().substring(0, 2));
+        }
+        int oct;
+        try {
+            oct = Integer.parseInt(tf.getText());
+            if (oct > 32 || oct < 0) {
+                tf.setForeground(Color.pink);
+            }
+        } catch (NumberFormatException ex) {
+            tf.setForeground(Color.pink);
+        }
+
+    }//GEN-LAST:event_txt_ipv4_maskKeyReleased
+
+    private void txt_ipv4_maskKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ipv4_maskKeyTyped
+
+        JTextField tf = (JTextField) evt.getSource();
+        tf.setForeground(new Color(204, 204, 204));
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+            return;
+        }
+    }//GEN-LAST:event_txt_ipv4_maskKeyTyped
+
+    private void ipv6released(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipv6released
+        JTextField tf = (JTextField) evt.getSource();
+        if (tf.getText().length() > 4) {
+            tf.setText(tf.getText().substring(0, 4));
+            tf.transferFocus();
+        } else if (tf.getText().length() == 4) {
+            tf.transferFocus();
+        }
+    }//GEN-LAST:event_ipv6released
+
+    private void ipv6typed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipv6typed
+        JTextField tf = (JTextField) evt.getSource();
+        tf.setForeground(new Color(204, 204, 204));
+        if (evt.getKeyChar() == ':') {
+            tf.transferFocus();
+            evt.consume();
+            return;
+        }
+        if (!Character.isDigit(evt.getKeyChar())
+                && !(Character.getNumericValue(Character.toLowerCase(evt.getKeyChar())) >= Character.getNumericValue('a')
+                && Character.getNumericValue(Character.toLowerCase(evt.getKeyChar())) <= Character.getNumericValue('f'))) {
+            evt.consume();
+            return;
+        }
+    }//GEN-LAST:event_ipv6typed
+
+    private void txt_ipv6_prefixKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_ipv6_prefixKeyReleased
+        JTextField tf = (JTextField) evt.getSource();
+        if (tf.getText().length() > 3) {
+            tf.setText(tf.getText().substring(0, 3));
+        }
+        int oct;
+        try {
+            oct = Integer.parseInt(tf.getText());
+            if (oct > 128 || oct < 0) {
+                tf.setForeground(Color.pink);
+            }
+        } catch (NumberFormatException ex) {
+            tf.setForeground(Color.pink);
+        }
+    }//GEN-LAST:event_txt_ipv6_prefixKeyReleased
+
+    private void btn_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkActionPerformed
+
+        if (!(txt_ipv4_1.getText() + txt_ipv4_2.getText() + txt_ipv4_3.getText() + txt_ipv4_4.getText()).trim().isEmpty() && !dhcp4) {
+            if (!IP.checkIP4Mask(txt_ipv4_mask.getText())) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Mask is not valid", pn_Info.ICON_ERROR);
+                return;
+            }
+            InetAddress ip4 = null;
+            byte[] mask4 = new byte[4];
+            try {
+                ip4 = InetAddress.getByName(txt_ipv4_1.getText() + "." + txt_ipv4_2.getText() + "." + txt_ipv4_3.getText() + "." + txt_ipv4_4.getText());
+                mask4 = IP.getMask4(Integer.parseInt(txt_ipv4_mask.getText()));
+            } catch (UnknownHostException ex) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP4 was an incorrect format", pn_Info.ICON_ERROR);
+                return;
+            }
+
+            if (IP.isLoopBack(ip4)) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Forbidden", "IP4 can't be a Loopback Address", pn_Info.ICON_FORBIDDEN);
+                return;
+            }
+
+            if (!IP.isNetAdd(ip4, mask4)) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP4 is'nt a Network Address.", pn_Info.ICON_ERROR);
+                return;
+            }
+            int hosts = sumHosts();
+            if ((Math.ceil(Math.log(hosts + 2) / Math.log(2))) > (32 - Integer.parseInt(txt_ipv4_mask.getText()))) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Insufficient Host IPv4 Adresses <p>"
+                        + "Hosts on networtk: " + hosts + " > Available " + String.valueOf(Math.round(Math.pow(2,32 - Integer.parseInt(txt_ipv4_mask.getText())))-2) , pn_Info.ICON_ERROR);
+                return;
+            }
+
+        }
+        if (!(this.txt_ipv6_1.getText() + this.txt_ipv6_2.getText() + this.txt_ipv6_3.getText() + this.txt_ipv6_4.getText()
+                + this.txt_ipv6_5.getText() + this.txt_ipv6_6.getText() + this.txt_ipv6_7.getText() + this.txt_ipv6_8.getText()).trim().isEmpty() && !dhcp6) {
+            if (!IP.checkIP6Mask(txt_ipv6_prefix.getText())) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Prefix is not valid", pn_Info.ICON_ERROR);
+                return;
+            }
+            InetAddress ip6 = null;
+            byte[] prefix = new byte[16];
+            try {
+                ip6 = InetAddress.getByName(txt_ipv6_1.getText() + ":" + txt_ipv6_2.getText() + ":" + txt_ipv6_3.getText() + ":" + txt_ipv6_4.getText()
+                        + ":" + txt_ipv6_5.getText() + ":" + txt_ipv6_6.getText() + ":" + txt_ipv6_7.getText() + ":" + txt_ipv6_8.getText());
+                prefix = IP.getMask6(Integer.parseInt(txt_ipv6_prefix.getText()));
+            } catch (UnknownHostException ex) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP6 was an incorrect format", pn_Info.ICON_ERROR);
+                return;
+            }
+            if (IP.isLoopBack(ip6)) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Forbidden", "IP6 can't be a Loopback Address", pn_Info.ICON_FORBIDDEN);
+                return;
+            }
+            if (!IP.isNetAdd(ip6, prefix)) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP6 is'nt a Network Address.", pn_Info.ICON_ERROR);
+                return;
+            }
+
+            int hosts = sumHosts();
+            if ((Math.ceil(Math.log(hosts + 2) / Math.log(2))) > (128 - Integer.parseInt(txt_ipv4_mask.getText()))) {
+                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Insufficient Host IPv6 Adresses <p>"
+                        + "Hosts on networtk: " + hosts + " > Available " + String.valueOf(Math.round(Math.pow(2,128 - Integer.parseInt(txt_ipv4_mask.getText())))-2) , pn_Info.ICON_ERROR);
+                return;
+            }
+
+        }
+
+    }//GEN-LAST:event_btn_checkActionPerformed
+
+    private void lbl_ipv4_dhcpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ipv4_dhcpMouseClicked
+        dhcp4 = !dhcp4;
+        lbl_ipv4_dhcp.setForeground(dhcp4 ? Color.green : new Color(204, 204, 204));
+    }//GEN-LAST:event_lbl_ipv4_dhcpMouseClicked
+
+    private void lbl_ipv6_dhcpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ipv6_dhcpMouseClicked
+        dhcp6 = !dhcp6;
+        lbl_ipv6_dhcp.setForeground(dhcp6 ? Color.green : new Color(204, 204, 204));
+    }//GEN-LAST:event_lbl_ipv6_dhcpMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_check;
     private javax.swing.JLabel lbl_bar;
@@ -395,6 +833,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JLabel lbl_t_net_add6;
     private javax.swing.JLabel lbl_title;
     private javax.swing.JLabel lbl_warning;
+    private javax.swing.JPanel pn_container;
     private javax.swing.JPanel pn_ipv4;
     private javax.swing.JPanel pn_ipv6;
     private javax.swing.JTextField txt_ipv4_1;
@@ -413,4 +852,20 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JTextField txt_ipv6_prefix;
     // End of variables declaration//GEN-END:variables
 
+    private int sumHosts() {
+        return sumHosts(node, 0);
+    }
+
+    private int sumHosts(Element cnode, int cont) {
+
+        List<Element> children = cnode.getChildren();
+        for (Element child : children) {
+            if (child.getAttributeValue("type").equals("vm")) {
+                cont++;
+            } else if (child.getAttributeValue("type").isEmpty()) {
+                cont = sumHosts(child, cont);
+            }
+        }
+        return cont;
+    }
 }

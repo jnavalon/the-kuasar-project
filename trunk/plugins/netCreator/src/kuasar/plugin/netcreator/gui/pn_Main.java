@@ -479,7 +479,6 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         pn_Network.removeAll();
         pn_Network.add(gn);
         pn_Network.updateUI();
-        gn.getFocus();
     }
 
     private void reloadButtons() {
