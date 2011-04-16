@@ -50,7 +50,7 @@ import org.jdom.Element;
  */
 public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
-    Element root;
+    
     DefaultListModel model = new DefaultListModel();
     ArrayList<JButton> paths = new ArrayList<JButton>();
     String actdir = ".";
@@ -58,7 +58,8 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     /** Creates new form pn_Main */
     public pn_Main() {
-        root = XML.getRoot(new File((String) ODR.getValue("$PLUGINDIR") + File.separator + Config.VMpath + File.separator + Config.VMdata));
+        Config.NetworkFile  = (String) ODR.getValue("$PLUGINDIR") + File.separator + Config.VMpath + File.separator + Config.VMdata;
+        Config.rootNetwork= XML.getRoot(new File(Config.NetworkFile));
         initComponents();
         scp_Dir.getViewport().setOpaque(false);
         lst_Dir.setCellRenderer(new Lst_Cell_Renderer());
@@ -450,7 +451,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
     });
 
     private void loadData(String netpath) {
-        Element aux = XML.getElementOnPath(netpath, root);
+        Element aux = XML.getElementOnPath(netpath, Config.rootNetwork);
         TreeMap<String, Element> tm = new TreeMap<String, Element>();
         if (aux == null) {
             System.err.println("netCreator : XML path not found!");
@@ -474,7 +475,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         actdir = netpath;
         lst_Dir.updateUI();
         reloadButtons();
-        pn_GroupNetwork gn = new pn_GroupNetwork(aux);
+        pn_GroupNetwork gn = new pn_GroupNetwork(actdir);
         gn.setBounds(0, 0, pn_Network.getWidth(), pn_Network.getHeight());
         pn_Network.removeAll();
         pn_Network.add(gn);

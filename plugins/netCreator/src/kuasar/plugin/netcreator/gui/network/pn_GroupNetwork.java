@@ -26,10 +26,15 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import kuasar.plugin.netcreator.Config;
 import kuasar.plugin.netcreator.utils.IP;
+import kuasar.plugin.utils.XML;
 import kuasar.plugin.utils.pn_Info;
 import org.jdom.Element;
 
@@ -42,10 +47,12 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
     private Element node;
     private boolean dhcp4 = false;
     private boolean dhcp6 = false;
+    private String netpath;
 
     /** Creates new form pn_GroupNetwork */
-    public pn_GroupNetwork(Element node) {
-        this.node = node;
+    public pn_GroupNetwork(String netpath) {
+        this.node = XML.getElementOnPath(netpath, Config.rootNetwork);
+        this.netpath = netpath;
         initComponents();
         pn_container.setVisible(false);
         btn_check.setVisible(false);
@@ -95,6 +102,10 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
         lbl_ipv6_prefix = new javax.swing.JLabel();
         txt_ipv6_prefix = new javax.swing.JTextField();
         lbl_ipv6_dhcp = new javax.swing.JLabel();
+        lbl_gateway = new javax.swing.JLabel();
+        txt_gateway = new javax.swing.JTextField();
+        lbl_DNS = new javax.swing.JLabel();
+        txt_DNS = new javax.swing.JTextField();
         lbl_title = new javax.swing.JLabel();
         lbl_warning = new javax.swing.JLabel();
         btn_check = new javax.swing.JButton();
@@ -109,7 +120,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         pn_container.setOpaque(false);
 
-        lbl_ipv4.setFont(new java.awt.Font("Dialog", 1, 16));
+        lbl_ipv4.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lbl_ipv4.setForeground(new java.awt.Color(204, 204, 204));
         lbl_ipv4.setText("IPv4:");
 
@@ -229,7 +240,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv4_mask.setBackground(new Color(0,0,0,0));
         txt_ipv4_mask.setColumns(3);
-        txt_ipv4_mask.setFont(new java.awt.Font("Dialog", 1, 14));
+        txt_ipv4_mask.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_ipv4_mask.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_mask.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_mask.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -257,7 +268,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        lbl_t_ipv6.setFont(new java.awt.Font("Dialog", 1, 16));
+        lbl_t_ipv6.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
         lbl_t_ipv6.setForeground(new java.awt.Color(204, 204, 204));
         lbl_t_ipv6.setText("IPv6:");
 
@@ -458,7 +469,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv6_8.setBackground(new Color(0,0,0,0));
         txt_ipv6_8.setColumns(3);
-        txt_ipv6_8.setFont(new java.awt.Font("Dialog", 1, 14));
+        txt_ipv6_8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_ipv6_8.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -483,7 +494,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv6_prefix.setBackground(new Color(0,0,0,0));
         txt_ipv6_prefix.setColumns(3);
-        txt_ipv6_prefix.setFont(new java.awt.Font("Dialog", 1, 14));
+        txt_ipv6_prefix.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txt_ipv6_prefix.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_prefix.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_prefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -510,59 +521,112 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
+        lbl_gateway.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_gateway.setText("Gateway:");
+
+        txt_gateway.setBackground(new Color(0,0,0,0));
+        txt_gateway.setColumns(3);
+        txt_gateway.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_gateway.setForeground(new java.awt.Color(204, 204, 204));
+        txt_gateway.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_gateway.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txt_gateway.setOpaque(false);
+        txt_gateway.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_gatewayTextFieldFocus(evt);
+            }
+        });
+        txt_gateway.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_gatewayKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_gatewaytxt_ipv4_maskKeyTyped(evt);
+            }
+        });
+
+        lbl_DNS.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_DNS.setText("DNS:");
+
+        txt_DNS.setBackground(new Color(0,0,0,0));
+        txt_DNS.setColumns(3);
+        txt_DNS.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_DNS.setForeground(new java.awt.Color(204, 204, 204));
+        txt_DNS.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txt_DNS.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txt_DNS.setOpaque(false);
+
         javax.swing.GroupLayout pn_containerLayout = new javax.swing.GroupLayout(pn_container);
         pn_container.setLayout(pn_containerLayout);
         pn_containerLayout.setHorizontalGroup(
             pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
-            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pn_containerLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(pn_containerLayout.createSequentialGroup()
-                            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_containerLayout.createSequentialGroup()
+                .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_containerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbl_gateway)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_gateway, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_DNS)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_DNS, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_containerLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lbl_ipv4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_containerLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lbl_t_net_add4)
+                        .addGap(12, 12, 12)
+                        .addComponent(pn_ipv4, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_containerLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lbl_ipv4_dhcp))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_containerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_t_ipv6)
+                            .addGroup(pn_containerLayout.createSequentialGroup()
                                 .addComponent(lbl_t_net_add6)
-                                .addComponent(lbl_ipv6_prefix))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(pn_ipv6, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)))
-                        .addGroup(pn_containerLayout.createSequentialGroup()
-                            .addComponent(lbl_t_net_add4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(pn_ipv4, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
-                        .addComponent(lbl_ipv4)
-                        .addComponent(lbl_t_ipv6)
-                        .addComponent(lbl_ipv4_dhcp)
-                        .addComponent(lbl_ipv6_dhcp))
-                    .addContainerGap()))
+                                .addGap(12, 12, 12)
+                                .addComponent(pn_ipv6, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pn_containerLayout.createSequentialGroup()
+                                .addComponent(lbl_ipv6_prefix)
+                                .addGap(59, 59, 59)
+                                .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbl_ipv6_dhcp))))
+                .addGap(21, 21, 21))
         );
         pn_containerLayout.setVerticalGroup(
             pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 204, Short.MAX_VALUE)
-            .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pn_containerLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(lbl_ipv4)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lbl_t_net_add4, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                        .addComponent(pn_ipv4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(lbl_ipv4_dhcp)
-                    .addGap(18, 18, 18)
-                    .addComponent(lbl_t_ipv6)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lbl_t_net_add6, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                        .addComponent(pn_ipv6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbl_ipv6_prefix))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(lbl_ipv6_dhcp)
-                    .addGap(70, 70, 70)))
+            .addGroup(pn_containerLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(lbl_ipv4)
+                .addGap(6, 6, 6)
+                .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_t_net_add4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pn_ipv4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addComponent(lbl_ipv4_dhcp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_t_ipv6)
+                .addGap(6, 6, 6)
+                .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_t_net_add6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pn_ipv6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_ipv6_prefix)
+                    .addComponent(txt_ipv6_prefix, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addComponent(lbl_ipv6_dhcp)
+                .addGap(18, 18, 18)
+                .addGroup(pn_containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_gateway)
+                    .addComponent(txt_gateway, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_DNS)
+                    .addComponent(txt_DNS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lbl_title.setFont(new java.awt.Font("Dialog", 1, 18));
@@ -603,7 +667,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
                 .addContainerGap()
                 .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pn_container, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pn_container, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_warning)
@@ -734,9 +798,11 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
     private void btn_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkActionPerformed
 
+        ArrayList<Object[]> ips = new ArrayList<Object[]>();
+        int hosts = sumHosts();
         if (!(txt_ipv4_1.getText() + txt_ipv4_2.getText() + txt_ipv4_3.getText() + txt_ipv4_4.getText()).trim().isEmpty() && !dhcp4) {
             if (!IP.checkIP4Mask(txt_ipv4_mask.getText())) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Mask is not valid", pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "Mask is not valid", pn_Info.ICON_ERROR);
                 return;
             }
             InetAddress ip4 = null;
@@ -745,31 +811,55 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
                 ip4 = InetAddress.getByName(txt_ipv4_1.getText() + "." + txt_ipv4_2.getText() + "." + txt_ipv4_3.getText() + "." + txt_ipv4_4.getText());
                 mask4 = IP.getMask4(Integer.parseInt(txt_ipv4_mask.getText()));
             } catch (UnknownHostException ex) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP4 was an incorrect format", pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "IP4 was an incorrect format", pn_Info.ICON_ERROR);
                 return;
             }
 
             if (IP.isLoopBack(ip4)) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Forbidden", "IP4 can't be a Loopback Address", pn_Info.ICON_FORBIDDEN);
+                pn_Info.Load((JPanel) this.getParent(), this, "Forbidden", "IP4 can't be a Loopback Address", pn_Info.ICON_FORBIDDEN);
                 return;
             }
 
             if (!IP.isNetAdd(ip4, mask4)) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP4 is'nt a Network Address.", pn_Info.ICON_ERROR);
-                return;
-            }
-            int hosts = sumHosts();
-            if ((Math.ceil(Math.log(hosts + 2) / Math.log(2))) > (32 - Integer.parseInt(txt_ipv4_mask.getText()))) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Insufficient Host IPv4 Adresses <p>"
-                        + "Hosts on networtk: " + hosts + " > Available " + String.valueOf(Math.round(Math.pow(2,32 - Integer.parseInt(txt_ipv4_mask.getText())))-2) , pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "IP4 is'nt a Network Address.", pn_Info.ICON_ERROR);
                 return;
             }
 
+            if ((Math.ceil(Math.log(hosts + 2) / Math.log(2))) > (32 - Integer.parseInt(txt_ipv4_mask.getText()))) {
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "Insufficient Host IPv4 Addresses <p>"
+                        + "Hosts on networtk: " + hosts + " > Available " + String.valueOf(Math.round(Math.pow(2, 32 - Integer.parseInt(txt_ipv4_mask.getText()))) - 2), pn_Info.ICON_ERROR);
+                return;
+            }
+            Object[] net4 = new Object[2];
+            net4[0] = ip4;
+            try {
+                net4[1] = InetAddress.getByAddress(mask4);
+            } catch (UnknownHostException ex) {
+                System.err.println("Unexpected Error translating mask :: ");
+                ex.fillInStackTrace();
+                return;
+            }
+            ips.add(net4);
+        } else {
+            Object[] net4 = new Object[2];
+            if (dhcp4) {
+                try {
+                    net4[0] = InetAddress.getByName("0.0.0.0");
+                    net4[1] = InetAddress.getByName("0.0.0.0");
+                } catch (UnknownHostException ex) {
+                    System.err.println("DHCP4 WAS BAD PROGRAMMED, We're so sorry! :-(");
+                    return;
+                }
+            } else {
+                net4[0] = null;
+                net4[1] = null;
+            }
+            ips.add(net4);
         }
         if (!(this.txt_ipv6_1.getText() + this.txt_ipv6_2.getText() + this.txt_ipv6_3.getText() + this.txt_ipv6_4.getText()
                 + this.txt_ipv6_5.getText() + this.txt_ipv6_6.getText() + this.txt_ipv6_7.getText() + this.txt_ipv6_8.getText()).trim().isEmpty() && !dhcp6) {
             if (!IP.checkIP6Mask(txt_ipv6_prefix.getText())) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Prefix is not valid", pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "Prefix is not valid", pn_Info.ICON_ERROR);
                 return;
             }
             InetAddress ip6 = null;
@@ -779,27 +869,83 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
                         + ":" + txt_ipv6_5.getText() + ":" + txt_ipv6_6.getText() + ":" + txt_ipv6_7.getText() + ":" + txt_ipv6_8.getText());
                 prefix = IP.getMask6(Integer.parseInt(txt_ipv6_prefix.getText()));
             } catch (UnknownHostException ex) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP6 was an incorrect format", pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "IP6 was an incorrect format", pn_Info.ICON_ERROR);
                 return;
             }
             if (IP.isLoopBack(ip6)) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Forbidden", "IP6 can't be a Loopback Address", pn_Info.ICON_FORBIDDEN);
+                pn_Info.Load((JPanel) this.getParent(), this, "Forbidden", "IP6 can't be a Loopback Address", pn_Info.ICON_FORBIDDEN);
                 return;
             }
             if (!IP.isNetAdd(ip6, prefix)) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "IP6 is'nt a Network Address.", pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "IP6 is'nt a Network Address.", pn_Info.ICON_ERROR);
                 return;
             }
-
-            int hosts = sumHosts();
-            if ((Math.ceil(Math.log(hosts + 2) / Math.log(2))) > (128 - Integer.parseInt(txt_ipv4_mask.getText()))) {
-                pn_Info.loadError((JPanel) this.getParent(), this, "Error", "Insufficient Host IPv6 Adresses <p>"
-                        + "Hosts on networtk: " + hosts + " > Available " + String.valueOf(Math.round(Math.pow(2,128 - Integer.parseInt(txt_ipv4_mask.getText())))-2) , pn_Info.ICON_ERROR);
+            if ((Math.ceil(Math.log(hosts + 2) / Math.log(2))) > (128 - Integer.parseInt(txt_ipv6_prefix.getText()))) {
+                pn_Info.Load((JPanel) this.getParent(), this, "Error", "Insufficient Host IPv6 Addresses <p>"
+                        + "Hosts on networtk: " + hosts + " > Available " + String.valueOf(Math.round(Math.pow(2, 128 - Integer.parseInt(txt_ipv6_prefix.getText()))) - 2), pn_Info.ICON_ERROR);
                 return;
             }
+            Object[] net6 = new Object[2];
+            net6[0] = ip6;
+            try {
+                net6[1] = InetAddress.getByAddress(prefix);
+            } catch (UnknownHostException ex) {
+                System.err.println("Unexpected Error translating prefix :: ");
+                ex.fillInStackTrace();
+                return;
+            }
+            ips.add(net6);
 
+        } else {
+            Object[] net6 = new Object[2];
+            if (dhcp6) {
+                try {
+                    net6[0] = InetAddress.getByName("0::0");
+                    net6[1] = InetAddress.getByName("0::0");
+
+                } catch (UnknownHostException ex) {
+                    System.err.println("DHCP6 WAS BAD PROGRAMMED, We're so sorry! :-(");
+                    return;
+                }
+            } else {
+                net6[0] = null;
+                net6[1] = null;
+            }
+            ips.add(net6);
+        }
+        if (((Object[]) ips.get(0))[0] == null && ((Object[]) ips.get(1))[0] == null) {
+            pn_Info.Load((JPanel) this.getParent(), this, "Forbidden", "Not so fast cowboy! Check your IP Configuration. <br> I miss something ¬_¬", pn_Info.ICON_FORBIDDEN);
+            return;
+        }
+        InetAddress gw = null;
+        ArrayList<InetAddress> dns = new ArrayList<InetAddress>();
+        if (!dhcp4 && !dhcp6) {
+            if (txt_gateway.getText().trim().isEmpty()) {
+                gw = null;
+            } else {
+                try {
+                    gw = InetAddress.getByName(txt_gateway.getText().toString().trim());
+                } catch (UnknownHostException ex) {
+                    pn_Info.Load((JPanel) this.getParent(), this, "Error", "Incorrect Gateway", pn_Info.ICON_ERROR);
+                    return;
+                }
+            }
+            if(txt_DNS.getText().trim().isEmpty()){
+                dns=null;
+            } else {
+                String[] adns = txt_DNS.getText().split(" ");
+                for(String cdns : adns){
+                    try{
+                        dns.add(InetAddress.getByName(cdns));
+                    }catch(UnknownHostException ex){
+                        pn_Info.Load((JPanel) this.getParent(), this, "Error", "Incorrect DNS. <p> Use spaces for more than one dns.", pn_Info.ICON_ERROR);
+                        return;
+                    }
+                }
+            }
         }
 
+        saveAll(ips, gw, dns, hosts);
     }//GEN-LAST:event_btn_checkActionPerformed
 
     private void lbl_ipv4_dhcpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ipv4_dhcpMouseClicked
@@ -811,8 +957,21 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
         dhcp6 = !dhcp6;
         lbl_ipv6_dhcp.setForeground(dhcp6 ? Color.green : new Color(204, 204, 204));
     }//GEN-LAST:event_lbl_ipv6_dhcpMouseClicked
+
+    private void txt_gatewayTextFieldFocus(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_gatewayTextFieldFocus
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_gatewayTextFieldFocus
+
+    private void txt_gatewayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_gatewayKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_gatewayKeyReleased
+
+    private void txt_gatewaytxt_ipv4_maskKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_gatewaytxt_ipv4_maskKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_gatewaytxt_ipv4_maskKeyTyped
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_check;
+    private javax.swing.JLabel lbl_DNS;
     private javax.swing.JLabel lbl_bar;
     private javax.swing.JLabel lbl_colon_1;
     private javax.swing.JLabel lbl_colon_2;
@@ -824,6 +983,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JLabel lbl_dot_1;
     private javax.swing.JLabel lbl_dot_2;
     private javax.swing.JLabel lbl_dot_3;
+    private javax.swing.JLabel lbl_gateway;
     private javax.swing.JLabel lbl_ipv4;
     private javax.swing.JLabel lbl_ipv4_dhcp;
     private javax.swing.JLabel lbl_ipv6_dhcp;
@@ -836,6 +996,8 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JPanel pn_container;
     private javax.swing.JPanel pn_ipv4;
     private javax.swing.JPanel pn_ipv6;
+    private javax.swing.JTextField txt_DNS;
+    private javax.swing.JTextField txt_gateway;
     private javax.swing.JTextField txt_ipv4_1;
     private javax.swing.JTextField txt_ipv4_2;
     private javax.swing.JTextField txt_ipv4_3;
@@ -867,5 +1029,17 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         }
         return cont;
+    }
+
+    private void saveAll(ArrayList<Object[]> ips,InetAddress gw, ArrayList<InetAddress> dns, int estimatedHosts) {
+        if (ips.isEmpty()) {
+            return;
+        }
+        pn_SaveNetwork pn_save = new pn_SaveNetwork(this, ips, gw, dns, netpath, estimatedHosts);
+        pn_save.setBounds(this.getBounds());
+        JPanel parent = (JPanel) this.getParent();
+        parent.removeAll();
+        parent.add(pn_save);
+        parent.updateUI();
     }
 }
