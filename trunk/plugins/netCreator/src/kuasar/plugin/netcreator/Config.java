@@ -17,6 +17,8 @@
 
 package kuasar.plugin.netcreator;
 
+import org.jdom.Element;
+
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
@@ -30,5 +32,8 @@ public final class Config {
     public static String VMnodes;
     public static String VMpath;
     public static String VMdata;
+    
+    public static String NetworkFile;
+    public static Element rootNetwork;
 
 }

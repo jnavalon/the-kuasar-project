@@ -14,9 +14,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package kuasar.plugin.netcreator.utils;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -136,5 +138,22 @@ public final class IP {
             }
         }
         return mask;
+    }
+
+    public static byte[] getBroadcast(InetAddress ip, byte[] netmask){
+        byte[] ipblocks = ip.getAddress();
+        byte[] result = new byte[ipblocks.length];
+        for (int i = 0; i < ipblocks.length; i++) {
+            result[i] = (byte) (ipblocks[i] ^ ~netmask[i]);
+        }
+        return result;
+    }
+
+    public static boolean isBroadcast(InetAddress ip, byte[] netmask){
+        try {
+            return ip.equals(InetAddress.getByAddress(getBroadcast(ip, netmask))) ? true : false;
+        } catch (UnknownHostException ex) {
+            return false;
+        }
     }
 }
