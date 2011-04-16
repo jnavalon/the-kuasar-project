@@ -41,7 +41,7 @@ public class pn_Info extends kuasar.plugin.classMod.AbstractPanel {
     public static final int ICON_FORBIDDEN = 4;
 
     /** Creates new form pn_Info */
-    public pn_Info(JPanel cont, JPanel current, String title, String info, int type) {
+    private pn_Info(JPanel cont, JPanel current, String title, String info, int type) {
         this.current=current;
         this.cont = cont;
         initComponents();
@@ -143,7 +143,7 @@ public class pn_Info extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JLabel lbl_Title;
     // End of variables declaration//GEN-END:variables
 
-    public static void loadError(JPanel cont, JPanel current, String title, String info, int type){
+    public static void Load(JPanel cont, JPanel current, String title, String info, int type){
         pn_Info panel = new pn_Info(cont, current, title, info, type);
         cont.removeAll();
         panel.setBounds(0, 0, cont.getWidth(), cont.getHeight());

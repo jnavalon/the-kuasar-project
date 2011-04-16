@@ -77,6 +77,14 @@ public final class XML {
         root.addContent(e);
         return true;
     }
+    public static boolean AddElement(String netpath, Element root, Element node) {
+        root = getElementOnPath(netpath, root);
+        if (root == null) {
+            return false;
+        }
+        root.addContent(node);
+        return true;
+    }
 
     public static boolean RemoveElement(String netpath, Element root, String name) {
         root = getElementOnPath(netpath, root);
@@ -86,9 +94,18 @@ public final class XML {
         return root.removeChild(name);
     }
 
+    /*
+     * Save XML To File
+     * cfgPath :: Path where is allocated XML file
+     * cfgFile :: XML's filename
+     */
     public static boolean Save(String cfgPath, String cfgFile, Element root) {
         String pluginSkin = (String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR");
-        File file = new File(pluginSkin + File.separator + cfgPath + File.separator + cfgFile);
+        return Save(pluginSkin + File.separator + cfgPath + File.separator + cfgFile, root);
+    }
+
+    public static boolean Save(String path, Element root){
+        File file = new File(path);
         if (!file.exists()) {
             return false;
         }
@@ -101,7 +118,7 @@ public final class XML {
             fos.flush();
             fos.close();
         } catch (IOException ex) {
-            System.err.println("I couldn't create network file on " + cfgPath + " path, changes won't be saved!");
+            System.err.println("I couldn't create  file on " + file.getPath() + " path, changes won't be saved!");
             return false;
         }
         return true;
