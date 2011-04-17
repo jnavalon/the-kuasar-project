@@ -19,6 +19,8 @@ package kuasar.plugin.netcreator.utils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -155,5 +157,40 @@ public final class IP {
         } catch (UnknownHostException ex) {
             return false;
         }
+    }
+
+    public static int mask2Digit(InetAddress ip){
+        byte[] blocks = ip.getAddress();
+        int total =0;
+        for(byte block : blocks){
+            while(block!=0){
+                block = (byte) (block << 1);
+                total++;
+            }
+        }
+        return total;
+    }
+
+    public static int mask2Digit(String ip){
+        try {
+            InetAddress aux = InetAddress.getByName(ip);
+            return mask2Digit(aux);
+        } catch (UnknownHostException ex) {
+            return -1;
+        }
+    }
+
+    public static String digit2Mask(String mask, int type){
+        return digit2Mask(Integer.parseInt(mask), type);
+    }
+    public static String digit2Mask(int mask, int type){
+        try {
+            InetAddress netmask = InetAddress.getByAddress(getMask(mask, type));
+            return netmask.getHostAddress();
+        } catch (UnknownHostException ex) {
+            System.err.println("getMask returned an incorrect InetAddress :: mask = " + mask + "type = " + type);
+            return null;
+        }
+
     }
 }

@@ -177,7 +177,7 @@ public class th_Save extends Thread {
 
     private String getMask() {
         if (dhcp4) {
-            return "0::0";
+            return "0.0.0.0";
         }
         if (mask == null) {
             return "";
@@ -246,7 +246,7 @@ public class th_Save extends Thread {
                     summary.getDocument().insertString(summary.getDocument().getLength(), printTabs() + child.getAttributeValue("name") + "\n", nodeStyle);
                     tabs++;
                     summary.getDocument().insertString(summary.getDocument().getLength(), printTabs() + "IPv4: " + child.getAttributeValue("ipv4") + "\n", attributeStyle);
-                    summary.getDocument().insertString(summary.getDocument().getLength(), printTabs() + "IPv6" + child.getAttributeValue("ipv6") + "\n", attributeStyle);
+                    summary.getDocument().insertString(summary.getDocument().getLength(), printTabs() + "IPv6: " + child.getAttributeValue("ipv6") + "\n", attributeStyle);
                     tabs--;
                 }
                 if (progress != null) {
