@@ -41,6 +41,7 @@ import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.netcreator.Config;
 import kuasar.plugin.netcreator.gui.dirlist.Lst_Cell_Renderer;
 import kuasar.plugin.netcreator.gui.network.pn_GroupNetwork;
+import kuasar.plugin.netcreator.gui.network.pn_VMNetwork;
 import kuasar.plugin.utils.XML;
 import org.jdom.Element;
 
@@ -317,6 +318,8 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         }
         Element e = (Element) lst_Dir.getSelectedValue();
         if (!e.getAttributeValue("type").toString().isEmpty()) {
+            if(evt.getValueIsAdjusting())
+                showVMNet(actdir.endsWith(".") ? actdir+ e.getName() : actdir + "." + e.getName());
             return;
         }
         namePath = namePath.concat(namePath.endsWith(".") ? e.getAttributeValue("name") : "." + e.getAttributeValue("name"));
@@ -475,11 +478,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         actdir = netpath;
         lst_Dir.updateUI();
         reloadButtons();
-        pn_GroupNetwork gn = new pn_GroupNetwork(actdir);
-        gn.setBounds(0, 0, pn_Network.getWidth(), pn_Network.getHeight());
-        pn_Network.removeAll();
-        pn_Network.add(gn);
-        pn_Network.updateUI();
+        showGroupNet();
     }
 
     private void reloadButtons() {
@@ -575,5 +574,19 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         }
 
         loadData(path);
+    }
+    private void showGroupNet(){
+        pn_GroupNetwork gn = new pn_GroupNetwork(actdir);
+        gn.setBounds(0, 0, pn_Network.getWidth(), pn_Network.getHeight());
+        pn_Network.removeAll();
+        pn_Network.add(gn);
+        pn_Network.updateUI();
+    }
+    private void showVMNet(String nodePath){
+        pn_VMNetwork vmn = new pn_VMNetwork(nodePath);
+        vmn.setBounds(0, 0, pn_Network.getWidth(), pn_Network.getHeight());
+        pn_Network.removeAll();
+        pn_Network.add(vmn);
+        pn_Network.updateUI();
     }
 }

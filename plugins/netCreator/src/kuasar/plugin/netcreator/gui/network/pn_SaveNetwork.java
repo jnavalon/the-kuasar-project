@@ -25,20 +25,15 @@ package kuasar.plugin.netcreator.gui.network;
 
 import java.awt.print.PrinterException;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.utils.*;
@@ -106,13 +101,15 @@ public class pn_SaveNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        bt_Continue.setText("Continue");
+        bt_Continue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/save.png"))); // NOI18N
+        bt_Continue.setText("Save");
         bt_Continue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_ContinueActionPerformed(evt);
             }
         });
 
+        bt_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/cancel.png"))); // NOI18N
         bt_Cancel.setText("Back");
         bt_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,7 +154,6 @@ public class pn_SaveNetwork extends kuasar.plugin.classMod.AbstractPanel {
         bt_Save.setBorderPainted(false);
         bt_Save.setContentAreaFilled(false);
         bt_Save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bt_Save.setOpaque(false);
         bt_Save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_SaveActionPerformed(evt);
@@ -189,7 +185,7 @@ public class pn_SaveNetwork extends kuasar.plugin.classMod.AbstractPanel {
                     .addComponent(bt_Save)
                     .addComponent(bt_Print))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scp_Summary, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                .addComponent(scp_Summary, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pn_ContainerLayout = new javax.swing.GroupLayout(pn_Container);
@@ -229,7 +225,7 @@ public class pn_SaveNetwork extends kuasar.plugin.classMod.AbstractPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(240, Short.MAX_VALUE)
+                .addContainerGap(229, Short.MAX_VALUE)
                 .addComponent(bt_Cancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_Continue)
