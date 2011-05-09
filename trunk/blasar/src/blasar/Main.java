@@ -17,10 +17,14 @@
 package blasar;
 
 import blasar.Services.Server;
+import blasar.util.Encryptation;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 /**
  *
@@ -33,13 +37,29 @@ public class Main {
      */
     public static void main(String[] args) {
         //<Test>
-        Config.verbose=true;
+        Config.BLASAR.verbose=false;
+        Config.BLASAR.interactive=true;
         //</Test>
-        System.setProperty("javax.net.ssl.keyStore", "/home/jnavalon/key");
+
+        SetVariables sv = new SetVariables();
+        if(!sv.isOK()){
+            System.err.println("Blasar couldn't load all required variables and won't continue");
+            System.exit(1);
+        }
+
+        System.setProperty("javax.net.ssl.keyStore", "/home/jnavalon/blasar.keystore");
         System.setProperty("javax.net.ssl.keyStorePassword", "blasar");
         if(!setArgs(args)) return;
         Server server = new Server();
         server.start();
+        if(Config.BLASAR.interactive){
+            blasar.console.InitConsole console = new blasar.console.InitConsole(server);
+        }else{
+            try {
+                server.join();
+            } catch (InterruptedException ex) {}
+        }
+        System.exit(0);
     }
 
     private static boolean setArgs(String[] args) {
@@ -62,11 +82,41 @@ public class Main {
                     }
                 }
             }
+            if(args[i].equals("genhash")){
+                printHash();
+                return false;
+            }
         }
         if (help) {
             showHelp();
         }
         return !help;
+    }
+
+    private static void printHash(){
+        Console terminal = System.console();
+        if(terminal == null){
+            System.out.println("Error found a usable terminal. Impossible to continue.");
+            return;
+        }
+        char[] passwd = null;
+        char[] confirm = null;
+        int i=0;
+        do{
+           passwd = terminal.readPassword("password: ");
+           confirm = terminal.readPassword("again: ");
+           i++;
+           if(!Arrays.equals(passwd, confirm))
+               System.out.println("Passwords aren't equals. Try" + (i<3 ? " again." :" later"));
+        }while(!Arrays.equals(passwd, confirm) && i < 3);
+        if( i>= 3) return;
+        try {
+            System.out.println("HASH:\t\t" + Encryptation.getSHA512(passwd) );
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println("MD5 or SHA1 is not supported. Imposssible to generate Hash String");
+        }
+        
+        
     }
 
     private static boolean isSimple(String arg) {
@@ -85,22 +135,22 @@ public class Main {
                     if (ip == null) {
                         return false;
                     }
-                    Config.bind = ip;
+                    Config.BLASAR.bind = ip;
                     return true;
                 } else {
                     return false;
                 }
             case 'l':
                 if(isFile(value)){
-                    Config.log = true;
-                    Config.logFile = value;
+                    Config.BLASAR.log = true;
+                    Config.BLASAR.logFile = value;
                     return true;
                 }else{
                     return false;
                 }
             case 'p':
                 if (isPort(value)) {
-                    Config.port = Integer.parseInt(value);
+                    Config.BLASAR.port = Integer.parseInt(value);
                     return true;
                 } else {
                     return false;
@@ -108,7 +158,7 @@ public class Main {
             case 'U':
                 if (isNumber(value)) {
                     try {
-                        Config.max_users = Integer.parseInt(value);
+                        Config.BLASAR.max_users = Integer.parseInt(value);
                         return true;
                     } catch (NumberFormatException Ex) {
                         System.err.println("Max User, maybe was too high number.");
@@ -129,10 +179,10 @@ public class Main {
         for (char character : characters) {
             switch (character) {
                 case 'i':
-                    Config.interactive = true;
+                    Config.BLASAR.interactive = true;
                     break;
                 case 'v':
-                    Config.verbose = true;
+                    Config.BLASAR.verbose = true;
                     break;
                 default:
                     return false;
@@ -177,26 +227,12 @@ public class Main {
     }
 
     private static boolean isIP(String value) {
-
-        String ranks[] = value.split("[.]");
-        int number = 0;
-        if (ranks.length != 4) {
-            System.err.println("Argument Bind doesn't have a well-known ip format.");
+        try {
+            InetAddress.getByName(value);
+            return true;
+        } catch (UnknownHostException ex) {
             return false;
         }
-        for (String rank : ranks) {
-            try {
-                number = Integer.parseInt(rank);
-            } catch (NumberFormatException ex) {
-                System.err.println("Unknown Bind Address.");
-                return false;
-            }
-            if (number < 0 || number > 255) {
-                System.err.println("IP values out of range [0 - 255]");
-                return false;
-            }
-        }
-        return true;
 
     }
 

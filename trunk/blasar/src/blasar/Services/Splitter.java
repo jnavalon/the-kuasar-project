@@ -31,6 +31,7 @@ public class Splitter extends Thread {
     private boolean next = true;
     private boolean cleanStop = true;
     private SocketTools st = null;
+    private boolean dead = false;
 
     public Splitter(Socket socket) {
         try {
@@ -49,8 +50,12 @@ public class Splitter extends Thread {
 
     @Override
     public void run() {
+        if(st == null){
+            return;
+        }
         init();
         st.closeAll();
+        dead = true;
     }
 
     private void init() {
@@ -67,6 +72,10 @@ public class Splitter extends Thread {
         return st.getSocket();
     }
 
+    public SocketTools getSocketTools(){
+        return st;
+    }
+
     public void Stop() {
         cleanStop = false;
         next = false;
@@ -77,9 +86,13 @@ public class Splitter extends Thread {
         next = false;
     }
 
+    public boolean isDead(){
+        return dead;
+    }
+
     private void startComunication() throws Exception {
 
-        st.Send("Wellcome to Blasar (" + Config.version + ") \nThe kuasar project's daemon.\n\n");
+        st.Send("Welcome to Blasar (" + Config.BLASAR.VERSION + ") \nThe kuasar project's daemon.\n\n");
 
     }
 
