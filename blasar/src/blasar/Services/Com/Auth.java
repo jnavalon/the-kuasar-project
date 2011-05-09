@@ -58,10 +58,14 @@ public class Auth {
         } while (!state);
 
         switch (value) {
-            case 0: //PLAIN TEXT
+            case 0: //CLEAN EXIT
+                st.sendLine("See you!");
+                st.closeAll();
+                Info.showMessage(st.getRemoteAdress() + " did a clear exit");
+            case 1: //PLAIN TEXT
                 checkUser();
                 break;
-            case 1: //CERTIFICATION - DNIE(SPAIN)
+            case 2: //CERTIFICATION - DNIE(SPAIN)
                 checkCert();
                 break;
             default:

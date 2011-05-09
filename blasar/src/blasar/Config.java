@@ -27,15 +27,22 @@ public final class Config {
             public final static char INFO = '.';
         }
     }
-    public final static String version = "0.01d";
-    public static int port = 46600;
-    public static int max_users = 50;
-    public static InetAddress bind = getBind();
-    public static boolean verbose = false;
-    public static boolean interactive = false;
-    public static boolean log = false;
-    public static String logFile = null;
-    public static int online = 0;
+    public static final class BLASAR{
+
+        public final static String passFile = "passwd";
+        public final static String VERSION = "0.01d";
+        public static String startDir;
+        public static int port = 46600;
+        public static int max_users = 50;
+        public static InetAddress bind = getBind();
+        public static boolean verbose = false;
+        public static boolean interactive = false;
+        public static boolean log = false;
+        public static String logFile = null;
+        public static int online = 0;
+    }
+
+    
 
     private static InetAddress getBind() {
         try {

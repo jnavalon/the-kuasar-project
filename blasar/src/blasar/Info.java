@@ -26,19 +26,23 @@ import java.util.Calendar;
 
 public final class Info {
     private static boolean isVerbose(){
-        return Config.verbose;
+        return Config.BLASAR.verbose;
     }
-    public static void showError(String error){
-        if(isVerbose()){
-            Calendar g = Calendar.getInstance();
-            String[] date = new String[6];
+
+    private static String[] getTime(){
+        Calendar g = Calendar.getInstance();
+         String[] date = new String[6];
             date[0] = Integer.toString(g.get(Calendar.YEAR));
             date[1] = Integer.toString(g.get(Calendar.MONTH));
             date[2] = Integer.toString(g.get(Calendar.DAY_OF_MONTH));
             date[3] = Integer.toString(g.get(Calendar.HOUR_OF_DAY));
             date[4] = Integer.toString(g.get(Calendar.MINUTE));
             date[5] = Integer.toString(g.get(Calendar.SECOND));
-
+            return date;
+    }
+    public static void showError(String error){
+        if(isVerbose()){
+           String[] date = getTime();
             System.err.print(date[0]);
             for(int i=1 ; i< date.length; i++){
                 if(date[i].length()<2){
@@ -46,15 +50,22 @@ public final class Info {
                 }
                 System.err.print(date[i]);
             }
-
-
-            System.err.println( " : " + error);
+            System.err.println( "\t" + error);
         }
             
     }
 
     public static void showMessage(String message){
-        if(isVerbose())
-            System.out.println(message);
+         if(isVerbose()){
+           String[] date = getTime();
+            System.out.print(date[0]);
+            for(int i=1 ; i< date.length; i++){
+                if(date[i].length()<2){
+                    date[i] = "0" + date[i];
+                }
+                System.out.print(date[i]);
+            }
+            System.out.println("\t" + message);
+        }
     }
 }

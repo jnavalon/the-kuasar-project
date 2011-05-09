@@ -73,7 +73,7 @@ public class SocketTools {
             socket.close();
         } catch (IOException ex) {
         }
-        Config.online--;
+        Config.BLASAR.online--;
     }
 
     private boolean getStreams() throws Exception {
@@ -81,10 +81,9 @@ public class SocketTools {
             session = ((SSLSocket) socket).getSession();
             certificate = session.getLocalCertificates();
 
-            if (Config.verbose) {
+            if (Config.BLASAR.verbose) {
                 System.out.println("=============  INFO  =============");
                 for (int i = 0; i < certificate.length; i++) {
-
                     System.out.println(((X509Certificate) certificate[i]).getSubjectDN());
                 }
                 System.out.println("Peer host is " + session.getPeerHost());
@@ -101,7 +100,7 @@ public class SocketTools {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             return true;
         } catch (IOException ex) {
-            if (Config.verbose) {
+            if (Config.BLASAR.verbose) {
                 if (ex.getMessage() == null) {
                     Info.showError(socket.getInetAddress().toString().substring(1) + ": Impossible get socket streams.");
                 } else {
@@ -110,7 +109,7 @@ public class SocketTools {
             }
             throw ex;
         } catch (Exception ex) {
-            Info.showError("Unknown Error");
+            Info.showError("Unknown Error ");
             throw ex;
         }
     }
