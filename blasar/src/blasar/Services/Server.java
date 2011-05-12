@@ -92,7 +92,7 @@ public class Server extends Thread {
                 while(en.hasMoreElements()){
                     InetAddress ip = (InetAddress) en.nextElement();
                     locint[1] += locint[1].isEmpty() ? ip.getHostAddress() : " " + ip.getHostAddress();
-                    if(locint[1].endsWith("%2"))locint[1] = locint[1].substring(0, locint[1].length()-2);
+                    if(locint[1].contains("%"))locint[1] = locint[1].substring(0, locint[1].lastIndexOf("%"));
                 }
                 interfaces.add(locint);
                 return interfaces;

@@ -33,7 +33,7 @@ public final class ShowCommands {
         String token = st.nextToken().toLowerCase();
         if(token.equals("connections"))
             printConnections();
-        if(token.equals("interfaces"))
+        else if(token.equals("interfaces"))
             printInterfaces();
         else if(token.equals("?"))
                 printHelp();
