@@ -29,6 +29,7 @@ public final class Config {
     }
     public static final class BLASAR{
 
+        public final static String passSUFile = "supasswd";
         public final static String passFile = "passwd";
         public final static String VERSION = "0.01d";
         public static String startDir;

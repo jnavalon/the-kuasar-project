@@ -82,7 +82,7 @@ public final class RedirectCommands {
 
     private static boolean checkPass(String hash){
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Config.BLASAR.startDir + "passwd"));
+            BufferedReader br = new BufferedReader(new FileReader(Config.BLASAR.startDir + Config.BLASAR.passSUFile));
             String line = null;
             try {
                 while ((line = br.readLine().trim()) != null) {
@@ -102,7 +102,7 @@ public final class RedirectCommands {
     }
 
     private static boolean checkPassFile(){
-        File file = new File(Config.BLASAR.startDir + Config.BLASAR.passFile);
+        File file = new File(Config.BLASAR.startDir + Config.BLASAR.passSUFile);
         if(!file.exists()) return false;
         if(!file.canRead()) return false;
         if(file.canWrite()){
@@ -116,6 +116,8 @@ public final class RedirectCommands {
         String token = st.nextToken().toLowerCase();
         if(token.equals("logout"))
             InitConsole.su = false;
+        else if(token.equals("vmuser"))
+            VMUserCommands.Redirect(st);
         else if(token.equals("kill"))
             KillCommands.kill(st);
         else if(token.equals("killall"))
@@ -130,11 +132,14 @@ public final class RedirectCommands {
 
         System.out.println("\t\texit    \tExit and close the server. All connections will be closed.");
         System.out.println("\t\tshow <?>\tShow information about server and its connexions.");
+        System.out.println("\t\tsu      \tLogin as SuperUser (Admin) ");
         System.out.println();
          if(InitConsole.su){
             System.out.println("\tAvailable SU commands:\n");
             System.out.println("\t\tkill <ID>\tClose a active connection.");
             System.out.println("\t\tkillall  \tClose all active connections.");
+            System.out.println("\t\tlogout   \tClose admin session. ");
+            System.out.println("\t\tvmuser <?>  \t");
             System.out.println();
         }
     }
