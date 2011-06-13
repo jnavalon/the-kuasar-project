@@ -1,0 +1,280 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package kuasar.plugin.servermanager.network;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.smartcardio.CardException;
+import kuasar.plugin.servermanager.Config;
+import kuasar.plugin.utils.DNIe;
+
+/**
+ *
+ * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ */
+public final class Utils {
+    /*
+     * Return:
+     * -2 Error Send ping
+     * -1 Bad Address
+     * 0 Ping Fail
+     * 1 Ping Successfull
+     */
+
+    public static int ping(String netaddress) {
+        InetAddress ip;
+        try {
+            ip = InetAddress.getByName(netaddress);
+        } catch (UnknownHostException ex) {
+            return -1;
+        }
+        try {
+            if (ip.isReachable(5000)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (IOException ex) {
+            return -2;
+        }
+    }
+    /*
+     * Return:
+     * -1X : (See checkDNIe function)
+     * -2X : (see checkUser function)
+     * -1: Server Unknow;
+     * 0 : Error connection;
+     * 1 : Server OK!
+     * 2 : Client OK!
+     */
+
+    public static int checkServer(String netaddress, int port, String keystore, char[] kspassword, String user, char[] passwd, boolean checkUser) {
+        
+        SSLSocket ssocket = getServerSocket(netaddress, port, keystore, kspassword);
+        if (ssocket == null) {
+            return -1;
+        }
+        int status;
+        PrintStream ps =null;
+        BufferedReader br = null;
+        try {
+            ssocket.setSoTimeout(10000);
+            ps = new PrintStream(ssocket.getOutputStream());
+            br = new BufferedReader(new InputStreamReader(ssocket.getInputStream()));
+            if(!isServerOnline(br, ps)){
+                return 0;
+            }
+            if(!checkUser)
+                return 1;
+            if(user.isEmpty()){
+                status=checkDNIe(br,ps,passwd);
+                if(status<0)
+                    return status;
+            }else{
+                status=checkUser(br,ps,user,passwd);
+                if(status<0)
+                    return status;
+            } 
+            return 2;
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+            return 0;
+        }finally{
+            if(ps!=null) ps.close();
+            if(br!=null) try {br.close();} catch (IOException ex) {}
+            try {ssocket.close();} catch (IOException ex) {}
+        }
+
+    }
+    
+    /*
+     * Return:
+     * 1: OK
+     * -10 : Error Connection
+     * -11: Error KeyStore
+     * -12: Error Algorithm
+     * -13: Error Certificate
+     * -14: Error Card
+     * -15: Bad PIN
+     * -16: Error getting Key
+     * -17: Bad SIGN
+     * -18: Bad Server
+     * -19: Bad User
+     */
+    private static int checkDNIe(BufferedReader br, PrintStream ps, char[] passwd){
+        try{
+            DNIe.setPIN(passwd);
+            ps.println("<2");
+            String ticket = br.readLine();
+            if(!ticket.startsWith(">"))
+                return -18;
+            ticket = ticket.substring(1);
+            String nif = null;
+            try {
+                nif = DNIe.getNIF(DNIe.getCertificate());
+            } catch (KeyStoreException ex) {
+                System.err.println(ex.getMessage());
+                return -11;
+            } catch (NoSuchAlgorithmException ex) {
+                System.err.println(ex.getMessage());
+                return -12;
+            } catch (CertificateException ex) {
+                System.err.println(ex.getMessage());
+                return -13;
+            } catch (CardException ex) {
+                System.err.println(ex.getMessage());
+                return -14;
+            }
+
+            ps.println("<"+nif);
+            byte[] sign = null;
+            try {
+                sign=DNIe.sign(ticket);
+            } catch (NoSuchAlgorithmException ex) {
+                return -12;
+            } catch (CardException ex) {
+                return -14;
+            } catch (InvalidKeyException ex) {
+                return -15;
+            } catch (KeyStoreException ex) {
+                return -11;
+            } catch (CertificateException ex) {
+                return -13;
+            } catch (UnrecoverableKeyException ex) {
+                return -16;
+            } catch (SignatureException ex) {
+                return -17;
+            }
+  
+            ps.println("<" + sign.length);
+            ps.write(sign);
+            if(!br.readLine().contains("Good to see you"))
+                return -19;
+            return 1;
+        } catch (IOException ex) {
+            return -10;
+        }
+        
+    }
+    
+    /*
+     * Return:
+     * 1: OK
+     * -20: CONNECTION ERROR
+     * -21: BAD USER/PASSWORD
+     * -22: BAD SERVER
+     */
+
+    private static int checkUser(BufferedReader br, PrintStream ps, String user, char[] passwd) {
+        try {
+            ps.println("<1");
+            String line =br.readLine();
+            if(!line.equals(">Username?"))
+                return -22;
+            ps.println("<" + user);
+            line=br.readLine();
+            if(!line.equals(">Passwd?"))
+                return -22;
+            ps.println("<" + String.valueOf(passwd));
+            line=br.readLine();
+            if(!line.contains("Good to see you"))
+                return -21;
+        } catch (IOException ex) {
+            return -20;
+        }
+        return 1;
+    }
+
+    /*
+     * Return:
+     * -1 Bad Cert/Server
+     * 0 Error Connection
+     * 1 Connection successfull
+     */
+    private static boolean isServerOnline(BufferedReader br, PrintStream ps) {
+        try {
+            String line = null;
+            line = br.readLine();
+           
+            if (!line.contains("The kuasar project's daemon")) {
+                return false;
+            }
+            line = br.readLine();
+            if (!line.contains("setAUTH"))return false;
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    public static SSLSocket getServerSocket(String netaddress, int port, String keystore, char[] password) {
+        System.setProperty("javax.net.ssl.trustStore", keystore);
+        System.setProperty("javax.net.ssl.trustStorePassword", String.valueOf(password));
+        SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+        SSLSocket ssocket;
+        try {
+            ssocket = (SSLSocket) sslsocketfactory.createSocket(netaddress, port);
+            return ssocket;
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
+    public static boolean tryConnect(String address, int port) {
+        Socket socket = null;
+        try {
+            socket = new Socket(address, port);
+
+        } catch (Exception ex) {
+            return false;
+        } finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                }
+            }
+        }
+        return true;
+    }
+
+    public static String getKeyServer(String address) {
+        String path = (String) Config.GlobalServerCFG.kssecrets.get(address + Config.KS_Secrets.KEYSTORE);
+        if (path == null) {
+            return Config.GlobalServerCFG.keyStore;
+        }
+        return path;
+    }
+
+    public static char[] getKeyServerPWD(String address) {
+        char[] pwd = (char[]) Config.GlobalServerCFG.kssecrets.get(address + Config.KS_Secrets.KS_PASSWD);
+        if (pwd == null) {
+            return Config.GlobalServerCFG.ksPasswd;
+        }
+        return pwd;
+    }
+
+    public static boolean isIP(String address) {
+        try {
+            InetAddress net = InetAddress.getByName(address);
+        } catch (UnknownHostException ex) {
+            return false;
+        }
+        return true;
+    }
+}

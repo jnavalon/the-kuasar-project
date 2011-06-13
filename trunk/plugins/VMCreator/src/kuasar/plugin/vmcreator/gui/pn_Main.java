@@ -315,7 +315,6 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
                 model.addElement(tm.get((String) it.next()));
             }
 
-            //onAir = ".";
             if (!saveAddr) {
                 return true;
             }

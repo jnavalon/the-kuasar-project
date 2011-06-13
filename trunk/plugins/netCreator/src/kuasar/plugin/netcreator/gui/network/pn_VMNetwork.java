@@ -343,7 +343,7 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
         String nameNode = nodepath.substring(nodepath.lastIndexOf(".") + 1);
         XML.RemoveElement(path, Config.rootNetwork, nameNode);
         XML.AddElement(path, Config.rootNetwork, node);
-        XML.Save(Config.NetworkFile, Config.rootNetwork);
+        XML.Save(Config.VMdir, Config.VMdata, Config.rootNetwork);
         kuasar.plugin.Intercom.GUI.launchInfo(node.getAttributeValue("name") + " was updated successfully!");
     }
 

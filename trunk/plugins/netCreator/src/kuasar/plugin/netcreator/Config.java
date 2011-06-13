@@ -30,7 +30,7 @@ public final class Config {
     public static String skinpath;
 
     public static String VMnodes;
-    public static String VMpath;
+    public static String VMdir;
     public static String VMdata;
     
     public static String NetworkFile;

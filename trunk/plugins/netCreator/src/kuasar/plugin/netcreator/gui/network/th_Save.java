@@ -111,7 +111,7 @@ public class th_Save extends Thread {
         if (info != null) {
             info.setText("Saving...");
         }
-        XML.Save(Config.NetworkFile, Config.rootNetwork);
+        XML.Save(Config.VMdir, Config.VMdata, Config.rootNetwork);
         if (info != null) {
             info.setText("Finished!");
         }
