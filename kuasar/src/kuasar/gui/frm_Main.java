@@ -28,11 +28,14 @@ import java.awt.IllegalComponentStateException;
 import java.io.File;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import kuasar.plugin.Intercom.ODR;
+import kuasar.plugin.PluginInterface;
 import kuasar.util.Image;
 import kuasar.plugin.classMod.Panel_Opaque;
 import kuasar.util.Files;
 import kuasar.util.config.Configuration;
 import kuasar.plugin.classMod.AbstractPanel;
+import kuasar.util.plugins.PluginLoader;
 
 /**
  *
@@ -85,6 +88,11 @@ public class frm_Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kuasar (VM Manager) 0.1");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pn_MainFrame.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -430,6 +438,13 @@ public class frm_Main extends javax.swing.JFrame {
     private void lbl_ToolBarShowMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ToolBarShowMousePressed
         hideShowToolBar();
 }//GEN-LAST:event_lbl_ToolBarShowMousePressed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       PluginInterface[] plugins = (PluginInterface[]) ODR.getValue("$PLUGINS");
+       for(PluginInterface plugin : plugins){
+           System.out.println("Stopping " + plugin.getName() + " plugin...\t" + (plugin.Stop()? "OK :-)":"Error :-S"));
+       }
+    }//GEN-LAST:event_formWindowClosing
 // </editor-fold>
    // <editor-fold defaultstate="collapsed" desc="Functions">
     private void hideShowToolBar() {

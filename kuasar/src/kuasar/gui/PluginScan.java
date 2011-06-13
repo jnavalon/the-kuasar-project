@@ -34,9 +34,6 @@ public class PluginScan {
             try {
                 PluginInterface[] plugins = PluginLoader.getPlugins();
                 if (plugins.length > 0) {
-                    for (PluginInterface plugin : plugins) {
-                        System.out.println("Plugin " + plugin.getClass().getSimpleName() + " loaded   :-)");
-                    }
                     Configuration.addODR(Configuration.Plugins.pluginsKey, plugins);
                 } else {
                     System.out.println("Sorry, I couldn't find any plugin!     :-(");
