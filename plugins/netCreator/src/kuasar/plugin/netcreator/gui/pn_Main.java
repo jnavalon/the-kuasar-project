@@ -59,7 +59,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     /** Creates new form pn_Main */
     public pn_Main() {
-        Config.NetworkFile  = (String) ODR.getValue("$PLUGINDIR") + File.separator + Config.VMpath + File.separator + Config.VMdata;
+        Config.NetworkFile  = (String) ODR.getValue("$PLUGINDIR") + File.separator + Config.VMdir + File.separator + Config.VMdata;
         Config.rootNetwork= XML.getRoot(new File(Config.NetworkFile));
         initComponents();
         scp_Dir.getViewport().setOpaque(false);

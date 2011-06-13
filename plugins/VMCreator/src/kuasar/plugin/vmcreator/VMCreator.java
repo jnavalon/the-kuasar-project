@@ -91,7 +91,7 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
     }
 
     public boolean Stop() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     public String getError() {

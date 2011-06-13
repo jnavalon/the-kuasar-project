@@ -60,10 +60,10 @@ public class netCreator implements kuasar.plugin.PluginInterface{
         PluginInterface[] plugins = (PluginInterface[]) ODR.getValue("$PLUGINS");
         Config.skinpath=ODR.getValue("$STARTDIR").toString() + ODR.getValue("$SKINDIR").toString() + File.separator + ODR.getValue("$SKINNAME");
         boolean loaded= false;
-        for(PluginInterface plugin : plugins){
+        for(int i=0; i<plugins.length && loaded==false;i++){
+            PluginInterface plugin = plugins[i];
             if(plugin.getPluginName().equals("vmcreator")){
                 loaded=true;
-                break;
             }
         }
         if(!loaded){
@@ -71,7 +71,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
             return false;
         }
         Config.VMdata=(String) ODR.getValue("vmcreator.data");
-        Config.VMpath=(String) ODR.getValue("vmcreator.path");
+        Config.VMdir=(String) ODR.getValue("vmcreator.path");
         Config.VMnodes=(String) ODR.getValue("vmcreator.nodes");
  
         pn_Main panel = new pn_Main();
@@ -86,7 +86,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
     }
 
     public boolean Stop() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     public String getError() {
@@ -94,7 +94,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
     }
 
     public String getPluginName() {
-        return ("netcreator");
+        return (Config.PluginName);
     }
 
 }
