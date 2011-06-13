@@ -129,7 +129,6 @@ public final class RedirectCommands {
     }
     private static void printHelp(){
         System.out.println("\tAvailable commands:\n");
-
         System.out.println("\t\texit    \tExit and close the server. All connections will be closed.");
         System.out.println("\t\tshow <?>\tShow information about server and its connexions.");
         System.out.println("\t\tsu      \tLogin as SuperUser (Admin) ");

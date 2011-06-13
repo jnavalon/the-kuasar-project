@@ -17,8 +17,10 @@
 package blasar.Services;
 
 import blasar.Config;
+import blasar.Config.CMD.CHARS;
 import blasar.Info;
 import blasar.Services.Com.Auth;
+import blasar.Services.Com.UserService;
 import java.net.Socket;
 import java.net.SocketException;
 
@@ -35,7 +37,7 @@ public class Splitter extends Thread {
 
     public Splitter(Socket socket) {
         try {
-            socket.setSoTimeout(10000);
+            socket.setSoTimeout(Config.BLASAR.max_wait);
         } catch (SocketException ex) {
             Info.showError(ex.getMessage());
             return;
@@ -60,11 +62,16 @@ public class Splitter extends Thread {
 
     private void init() {
         try {
-            startComunication();
+            startComunication(); 
+        } catch (Exception ex) {}
+        try {
             Auth auth = new Auth(st);
-        } catch (Exception ex) {
-            st.closeAll();
-        }
+            auth = null;
+            if(st.getUser()==null) return;
+            UserService us = new UserService(st);
+        } catch (Exception ex) {}
+
+        st.closeAll();
         Info.showMessage("X_X :: Client " + st.getRemoteIP() + " (" + st.getRemotePort() + ") " + "has been disconnected." );
     }
 
@@ -74,6 +81,10 @@ public class Splitter extends Thread {
 
     public SocketTools getSocketTools(){
         return st;
+    }
+
+    public void setSocketWait(){
+
     }
 
     public void Stop() {
@@ -92,7 +103,7 @@ public class Splitter extends Thread {
 
     private void startComunication() throws Exception {
 
-        st.Send("Welcome to Blasar (" + Config.BLASAR.VERSION + ") \nThe kuasar project's daemon.\n\n");
+        st.sendLine(CHARS.INFO + "Welcome to Blasar (" + Config.BLASAR.VERSION +") - The kuasar project's daemon.");
 
     }
 

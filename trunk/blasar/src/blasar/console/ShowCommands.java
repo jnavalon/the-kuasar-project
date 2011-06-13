@@ -35,6 +35,8 @@ public final class ShowCommands {
             printConnections();
         else if(token.equals("interfaces"))
             printInterfaces();
+        else if(token.equals("users"))
+            printUsers();
         else if(token.equals("?"))
                 printHelp();
         else
@@ -45,6 +47,7 @@ public final class ShowCommands {
         System.out.println("show <CMD>\t");
         System.out.println("\t\tconnections\tShow Hosts connected to Server");
         System.out.println("\t\tinterfaces \tShow IP Addresses assigned to all network interfaces");
+        System.out.println("\t\tusers      \tShow all users connected to blasar.");
     }
 
     private static void printInterfaces(){
@@ -68,6 +71,15 @@ public final class ShowCommands {
         if(connections.isEmpty())
             System.out.println(">> Not connections <<");
         System.out.println("Total Connections: " + connections.size());
+    }
+    private static void printUsers(){
+        ArrayList<String> users = InitConsole.server.getUsers();
+        for(String user : users){
+            System.out.println(user);
+        }
+        if(users.isEmpty())
+            System.out.println(">> There aren't users connected <<");
+        System.out.println("Total Online Users: " + users.size());
     }
 
 }

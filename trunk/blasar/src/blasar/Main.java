@@ -18,6 +18,7 @@ package blasar;
 
 import blasar.Services.Server;
 import blasar.util.Encryptation;
+import blasar.util.plugins.PluginScan;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class Main {
      */
     public static void main(String[] args) {
         //<Test>
-        Config.BLASAR.verbose=false;
+        Config.BLASAR.verbose=true;
         Config.BLASAR.interactive=true;
         //</Test>
 
@@ -46,7 +47,7 @@ public class Main {
             System.err.println("Blasar couldn't load all required variables and won't continue");
             System.exit(1);
         }
-
+        PluginScan plugins = new PluginScan();
         System.setProperty("javax.net.ssl.keyStore", "/home/jnavalon/blasar.keystore");
         System.setProperty("javax.net.ssl.keyStorePassword", "blasar");
         if(!setArgs(args)) return;
@@ -198,7 +199,6 @@ public class Main {
         if (ipa.length != ip.length) {
             return null;
         }
-
         try {
             InetAddress bind = InetAddress.getByAddress(new byte[]{ipa[0], ipa[1], ipa[2], ipa[3]});
             return bind;

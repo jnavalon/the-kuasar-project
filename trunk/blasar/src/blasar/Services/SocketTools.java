@@ -23,7 +23,9 @@ import blasar.Info;
 import blasar.Services.Exceptions.IllegalStatement;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -43,8 +45,11 @@ public class SocketTools {
     private Socket socket;
     private PrintStream out;
     private BufferedReader in;
+    private InputStream is;
+    private OutputStream os;
     private SSLSession session = null;
     private Certificate[] certificate = null;
+    private String userlogged = null;
 
     public SocketTools(Socket socket) throws Exception {
         this.socket = socket;
@@ -95,9 +100,11 @@ public class SocketTools {
 
                 System.out.println("==================================");
             }
-            out = new PrintStream(socket.getOutputStream());
+            os = socket.getOutputStream();
+            out = new PrintStream(os);
             out.flush();
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            is=socket.getInputStream();
+            in = new BufferedReader(new InputStreamReader(is));
             return true;
         } catch (IOException ex) {
             if (Config.BLASAR.verbose) {
@@ -113,12 +120,15 @@ public class SocketTools {
             throw ex;
         }
     }
-
-    public String readLine() throws Exception {
+    //Read a line as this was sent
+    public String readLine() throws IOException {
         return in.readLine();
     }
-
-    public String readLine(short commandFilter) throws Exception {
+    /*
+     * Read a line from socket and check if this is in correct format according the command type
+     * check Config->CMD Class to get available types.
+     */
+    public String readLine(short commandFilter) throws IOException, IllegalStatement  {
         String value = readLine();
         if (whatCommand(value) != commandFilter) {
             throw new IllegalStatement("Command not agree with expectation");
@@ -155,7 +165,7 @@ public class SocketTools {
 
     }
 
-    public void Send(byte[] msg) throws Exception {
+    public void Send(byte[] msg) throws SocketException, IOException{
 
         isAlive();
         out.write(msg);
@@ -163,7 +173,7 @@ public class SocketTools {
 
     }
 
-    public void Send(String msg) throws Exception {
+    public void Send(String msg) throws SocketException, IOException  {
         Send(transcribeUTF(msg));
     }
 
@@ -203,6 +213,35 @@ public class SocketTools {
         return new BigInteger(session.getId()).toString();
     }
 
+    public void setUser(String user){
+        userlogged = user;
+    }
+    public String getUser(){
+        return userlogged;
+    }
+    public void unSetUser(){
+        userlogged = null;
+    }
+    public byte readByte() throws IOException{
+        return readBytes(1)[0];
+    }
+    public byte[] readBytes(int length) throws IOException{
+        byte[] buffer = new byte[length];
+        is.read(buffer);
+        return buffer;
+    }
+    public long readLong(short filterCommand) throws Exception {
+        try {
+            String value = readLine();
+            if (whatCommand(value)!= filterCommand) {
+                throw new IllegalStatement("This isn't a correct answer");
+            }
+            return Long.parseLong(value.substring(1));
+        } catch (NumberFormatException ex) {
+            return (long) -1;
+        }
+    }
+
     public Integer readInt(short filterCommand) throws Exception {
 
         try {
@@ -215,5 +254,13 @@ public class SocketTools {
             return -1;
         }
 
+    }
+    public boolean setSocketTime(int timeout){
+        try {
+            socket.setSoTimeout(timeout);
+        } catch (SocketException ex) {
+            return false;
+        }
+        return true;
     }
 }

@@ -175,4 +175,20 @@ public class Server extends Thread {
         }
         return list;
     }
+
+    public ArrayList<String> getUsers() {
+        ArrayList<String> list = new ArrayList<String>();
+        Iterator keys = connections.keySet().iterator();
+        while (keys.hasNext()) {
+            Splitter curSplitter = (Splitter) connections.get((Long) keys.next());
+            SocketTools st = curSplitter.getSocketTools();
+            try {
+                st.isAlive();
+                if(st.getUser()!=null)
+                    list.add(st.getUser() + " on " +st.getRemoteIP() + ":" + st.getRemotePort());
+            } catch (SocketException ex) {}
+
+        }
+        return list;
+    }
 }
