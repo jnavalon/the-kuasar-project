@@ -59,7 +59,7 @@ public class PluginLoader {
 
     private static File[] getFiles() {
         Stack<File> files = new Stack<File>();
-        File dirPlugins = new File( Configuration.startDir + Plugins.pathplugins  + "/");
+        File dirPlugins = new File( Configuration.startDir + Plugins.pathplugins  + File.separator);
         try {
             if (dirPlugins.isDirectory() && dirPlugins.exists()) {
                 File[] plugins = dirPlugins.listFiles(new FilenameFilter() {
@@ -96,9 +96,12 @@ public class PluginLoader {
         ODRIntercom odri = new ODRIntercom();
         for(Iterator < PluginInterface > iterator = sl.iterator(); iterator.hasNext();){
             try{
+                boolean status;
                 PluginInterface init = iterator.next();
-                if(init.Start(odri, odri.getClass()))
+                status=init.Start(odri, odri.getClass());
+                if(status)
                 plugins.add(init);
+                System.out.println("Starting " + init.getName() + " plugin...\t" + (status? "OK :-)":"Error :-("));
             }catch(Exception ex){
                 kuasar.util.Error.console(PluginLoader.class.getCanonicalName() + ".getPlugins()", ex.getMessage());
             }
