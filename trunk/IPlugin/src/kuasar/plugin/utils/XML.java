@@ -63,15 +63,19 @@ public final class XML {
         }
         return root;
     }
+    
+    public static boolean AddElement(Element root, String name, List<String[]> attributes){
+        return AddElement(".",root,name,attributes);
+    }
 
-    public static boolean AddElement(String netpath, Element root, String name, List attributes) {
+    public static boolean AddElement(String netpath, Element root, String name, List<String[]> attributes) {
         root = getElementOnPath(netpath, root);
         if (root == null) {
             return false;
         }
         Element e = new Element(name);
         for (int i = 0; i < attributes.size(); i++) {
-            String attribute[] = (String[]) attributes.get(i);
+            String attribute[] = attributes.get(i);
             e.setAttribute(attribute[0], attribute[1]);
         }
         root.addContent(e);
@@ -101,11 +105,7 @@ public final class XML {
      */
     public static boolean Save(String cfgPath, String cfgFile, Element root) {
         String pluginSkin = (String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR");
-        return Save(pluginSkin + File.separator + cfgPath + File.separator + cfgFile, root);
-    }
-
-    public static boolean Save(String path, Element root){
-        File file = new File(path);
+         File file = new File(pluginSkin + File.separator + cfgPath + File.separator + cfgFile);
         if (!file.exists()) {
             return false;
         }
@@ -121,6 +121,7 @@ public final class XML {
             System.err.println("I couldn't create  file on " + file.getPath() + " path, changes won't be saved!");
             return false;
         }
+        Load(cfgPath,cfgFile);
         return true;
     }
 
@@ -162,7 +163,9 @@ public final class XML {
             System.err.println("I couldn't find a XML Format on next file. Please check it: " + file.getAbsolutePath());
         }
     }
-
+    public static Element getRoot(String cfgPath, String cfgFile){
+        return getRoot(new File((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR")+File.separator+cfgPath+File.separator+cfgFile));
+    }
     public static Element getRoot(File file) {
         try {
             SAXBuilder builder = new SAXBuilder(false);
