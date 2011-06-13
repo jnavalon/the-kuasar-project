@@ -43,7 +43,6 @@ public final class Encryptation {
     public static String getMD5(char[] passwd) throws NoSuchAlgorithmException {
         return getHash(passwd,"MD5");
     }
-
     public static String getSHA512(char[] passwd) throws NoSuchAlgorithmException{
         return getHash(passwd,"SHA-512");
     }

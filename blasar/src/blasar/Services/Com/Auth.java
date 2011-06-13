@@ -22,22 +22,31 @@ import blasar.Info;
 import blasar.Config.CMD;
 import blasar.Config.CMD.CHARS;
 import blasar.Services.Exceptions.IllegalStatement;
+import blasar.util.DNIe;
+import blasar.util.UserLogin;
 import java.io.IOException;
+import java.security.PublicKey;
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class Auth {
+
     private SocketTools st = null;
-    public Auth(SocketTools st) throws Exception{
+    private boolean logged = false;
+    private static final String AUTH_FAIL = "BADLOGIN";
+    private static final String AUTH_ERROR = "ERRORLOGIN";
+    public Auth(SocketTools st) throws Exception {
         this.st = st;
         authentication();
     }
+
     private void authentication() throws Exception {
         boolean state = false;
         short attempts = 0;
         int value = -1;
+        st.setUser(null);
         st.sendLine(CHARS.QUESTION + "setAUTH");
 
         do {
@@ -51,19 +60,21 @@ public class Auth {
                     Info.showError(st.getRemoteAdress() + " :: " + "Client TimeOUT at setAuth command. Rejected!");
                     throw ex;
                 }
-            }catch(IllegalStatement is){
+            } catch (IllegalStatement is) {
                 Info.showError(st.getRemoteAdress() + " :: " + "Client sent an incorrect answer at Authentication mode question. Rejected!");
                 throw is;
             }
         } while (!state);
-
         switch (value) {
             case 0: //CLEAN EXIT
                 st.sendLine("See you!");
                 st.closeAll();
-                Info.showMessage(st.getRemoteAdress() + " did a clear exit");
+                Info.showMessage(st.getRemoteAdress() + " made a clear exit");
+                break;
             case 1: //PLAIN TEXT
-                checkUser();
+                if (!checkUser()) {
+                    throw new Exception();
+                }
                 break;
             case 2: //CERTIFICATION - DNIE(SPAIN)
                 checkCert();
@@ -74,25 +85,58 @@ public class Auth {
         }
     }
 
-    private boolean checkUser() throws Exception{
-        st.sendLine(CHARS.QUESTION + "Login?");
-        String value = st.readLine(CMD.ANSWER);
-        System.out.println(extractUAP(value)[0]+ " --- " + extractUAP(value)[1]); //TEST... THIS LINE WILL BE REMOVE
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    private String[] extractUAP(String value) throws Exception{
-        String[] aux = {"",""};
-        short i =0;
-        for(char Char : value.toCharArray()){
-            if(Char == 43){ //Change to 0
-                i++;
-            }else{
-             aux[i] += (String.valueOf(Char));
-            }
+    private boolean checkUser() throws Exception {
+        st.sendLine(CHARS.QUESTION + "Username?");
+        String user = st.readLine(CMD.ANSWER).trim();
+        if (user.isEmpty()) {
+            st.sendLine(CHARS.INFO + Auth.AUTH_FAIL);
+            return false;
         }
-        return aux;
+        st.sendLine(CHARS.QUESTION + "Passwd?");
+        String passwd = st.readLine(CMD.ANSWER).trim();
+        if (!UserLogin.checkUser(user, passwd)) {
+            st.Send(CHARS.INFO + "User or Password don't match\n");
+            return false;
+        }
+        st.setUser(user);
+        logged = true;
+        return true;
     }
-    private boolean checkCert() throws Exception{
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    private boolean checkCert() throws Exception {
+        String ticket = DNIe.getTicket();
+        st.getSocket().setSoTimeout(120000);
+        st.sendLine(CHARS.QUESTION + ticket);
+        String nif = st.readLine(CMD.ANSWER).trim();
+        int length = st.readInt(CMD.ANSWER);
+        byte[] sign = st.readBytes(length);
+        if (sign == null) {
+            st.sendLine(CHARS.INFO+Auth.AUTH_ERROR);
+            //LOG ERROR -- USER PUBLIC KEY FILE NOT FOUND
+            return false;
+        }
+        PublicKey pk = DNIe.getPublicKey(nif);
+        if (pk == null) {
+            st.sendLine(CHARS.INFO+Auth.AUTH_ERROR);
+            return false;
+        }
+        if (DNIe.validate(ticket.getBytes(), sign, pk)) {
+            String user = UserLogin.checkNIF(nif);
+            if (user == null) {
+                st.sendLine(CHARS.INFO+Auth.AUTH_ERROR);
+                return false;
+            }
+            st.setUser(user);
+            logged = true;
+        } else {
+            st.sendLine(CHARS.INFO+Auth.AUTH_FAIL);
+            logged = false;
+            Info.showMessage("NIF: " + nif + " Bad Login");
+        }
+        return logged;
+    }
+
+    public boolean isLogged() {
+        return logged;
     }
 }
