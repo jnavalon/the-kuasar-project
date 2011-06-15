@@ -201,10 +201,13 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         int status = Utils.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, null, null, false);
         if (status < 1) {
             lbl_title.setText("BLASAR IS NOT LISTENING!");
+            Utils.delKSPassword(address);
+            Utils.delKeyServer(address);
             if (status == -1) {
                 lbl_info.setText("<html>We couldn't connect to the Server again! Maybe caused by:<p> - Server was disconnected <br> - Firewall rejects our connection");
             } else {
                 lbl_info.setText("<html>Error connecting to the server. Maybe caused by:<p> - Bad certification password <br> - Bad Server");
+                
             }
             this.updateUI();
             return false;

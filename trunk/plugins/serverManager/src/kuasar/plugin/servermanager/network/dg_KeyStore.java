@@ -11,15 +11,7 @@
 package kuasar.plugin.servermanager.network;
 
 import java.awt.Color;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import javax.swing.JFileChooser;
-import kuasar.plugin.servermanager.Config;
 
 /**
  *
@@ -293,43 +285,10 @@ public class dg_KeyStore extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
         
     private void saveKeyStore(){
-        File files = new File(txa_File.getText());
-        if(!files.exists()) return;
-        File filed = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR+File.separator+address+Config.keystoreEXT);
-        FileInputStream in = null;
-        FileOutputStream out = null;
-        try {
-            in = new FileInputStream(files);
-            out = new FileOutputStream(filed);
-            int bytes;
-            while( (bytes = in.read()) != -1)
-                out.write(bytes);
-        } catch (FileNotFoundException ex) {
-            System.err.println("I couldn't copy keystore. Cause: " + ex.getMessage());
-        } catch (IOException ex) {
-            System.err.println("I couldn't write in destiny file. Cause: " + ex.getMessage());
-        }finally{
-            try {
-                in.close();
-                out.close();
-            } catch (IOException ex) {}
-        }
-        
+        Utils.saveKeyServer(txa_File.getText(), address);
     }
     private void savePassword(){
-        if(pwd_password.getPassword().length==0) return;
-        File file = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR+File.separator+address+Config.keystore_PWD_EXT);
-        BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new FileWriter(file));
-            bw.write("password=" + String.valueOf(pwd_password.getPassword()));
-        } catch (IOException ex) {
-            System.err.println("I couldn't save the keystore's password. Cause: " + ex.getMessage());
-        }finally{
-            try {
-                bw.close();
-            } catch (IOException ex) {}
-        }
+        Utils.saveKSPassword(pwd_password.getPassword(), address);
     }
     public void setHeader(String title){
         lbl_title.setText(title);
@@ -337,7 +296,6 @@ public class dg_KeyStore extends javax.swing.JDialog {
     public char[] getPassword(){
         if(pwd_password.getPassword().length==0) return null;
         return pwd_password.getPassword();
-        
     }
     public String getKeyStore(){
         return keystore;
