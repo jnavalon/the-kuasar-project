@@ -5,6 +5,12 @@
 package kuasar.plugin.servermanager.network;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -277,4 +283,65 @@ public final class Utils {
         }
         return true;
     }
+
+    public static boolean saveKeyServer(String source, String new_name){
+        File files = new File(source);
+        if(!files.exists()) return false;
+        File filed = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR+File.separator+new_name+Config.keystoreEXT);
+        FileInputStream in = null;
+        FileOutputStream out = null;
+        try {
+            in = new FileInputStream(files);
+            out = new FileOutputStream(filed);
+            int bytes;
+            while( (bytes = in.read()) != -1)
+                out.write(bytes);
+            return true;
+        } catch (FileNotFoundException ex) {
+            System.err.println("I couldn't copy keystore. Cause: " + ex.getMessage());
+            return false;
+        } catch (IOException ex) {
+            System.err.println("I couldn't write in destiny file. Cause: " + ex.getMessage());
+            return false;
+        }finally{
+            try {
+                in.close();
+                out.close();
+            } catch (IOException ex) {}
+        }
+    }
+    
+    public static boolean saveKSPassword(char[] password, String filename){
+        if(password ==null || filename == null) return false;
+        if(password.length==0) return false;
+        File file = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR+File.separator+filename+Config.keystore_PWD_EXT);
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(file));
+            bw.write("password=" + String.valueOf(password));
+        } catch (IOException ex) {
+            System.err.println("I couldn't save the keystore's password. Cause: " + ex.getMessage());
+            return false;
+        }finally{
+            try {
+                bw.close();
+            } catch (IOException ex) {}
+        }
+        return true;
+    }
+
+    public static boolean delKSPassword(String filename){
+        File file = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR+File.separator+filename+Config.keystore_PWD_EXT);
+        if(file.exists())return file.delete();
+        Config.loadKSSecrets();
+        return true;
+    }
+    
+    public static boolean delKeyServer(String filename){
+        File file = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR+File.separator+filename+Config.keystoreEXT);
+        if(file.exists())return file.delete();
+        Config.loadKSSecrets();
+        return true;
+    }
+
 }

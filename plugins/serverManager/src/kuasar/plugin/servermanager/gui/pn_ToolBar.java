@@ -34,6 +34,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
     private void initComponents() {
 
         tb_Actions = new javax.swing.JToolBar();
+        lbl_toRoot = new javax.swing.JLabel();
         lbl_wizard = new javax.swing.JLabel();
         lbl_addGroup = new javax.swing.JLabel();
         lbl_addServer = new javax.swing.JLabel();
@@ -46,6 +47,15 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.setFloatable(false);
         tb_Actions.setBorderPainted(false);
         tb_Actions.setOpaque(false);
+
+        lbl_toRoot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/toRoot.png"))); // NOI18N
+        lbl_toRoot.setToolTipText("Go to root");
+        lbl_toRoot.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_toRootMouseClicked(evt);
+            }
+        });
+        tb_Actions.add(lbl_toRoot);
 
         lbl_wizard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/wizard.png"))); // NOI18N
         tb_Actions.add(lbl_wizard);
@@ -67,6 +77,11 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_addServer);
 
         lbl_Remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/remove.png"))); // NOI18N
+        lbl_Remove.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_RemoveMouseClicked(evt);
+            }
+        });
         tb_Actions.add(lbl_Remove);
 
         lbl_Config.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/configure.png"))); // NOI18N
@@ -81,7 +96,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tb_Actions, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+            .addComponent(tb_Actions, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,11 +116,20 @@ public class pn_ToolBar extends javax.swing.JPanel {
         main.loadAddServer();
     }//GEN-LAST:event_lbl_addServerMouseClicked
 
+    private void lbl_RemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_RemoveMouseClicked
+        main.delSelectedNode();
+    }//GEN-LAST:event_lbl_RemoveMouseClicked
+
+    private void lbl_toRootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_toRootMouseClicked
+        main.goToRoot();
+    }//GEN-LAST:event_lbl_toRootMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbl_Config;
     private javax.swing.JLabel lbl_Remove;
     private javax.swing.JLabel lbl_addGroup;
     private javax.swing.JLabel lbl_addServer;
+    private javax.swing.JLabel lbl_toRoot;
     private javax.swing.JLabel lbl_wizard;
     private javax.swing.JToolBar tb_Actions;
     // End of variables declaration//GEN-END:variables

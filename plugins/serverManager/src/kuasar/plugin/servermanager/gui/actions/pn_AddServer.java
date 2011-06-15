@@ -214,6 +214,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cancelActionPerformed
+        if(autoclose.isRunning())autoclose.stop();
         GUI.loadPlugin(panel);
         GUI.visibleToolBar();
     }//GEN-LAST:event_bt_cancelActionPerformed

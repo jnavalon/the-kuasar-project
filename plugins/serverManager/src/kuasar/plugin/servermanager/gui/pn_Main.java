@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.JPanel;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.actions.pn_AddGroup;
 import kuasar.plugin.servermanager.gui.actions.pn_AddServer;
+import kuasar.plugin.servermanager.network.Utils;
 import kuasar.plugin.utils.XML;
 import org.jdom.Element;
 
@@ -66,6 +66,11 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         scp_Servers.setOpaque(false);
 
         lst_Servers.setOpaque(false);
+        lst_Servers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lst_ServersMouseClicked(evt);
+            }
+        });
         lst_Servers.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 lst_ServersKeyReleased(evt);
@@ -98,11 +103,18 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     private void lst_ServersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lst_ServersKeyReleased
         if(evt.getKeyCode()== KeyEvent.VK_DELETE){
-            for(Object data : lst_Servers.getSelectedValues()){
-                Object[] datas = (Object[]) data;
-            }
+            delSelectedNode();            
         }
     }//GEN-LAST:event_lst_ServersKeyReleased
+
+    private void lst_ServersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_ServersMouseClicked
+        if(!evt.isControlDown()){
+            String  nodename = (String) ((Object[])lst_Servers.getSelectedValue())[2];
+            Element e = curDir == null?root.getChild(nodename):root.getChild(curDir).getChild(nodename);
+            if(e.getAttributeValue("type").equals("group"))
+                fillList(nodename);
+        }
+    }//GEN-LAST:event_lst_ServersMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbl_Info;
@@ -128,7 +140,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         if(root==null) return;
         curDir=group;
         lbl_Info.setText("");
-        List<Element> children = (group == null ? root.getChildren() : root.getChildren(group));
+        List<Element> children=(group==null?root.getChildren():root.getChild(group).getChildren());
         TreeMap<String, Object[]> tm = new TreeMap<String, Object[]>();
         DefaultListModel model = new DefaultListModel();
         lst_Servers.setModel(model);
@@ -185,7 +197,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         attributes.add(new String[]{"type", "server"});
         attributes.add(new String[]{"name", hostname});
         attributes.add(new String[]{"address", address});
-        if(XML.AddElement(root, XML.adaptName(hostname), attributes))
+        if(XML.AddElement(curDir==null?root:root.getChild(curDir), XML.adaptName(hostname), attributes))
             kuasar.plugin.Intercom.GUI.launchInfo("Server \"" + hostname + "\" added successfully!" );
         else
             return false;
@@ -219,7 +231,9 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
             return root.getChild(curDir).removeChild(name);
         }
     }
-    
+    protected void goToRoot(){
+        fillList(null);
+    }
     protected void loadConfig(){
        GUI.loadPlugin(new pn_Config(this));
        GUI.invisibleToolBar();
@@ -231,5 +245,23 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
      protected void loadAddServer(){
         GUI.loadPlugin(new pn_AddServer(this));
         GUI.invisibleToolBar();
+    }
+
+    protected void delSelectedNode() {
+        boolean updateList = (lst_Servers.getSelectedIndices().length>0);
+            for(Object data : lst_Servers.getSelectedValues()){
+                Object[] dataa = (Object[]) data;
+                String nodeName = (String) dataa[2];
+                String address =root.getChild(nodeName).getAttributeValue("address");
+                if(delChild(nodeName)){
+                    GUI.launchInfo(nodeName + " was deleted successfully!");
+                    Utils.delKSPassword(address);
+                    Utils.delKeyServer(address); 
+                }
+            }
+            if(updateList){
+                fillList(curDir);
+                XML.Save(Config.path, Config.fileServers, root);
+            }
     }
 }
