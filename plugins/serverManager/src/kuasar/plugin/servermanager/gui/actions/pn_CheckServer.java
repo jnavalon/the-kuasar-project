@@ -152,7 +152,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
             this.updateUI();
         }else{
             lbl_title.setText("No service listening on port!");
-            lbl_info.setText("<html>It seems there aren't any service listen on port " + Config.GlobalServerCFG.port + "<p> Aborted then.");
+            lbl_info.setText("<html>It seems there isn't any service listen on port " + Config.GlobalServerCFG.port + "<p> Aborted then.");
             this.updateUI();
             return false;
         }
