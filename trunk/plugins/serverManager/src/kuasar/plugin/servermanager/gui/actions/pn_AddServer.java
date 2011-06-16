@@ -28,6 +28,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
 
      private pn_Main panel;
      private int timeLeft =10;
+     private boolean autosave= true;
      private Timer autoclose= new Timer (1000, new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -220,7 +221,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
     }//GEN-LAST:event_bt_cancelActionPerformed
 
     private void bt_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_acceptActionPerformed
-        if(bt_accept.getText().startsWith("Save")){
+        if(!autosave){
             if(!Save()){
                 bt_accept.setText("Check");
             }
@@ -243,6 +244,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         }
         if(lbl_BAddress.isVisible()|| lbl_BName.isVisible()){
             bt_accept.setText("Check");
+            autosave=true;
             lbl_BName.setToolTipText(null);
             lbl_BName.setIcon(null);
             bt_accept.setEnabled(true);
@@ -274,11 +276,19 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
 
     protected void setManual(){ //If check fail, user must save it manually
         bt_accept.setText("Save (Anyway)");
+        autosave=false;
         bt_accept.setEnabled(true);
     }
     protected boolean  Save(){
         panel.addServer(txt_hostname.getText(), txt_Address.getText());
-        autoclose.start();
+        if(autosave){
+            autoclose.start();
+        }
+        else{
+            GUI.loadPlugin(panel);
+            GUI.visibleToolBar();
+        }
+            
         return true;
     }
     private void hideErrors(){

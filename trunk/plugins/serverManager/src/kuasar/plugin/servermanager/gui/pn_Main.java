@@ -22,6 +22,7 @@ import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.actions.pn_AddGroup;
 import kuasar.plugin.servermanager.gui.actions.pn_AddServer;
+import kuasar.plugin.servermanager.gui.actions.pn_Wizard;
 import kuasar.plugin.servermanager.network.Utils;
 import kuasar.plugin.utils.XML;
 import org.jdom.Element;
@@ -246,6 +247,10 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         GUI.loadPlugin(new pn_AddServer(this));
         GUI.invisibleToolBar();
     }
+     protected void loadWizard(){
+         GUI.loadPlugin(new pn_Wizard(this));
+        GUI.invisibleToolBar();
+     }
 
     protected void delSelectedNode() {
         boolean updateList = (lst_Servers.getSelectedIndices().length>0);

@@ -58,6 +58,11 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_toRoot);
 
         lbl_wizard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/wizard.png"))); // NOI18N
+        lbl_wizard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_wizardMouseClicked(evt);
+            }
+        });
         tb_Actions.add(lbl_wizard);
 
         lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/folder-new.png"))); // NOI18N
@@ -123,6 +128,10 @@ public class pn_ToolBar extends javax.swing.JPanel {
     private void lbl_toRootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_toRootMouseClicked
         main.goToRoot();
     }//GEN-LAST:event_lbl_toRootMouseClicked
+
+    private void lbl_wizardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_wizardMouseClicked
+        main.loadWizard();
+    }//GEN-LAST:event_lbl_wizardMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbl_Config;
