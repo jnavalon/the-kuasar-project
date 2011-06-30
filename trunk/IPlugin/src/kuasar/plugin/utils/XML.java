@@ -37,13 +37,13 @@ public final class XML {
     public static String adaptName(String name){
 
         if(name==null) return null;
-        if(Character.isDigit(name.charAt(0))) return null;
+        if(Character.isDigit(name.charAt(0))) name = " " + name;
         for(int i=0; i<name.length(); i++){
-            if(!Character.isDigit(name.charAt(i)) && !Character.isLetter(name.charAt(i)) && name.charAt(i)!= ' '){
+            if(!Character.isDigit(name.charAt(i)) && !Character.isLetter(name.charAt(i)) && name.charAt(i)!= ' ' && name.charAt(i)!='.'){
                 return null;
             }
         }
-        return name.trim().replace(' ', '_');
+        return name.replace(' ', '_');
     }
 
     public static Element getElementOnPath(String netpath, Element root) {
