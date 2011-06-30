@@ -25,6 +25,7 @@ package kuasar.plugin.servermanager.gui.actions;
 import java.awt.event.KeyEvent;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.servermanager.gui.pn_Main;
+import kuasar.plugin.utils.XML;
 
 /**
  *
@@ -166,11 +167,6 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
             return;
         }
 
-        if(Character.isDigit(txt_name.getText().charAt(0))){
-            lockANDnotify(true, "Name can't begin with numbers.");
-            return;
-        }
-
         if (!checkName()) {
             lockANDnotify(true, "Name only can contains letters, numbers and spaces.");
             return;
@@ -186,7 +182,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
         txt_name.requestFocus();
     }
     private String transformNodeName() {
-        return txt_name.getText().replace(" ", "_");
+        return XML.adaptName(txt_name.getText());
     }
 
     private void lockANDnotify(boolean activate, String error) {
@@ -197,13 +193,8 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
     }
 
     private boolean checkName() {
-        char c[] = txt_name.getText().toCharArray();
-        for (int i = 0; i < c.length; i++) {
-            if (!Character.isDigit(c[i]) && !Character.isLetter(c[i]) && c[i] != ' ') {
-                return false;
-            }
-        }
-        return true;
+        String adaptedName = XML.adaptName(txt_name.getText());
+        return adaptedName==null ? false : true;
     }
 
     private void close() {

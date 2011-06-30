@@ -25,7 +25,7 @@ import kuasar.plugin.utils.pn_Info;
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class pn_Config extends javax.swing.JPanel {
+public class pn_Config extends kuasar.plugin.classMod.AbstractPanel {
 
     pn_Main main;
     /** Creates new form pn_Config */
@@ -64,6 +64,7 @@ public class pn_Config extends javax.swing.JPanel {
         lbl_port = new javax.swing.JLabel();
         txt_port = new javax.swing.JTextField();
         btn_Save = new javax.swing.JButton();
+        btn_cancel = new javax.swing.JButton();
 
         setOpaque(false);
 
@@ -74,7 +75,7 @@ public class pn_Config extends javax.swing.JPanel {
         lbl_Password.setText("KeyStore Password:");
         lbl_Password.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
-        lbl_titGlobal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lbl_titGlobal.setFont(new java.awt.Font("Dialog", 1, 14));
         lbl_titGlobal.setForeground(new java.awt.Color(204, 204, 204));
         lbl_titGlobal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/certificate.png"))); // NOI18N
         lbl_titGlobal.setText("Global KeyStore");
@@ -91,7 +92,7 @@ public class pn_Config extends javax.swing.JPanel {
             }
         });
 
-        lbl_login.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lbl_login.setFont(new java.awt.Font("Dialog", 1, 14));
         lbl_login.setForeground(new java.awt.Color(204, 204, 204));
         lbl_login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/userlogin.png"))); // NOI18N
         lbl_login.setText("User Login");
@@ -145,7 +146,7 @@ public class pn_Config extends javax.swing.JPanel {
         lbl_warning.setText("<html>Warning! Password will be saved in a plain text file. If password is not set, you will be asked for each session.</html>");
         lbl_warning.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        lbl_Preferences.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lbl_Preferences.setFont(new java.awt.Font("Dialog", 1, 14));
         lbl_Preferences.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Preferences.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/preferences.png"))); // NOI18N
         lbl_Preferences.setText("Preferences");
@@ -263,7 +264,7 @@ public class pn_Config extends javax.swing.JPanel {
                     .addComponent(cb_cuser)
                     .addComponent(lbl_port)
                     .addComponent(txt_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(lbl_warning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -276,12 +277,22 @@ public class pn_Config extends javax.swing.JPanel {
             }
         });
 
+        btn_cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
+        btn_cancel.setText("Cancel");
+        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(466, Short.MAX_VALUE)
+                .addContainerGap(362, Short.MAX_VALUE)
+                .addComponent(btn_cancel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_Save)
                 .addContainerGap())
             .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -291,7 +302,9 @@ public class pn_Config extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_Save)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_Save)
+                    .addComponent(btn_cancel))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -342,12 +355,7 @@ public class pn_Config extends javax.swing.JPanel {
             }
             bw.write("port="+port+"\n");
             bw.flush();
-            JPanel parent = (JPanel) this.getParent();
-            parent.removeAll();
-            main.setBounds(0, 0, parent.getSize().width, parent.getSize().height);
-            parent.add(main);
-            GUI.visibleToolBar();
-            parent.updateUI();
+            close();
             GUI.launchInfo("Configuration saved successfully!");
         } catch (IOException ex) {
             pn_Info.Load((JPanel) this.getParent(), this, "Error saving file", "I couldn't save preferences. <br>" + ex.getMessage() , pn_Info.ICON_ERROR);
@@ -375,6 +383,10 @@ public class pn_Config extends javax.swing.JPanel {
          if(cb_cuser.isSelected()) cb_cconnection.setSelected(true);
     }//GEN-LAST:event_cb_cuserItemStateChanged
 
+    private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
+        close();
+    }//GEN-LAST:event_btn_cancelActionPerformed
+
     private void loadConfig(){
        Config.loadConfig();
        if(Config.GlobalServerCFG.keyStore!=null){
@@ -390,8 +402,14 @@ public class pn_Config extends javax.swing.JPanel {
        cb_cuser.setSelected(Config.GlobalServerCFG.checkClient);
        txt_port.setText(String.valueOf(Config.GlobalServerCFG.port));
     }
+    private void close(){
+        GUI.loadPlugin(main);
+        GUI.updateUI();
+        GUI.visibleToolBar();
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Save;
+    private javax.swing.JButton btn_cancel;
     private javax.swing.JCheckBox cb_DNIe;
     private javax.swing.JCheckBox cb_cconnection;
     private javax.swing.JCheckBox cb_cuser;

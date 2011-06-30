@@ -23,7 +23,7 @@ import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.actions.pn_AddGroup;
 import kuasar.plugin.servermanager.gui.actions.pn_AddServer;
 import kuasar.plugin.servermanager.gui.actions.pn_Wizard;
-import kuasar.plugin.servermanager.network.Utils;
+import kuasar.plugin.servermanager.network.utils.Connection;
 import kuasar.plugin.utils.XML;
 import org.jdom.Element;
 
@@ -193,11 +193,12 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         return !(node==null);
     }
     
-    public boolean addServer(String hostname, String address){
+    public boolean addServer(String hostname, String address, int port){
         List<String[]> attributes = new ArrayList<String[]>();
         attributes.add(new String[]{"type", "server"});
         attributes.add(new String[]{"name", hostname});
         attributes.add(new String[]{"address", address});
+        attributes.add(new String[]{"port", String.valueOf(port)});
         if(XML.AddElement(curDir==null?root:root.getChild(curDir), XML.adaptName(hostname), attributes))
             kuasar.plugin.Intercom.GUI.launchInfo("Server \"" + hostname + "\" added successfully!" );
         else
@@ -211,7 +212,9 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         List<String[]> attributes = new ArrayList<String[]>();
         attributes.add(new String[]{"type", "group"});
         attributes.add(new String[]{"name", groupname});
-        if(XML.AddElement(root, XML.adaptName(groupname), attributes))
+        String adaptedName = XML.adaptName(groupname);
+        if(adaptedName==null)return false;
+        if(XML.AddElement(root, adaptedName, attributes))
             kuasar.plugin.Intercom.GUI.launchInfo("Group \"" + groupname + "\" added successfully!" );
         else
             return false;
@@ -260,8 +263,8 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
                 String address =root.getChild(nodeName).getAttributeValue("address");
                 if(delChild(nodeName)){
                     GUI.launchInfo(nodeName + " was deleted successfully!");
-                    Utils.delKSPassword(address);
-                    Utils.delKeyServer(address); 
+                    Connection.delKSPassword(address);
+                    Connection.delKeyServer(address); 
                 }
             }
             if(updateList){

@@ -46,15 +46,17 @@ public class JListView extends JList {
             Object[] info = (Object[]) value;
             ImageIcon icon = (ImageIcon) info[Config.ServerList.ICON];
             panel.lbl_Text.setText((String) info[Config.ServerList.NAME]);
-             if(cellHasFocus){
-                if(info[Config.ServerList.LABEL]!=null)((JLabel) info[Config.ServerList.LABEL]).setText((String) info[Config.ServerList.NAME]);
+            if (cellHasFocus) {
+                if (info[Config.ServerList.LABEL] != null) {
+                    ((JLabel) info[Config.ServerList.LABEL]).setText("<html>"+(String) info[Config.ServerList.NAME]);
+                }
             }
             panel.lbl_Icon.setBackground(isSelected ? UIManager.getColor("List.selectionBackground") : Color.WHITE);
             panel.lbl_Text.setForeground(isSelected ? Color.BLACK : Color.WHITE);
             panel.lbl_Icon.setBackground(Color.red);
             panel.setOpaque(isSelected);
             panel.selected = isSelected;
-            panel.lbl_Icon.setIcon(icon==null ? EMPTY: icon);
+            panel.lbl_Icon.setIcon(icon == null ? EMPTY : icon);
             panel.lbl_Icon.setText("");
             return panel;
 

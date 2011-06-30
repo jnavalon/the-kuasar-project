@@ -10,6 +10,7 @@
  */
 package kuasar.plugin.servermanager.network;
 
+import kuasar.plugin.servermanager.network.utils.Connection;
 import java.awt.Color;
 import javax.swing.JFileChooser;
 
@@ -285,10 +286,10 @@ public class dg_KeyStore extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
         
     private void saveKeyStore(){
-        Utils.saveKeyServer(txa_File.getText(), address);
+        Connection.saveKeyServer(txa_File.getText(), address);
     }
     private void savePassword(){
-        Utils.saveKSPassword(pwd_password.getPassword(), address);
+        Connection.saveKSPassword(pwd_password.getPassword(), address);
     }
     public void setHeader(String title){
         lbl_title.setText(title);

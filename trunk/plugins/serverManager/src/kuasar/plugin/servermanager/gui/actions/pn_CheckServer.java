@@ -11,10 +11,11 @@
 package kuasar.plugin.servermanager.gui.actions;
 
 import kuasar.plugin.servermanager.Config;
-import kuasar.plugin.servermanager.network.Utils;
+import kuasar.plugin.servermanager.network.utils.Connection;
 import kuasar.plugin.servermanager.network.dg_KeyStore;
 import kuasar.plugin.servermanager.network.dg_Password;
 import kuasar.plugin.servermanager.network.dg_Username;
+import kuasar.plugin.servermanager.network.utils.IP;
 
 /**
  *
@@ -26,7 +27,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
     pn_AddServer parent;
     String address;
 
-    public pn_CheckServer(pn_AddServer parent, String address) {
+    public pn_CheckServer(pn_AddServer parent, String address, int port) {
         this.address = address;
         this.parent = parent;
         initComponents();
@@ -138,7 +139,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         lbl_title.setText("Is server online?");
         lbl_info.setText("<html>We 're doing a echo test to check if server is online. If check fail, doesn't main server isn't working. Server o firewall can be filter echo test.");
         this.updateUI();
-        if (Utils.ping(address) > 0) {
+        if (IP.ping(address) > 0) {
             lbl_echo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/on.png")));
             lbl_status.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/face-plain.png")));
             this.updateUI();
@@ -147,7 +148,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         lbl_title.setText("Is port opened?");
         lbl_info.setText("<html>We 're trying to connect to the server. This test can take several minutes.");
         this.updateUI();
-        if (Utils.tryConnect(address, Config.GlobalServerCFG.port)) {
+        if (Connection.tryConnect(address, Config.GlobalServerCFG.port)) {
             lbl_port.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/opened.png")));
             this.updateUI();
         }else{
@@ -198,11 +199,11 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
             }
         }
 
-        int status = Utils.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, null, null, false);
+        int status = Connection.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, null, null, false);
         if (status < 1) {
             lbl_title.setText("BLASAR IS NOT LISTENING!");
-            Utils.delKSPassword(address);
-            Utils.delKeyServer(address);
+            Connection.delKSPassword(address);
+            Connection.delKeyServer(address);
             if (status == -1) {
                 lbl_info.setText("<html>We couldn't connect to the Server again! Maybe caused by:<p> - Server was disconnected <br> - Firewall rejects our connection");
             } else {
@@ -271,9 +272,9 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
 
             status = 3;
             if (dnie) {
-                status = Utils.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, "", password, true);
+                status = Connection.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, "", password, true);
             } else {
-                status = Utils.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, user, password, true);
+                status = Connection.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, user, password, true);
             }
             if (status < 0) {
                 lbl_title.setText("Error Logging!");
