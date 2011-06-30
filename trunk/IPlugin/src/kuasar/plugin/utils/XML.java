@@ -37,13 +37,34 @@ public final class XML {
     public static String adaptName(String name){
 
         if(name==null) return null;
+        if(isValidChar(name.charAt(0))==0) name = " " + name;
         if(Character.isDigit(name.charAt(0))) name = " " + name;
         for(int i=0; i<name.length(); i++){
-            if(!Character.isDigit(name.charAt(i)) && !Character.isLetter(name.charAt(i)) && name.charAt(i)!= ' ' && name.charAt(i)!='.'){
+            if(isValidChar(name.charAt(i))<0){
                 return null;
             }
         }
         return name.replace(' ', '_');
+    }
+    
+    /*
+     * Return:
+     * -1: Bad Character
+     *  0: Valid except for 1st char
+     *  1: Valid
+    */
+    public static int isValidChar(char ch){
+        if (Character.isDigit(ch)) return 1;
+        if (Character.isLetter(ch)) return 1;
+        switch(ch){
+            case ' ':
+            case '_':
+                return 1;
+            case '-':
+            case '.':
+                return 0;
+        }
+        return -1;
     }
 
     public static Element getElementOnPath(String netpath, Element root) {
