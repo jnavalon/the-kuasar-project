@@ -50,6 +50,7 @@ public final class Config {
         public static boolean checkServer = false;
         public static boolean checkClient = false;
         public static int port = 46600;
+        public static final int connection_timeout = 250;
         public static HashMap<String, Object> kssecrets = new HashMap<String, Object>();
         public static HashMap<String, Object> usersecrets = new HashMap<String, Object>();
     }

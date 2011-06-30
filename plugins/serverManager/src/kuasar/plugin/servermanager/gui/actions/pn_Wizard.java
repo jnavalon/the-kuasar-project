@@ -10,13 +10,21 @@
  */
 package kuasar.plugin.servermanager.gui.actions;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.ItemEvent;
 import java.net.InterfaceAddress;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import kuasar.plugin.Intercom.GUI;
+import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.pn_Main;
-import kuasar.plugin.servermanager.network.Utils;
+import kuasar.plugin.servermanager.network.dg_Password;
+import kuasar.plugin.servermanager.network.utils.IP;
+import kuasar.plugin.utils.pn_Info;
 
 /**
  *
@@ -24,12 +32,20 @@ import kuasar.plugin.servermanager.network.Utils;
  */
 public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
     private pn_Main panel;
-    private HashMap<String,List<InterfaceAddress>> interfaces = Utils.getInterfaces();
+    private HashMap<String,List<InterfaceAddress>> interfaces = IP.getInterfaces();
+    private boolean name_edited = false;
+    private String old_name;
+    private char[] kspasswd=null;
+    private char[] password=null;
+    private int port;
+    private List<InterfaceAddress> selectedInterfaces;
+    
     /** Creates new form pn_Wizard */
     public pn_Wizard(pn_Main panel) {
         this.panel=panel;
         initComponents();
         loadData();
+         pn_login.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -45,37 +61,70 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
         pn_Container = new kuasar.plugin.classMod.Panel_Opaque();
         lb_Interface = new javax.swing.JLabel();
         cmb_interfaces = new javax.swing.JComboBox();
+        cb_global = new javax.swing.JCheckBox();
+        pn_Server = new javax.swing.JPanel();
+        lbl_keystore = new javax.swing.JLabel();
         pn_keyStore = new kuasar.plugin.classMod.Panel_Opaque();
         txt_keyStore = new javax.swing.JTextField();
-        bt_Select = new javax.swing.JButton();
+        btn_Select = new javax.swing.JButton();
         lbl_File = new javax.swing.JLabel();
-        cb_global = new javax.swing.JCheckBox();
+        tgb_Login = new javax.swing.JToggleButton();
         pn_login = new kuasar.plugin.classMod.Panel_Opaque();
-        lbl_user = new javax.swing.JLabel();
+        lbl_User = new javax.swing.JLabel();
         txt_User = new javax.swing.JTextField();
         lbl_Password = new javax.swing.JLabel();
         pwd_Password = new javax.swing.JPasswordField();
-        tbt_DNIe = new javax.swing.JToggleButton();
-        lbl_keystore = new javax.swing.JLabel();
-        lbl_login = new javax.swing.JLabel();
-        bt_OK = new javax.swing.JButton();
-        bt_Cancel = new javax.swing.JButton();
+        tgb_DNIe = new javax.swing.JToggleButton();
+        lbl_Port = new javax.swing.JLabel();
+        txt_Port = new javax.swing.JTextField();
+        btn_OK = new javax.swing.JButton();
+        btn_Cancel = new javax.swing.JButton();
+        txt_groupname = new javax.swing.JTextField();
 
         setOpaque(false);
 
         lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24));
         lbl_Title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/wizard.png"))); // NOI18N
-        lbl_Title.setText("Wizard - Server Searcher");
+        lbl_Title.setText("Wizard");
 
         pn_Container.setOpaque(false);
 
         lb_Interface.setForeground(new java.awt.Color(204, 204, 204));
         lb_Interface.setText("Interface:");
 
+        cmb_interfaces.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_interfacesItemStateChanged(evt);
+            }
+        });
+
+        cb_global.setForeground(new java.awt.Color(204, 204, 204));
+        cb_global.setText("Use global settings");
+        cb_global.setOpaque(false);
+        cb_global.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_globalItemStateChanged(evt);
+            }
+        });
+
+        pn_Server.setOpaque(false);
+
+        lbl_keystore.setFont(new java.awt.Font("Dialog", 1, 18));
+        lbl_keystore.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_keystore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/certificate.png"))); // NOI18N
+        lbl_keystore.setText("KeyStore");
+
         pn_keyStore.setOpaque(false);
 
-        bt_Select.setText("Select");
+        txt_keyStore.setEditable(false);
+
+        btn_Select.setText("Select");
+        btn_Select.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_SelectActionPerformed(evt);
+            }
+        });
 
         lbl_File.setForeground(new java.awt.Color(204, 204, 204));
         lbl_File.setText("File:");
@@ -86,48 +135,58 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
             pn_keyStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_keyStoreLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pn_keyStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_keyStoreLayout.createSequentialGroup()
-                        .addComponent(txt_keyStore, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_Select))
-                    .addComponent(lbl_File))
+                .addComponent(lbl_File)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_keyStore, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_Select)
                 .addContainerGap())
         );
         pn_keyStoreLayout.setVerticalGroup(
             pn_keyStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_keyStoreLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_File)
-                .addGap(14, 14, 14)
                 .addGroup(pn_keyStoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_keyStore, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_Select))
+                    .addComponent(btn_Select)
+                    .addComponent(lbl_File))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cb_global.setForeground(new java.awt.Color(204, 204, 204));
-        cb_global.setText("Use global settings");
-        cb_global.setOpaque(false);
+        tgb_Login.setFont(new java.awt.Font("Dialog", 1, 18));
+        tgb_Login.setForeground(new java.awt.Color(204, 204, 204));
+        tgb_Login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/usersb-bw.png"))); // NOI18N
+        tgb_Login.setText("Login");
+        tgb_Login.setBorderPainted(false);
+        tgb_Login.setContentAreaFilled(false);
+        tgb_Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tgb_Login.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/usersb.png"))); // NOI18N
+        tgb_Login.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tgb_LoginItemStateChanged(evt);
+            }
+        });
 
         pn_login.setOpaque(false);
 
-        lbl_user.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_user.setText("User:");
+        lbl_User.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_User.setText("User:");
 
         lbl_Password.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Password.setText("Password:");
 
-        tbt_DNIe.setForeground(new java.awt.Color(204, 204, 204));
-        tbt_DNIe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/secure-card.png"))); // NOI18N
-        tbt_DNIe.setText("DNIe");
-        tbt_DNIe.setBorderPainted(false);
-        tbt_DNIe.setContentAreaFilled(false);
-        tbt_DNIe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        tbt_DNIe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        tbt_DNIe.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbt_DNIeActionPerformed(evt);
+        tgb_DNIe.setForeground(new java.awt.Color(204, 204, 204));
+        tgb_DNIe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/secure-card-bw.png"))); // NOI18N
+        tgb_DNIe.setText("DNIe");
+        tgb_DNIe.setBorderPainted(false);
+        tgb_DNIe.setContentAreaFilled(false);
+        tgb_DNIe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tgb_DNIe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        tgb_DNIe.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/secure-card.png"))); // NOI18N
+        tgb_DNIe.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        tgb_DNIe.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tgb_DNIeItemStateChanged(evt);
             }
         });
 
@@ -136,87 +195,136 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
         pn_loginLayout.setHorizontalGroup(
             pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_loginLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_user)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
+                .addComponent(lbl_User)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txt_User, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_Password)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pwd_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tbt_DNIe)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(tgb_DNIe)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         pn_loginLayout.setVerticalGroup(
             pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_loginLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbl_user, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_User, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbl_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(pwd_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tbt_DNIe, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tgb_DNIe, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pn_loginLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pwd_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_User, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_User, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lbl_keystore.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lbl_keystore.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_keystore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/certificate.png"))); // NOI18N
-        lbl_keystore.setText("KeyStore");
+        javax.swing.GroupLayout pn_ServerLayout = new javax.swing.GroupLayout(pn_Server);
+        pn_Server.setLayout(pn_ServerLayout);
+        pn_ServerLayout.setHorizontalGroup(
+            pn_ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_ServerLayout.createSequentialGroup()
+                .addGroup(pn_ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pn_ServerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbl_keystore))
+                    .addComponent(tgb_Login)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ServerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ServerLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pn_keyStore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        pn_ServerLayout.setVerticalGroup(
+            pn_ServerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_ServerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_keystore, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pn_keyStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tgb_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        lbl_login.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lbl_login.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_login.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/userlogin.png"))); // NOI18N
-        lbl_login.setText("Login");
+        lbl_Port.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_Port.setText("Port:");
+
+        txt_Port.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_Port.setText(String.valueOf(Config.GlobalServerCFG.port));
 
         javax.swing.GroupLayout pn_ContainerLayout = new javax.swing.GroupLayout(pn_Container);
         pn_Container.setLayout(pn_ContainerLayout);
         pn_ContainerLayout.setHorizontalGroup(
             pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_ContainerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pn_login, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pn_keyStore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_keystore)
-                    .addComponent(lbl_login, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pn_ContainerLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ContainerLayout.createSequentialGroup()
+                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_ContainerLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(lb_Interface)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmb_interfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_Port)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cb_global)))
+                        .addComponent(cb_global))
+                    .addGroup(pn_ContainerLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(pn_Server, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pn_ContainerLayout.setVerticalGroup(
             pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_ContainerLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addContainerGap()
                 .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lb_Interface)
                     .addComponent(cmb_interfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_Port)
+                    .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cb_global))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_keystore, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pn_keyStore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_login, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pn_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pn_Server, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        bt_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
-        bt_OK.setText("OK");
-
-        bt_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
-        bt_Cancel.setText("Cancel");
-        bt_Cancel.addActionListener(new java.awt.event.ActionListener() {
+        btn_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
+        btn_OK.setText("Start");
+        btn_OK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_CancelActionPerformed(evt);
+                btn_OKActionPerformed(evt);
+            }
+        });
+
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setText("Cancel");
+        btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CancelActionPerformed(evt);
+            }
+        });
+
+        txt_groupname.setBackground(new Color(0,0,0,0));
+        txt_groupname.setEditable(false);
+        txt_groupname.setFont(new java.awt.Font("Dialog", 0, 18));
+        txt_groupname.setForeground(new java.awt.Color(204, 204, 204));
+        txt_groupname.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txt_groupname.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txt_groupname.setOpaque(false);
+        txt_groupname.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_groupnameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_groupnameFocusLost(evt);
             }
         });
 
@@ -226,61 +334,151 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_Title, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(bt_Cancel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pn_Container, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_Cancel)
                         .addGap(18, 18, 18)
-                        .addComponent(bt_OK)))
+                        .addComponent(btn_OK))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(lbl_Title)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_groupname, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_groupname, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_OK)
-                    .addComponent(bt_Cancel))
+                    .addComponent(btn_OK)
+                    .addComponent(btn_Cancel))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbt_DNIeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbt_DNIeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tbt_DNIeActionPerformed
-
-    private void bt_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_CancelActionPerformed
+    private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelActionPerformed
         GUI.loadPlugin(panel);
         GUI.visibleToolBar();
-    }//GEN-LAST:event_bt_CancelActionPerformed
+    }//GEN-LAST:event_btn_CancelActionPerformed
+
+    private void btn_SelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SelectActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.setDialogTitle("Select the keystore file:");
+        jfc.setMultiSelectionEnabled(false);
+        jfc.setDialogType(JFileChooser.OPEN_DIALOG);
+        int status= jfc.showOpenDialog(this);
+        switch(status){
+            case JFileChooser.CANCEL_OPTION:
+                txt_keyStore.setText("");
+                return;
+            case JFileChooser.ERROR_OPTION:
+                pn_Info.Load((JPanel)this.getParent(), this, "Error selecting file", "It was an error to choose the keystore file", pn_Info.ICON_ERROR);
+                return;
+        }
+        if(!jfc.getSelectedFile().canRead()){
+            pn_Info.Load((JPanel)this.getParent(), this, "File can't be readed", "File is unreadable, check permissions", pn_Info.ICON_ERROR);
+            return;
+        }
+        txt_keyStore.setText(jfc.getSelectedFile().getAbsolutePath());
+    }//GEN-LAST:event_btn_SelectActionPerformed
+
+    private void tgb_LoginItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tgb_LoginItemStateChanged
+        pn_login.setVisible(tgb_Login.isSelected());
+}//GEN-LAST:event_tgb_LoginItemStateChanged
+
+    private void tgb_DNIeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tgb_DNIeItemStateChanged
+        lbl_User.setVisible(!tgb_DNIe.isSelected());
+        txt_User.setVisible(!tgb_DNIe.isSelected());
+        lbl_Password.setVisible(!tgb_DNIe.isSelected());
+        pwd_Password.setVisible(!tgb_DNIe.isSelected());
+    }//GEN-LAST:event_tgb_DNIeItemStateChanged
+
+    private void cmb_interfacesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_interfacesItemStateChanged
+        if(evt.getStateChange()==ItemEvent.SELECTED){
+            if(!name_edited){
+                txt_groupname.setText("net" + cmb_interfaces.getSelectedItem().toString());
+            }
+            if(((List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem())).size() >1){
+                pn_Addresses adds = new pn_Addresses(this,(List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem()));
+                GUI.loadPlugin(adds);
+                GUI.visibleToolBar();
+                selectedInterfaces = adds.getList(); 
+            }else{
+                selectedInterfaces = (List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem());
+            }
+        }
+    }//GEN-LAST:event_cmb_interfacesItemStateChanged
+
+    private void txt_groupnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_groupnameFocusGained
+        old_name = txt_groupname.getText();
+        txt_groupname.setEditable(true);
+        txt_groupname.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+    }//GEN-LAST:event_txt_groupnameFocusGained
+
+    private void txt_groupnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_groupnameFocusLost
+        if(!old_name.equals(txt_groupname.getText())) name_edited=true;
+        txt_groupname.setEditable(false);
+        txt_groupname.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_txt_groupnameFocusLost
+
+    private void btn_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OKActionPerformed
+        if(check()){
+            pn_Searcher searcher =new pn_Searcher(selectedInterfaces,port, 
+                    txt_keyStore.getText(), kspasswd, tgb_DNIe.isSelected(),txt_User.getText(), password, tgb_Login.isSelected());
+            GUI.loadPlugin(searcher);
+            searcher.startSearch();
+        }
+        
+    }//GEN-LAST:event_btn_OKActionPerformed
+
+    private void cb_globalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_globalItemStateChanged
+        if(cb_global.isSelected()){
+           loadGlobalConfig();
+        }
+    }//GEN-LAST:event_cb_globalItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_Cancel;
-    private javax.swing.JButton bt_OK;
-    private javax.swing.JButton bt_Select;
+    private javax.swing.JButton btn_Cancel;
+    private javax.swing.JButton btn_OK;
+    private javax.swing.JButton btn_Select;
     private javax.swing.JCheckBox cb_global;
     private javax.swing.JComboBox cmb_interfaces;
     private javax.swing.JLabel lb_Interface;
     private javax.swing.JLabel lbl_File;
     private javax.swing.JLabel lbl_Password;
+    private javax.swing.JLabel lbl_Port;
     private javax.swing.JLabel lbl_Title;
+    private javax.swing.JLabel lbl_User;
     private javax.swing.JLabel lbl_keystore;
-    private javax.swing.JLabel lbl_login;
-    private javax.swing.JLabel lbl_user;
     private javax.swing.JPanel pn_Container;
+    private javax.swing.JPanel pn_Server;
     private javax.swing.JPanel pn_keyStore;
     private javax.swing.JPanel pn_login;
     private javax.swing.JPasswordField pwd_Password;
-    private javax.swing.JToggleButton tbt_DNIe;
+    private javax.swing.JToggleButton tgb_DNIe;
+    private javax.swing.JToggleButton tgb_Login;
+    private javax.swing.JTextField txt_Port;
     private javax.swing.JTextField txt_User;
+    private javax.swing.JTextField txt_groupname;
     private javax.swing.JTextField txt_keyStore;
     // End of variables declaration//GEN-END:variables
 
+    private void loadGlobalConfig(){
+        if(Config.GlobalServerCFG.keyStore!=null)txt_keyStore.setText(Config.GlobalServerCFG.keyStore);
+        if(Config.GlobalServerCFG.ksPasswd!=null)kspasswd = Config.GlobalServerCFG.ksPasswd;
+        tgb_Login.setSelected(Config.GlobalServerCFG.checkClient);
+        if(!Config.GlobalServerCFG.checkClient)return;
+        tgb_DNIe.setSelected(Config.GlobalServerCFG.dnie);
+        if(Config.GlobalServerCFG.dnie) return;
+        if(Config.GlobalServerCFG.user!=null)txt_User.setText(Config.GlobalServerCFG.user);
+    }
     private void loadData(){
         if(interfaces!=null){
             Iterator i = interfaces.keySet().iterator();
@@ -288,5 +486,49 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
                 cmb_interfaces.addItem(i.next());
             }
         }
+        selectedInterfaces = (List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem());
+    }
+    
+    private boolean check(){
+        if(txt_Port.getText().trim().isEmpty()) txt_Port.setText(String.valueOf(Config.GlobalServerCFG.port));
+        try{
+            port = Integer.parseInt(txt_Port.getText());
+            if(port<1 || port >65536){
+                pn_Info.Load((JPanel) this.getParent(), this, "Bad port", "Port must be a number between 1 and 65536.", pn_Info.ICON_ERROR);
+                return false;
+            }    
+        }catch(NumberFormatException ex){
+            pn_Info.Load((JPanel) this.getParent(), this, "Bad port", "Port must be a number.", pn_Info.ICON_ERROR);
+            return false;
+        }
+        if(txt_keyStore.getText().isEmpty()){
+            pn_Info.Load((JPanel) this.getParent(), this, "Empty KeyStore", "KeyStore is necessary to connect to a blasar server.", pn_Info.ICON_ERROR);
+            return false;
+        }
+        dg_Password kspwd = new dg_Password(null, true);
+        kspwd.setHeader("Insert the KeyStore Password");
+        kspwd.setLocationRelativeTo(this);
+        kspwd.setVisible(true);
+        kspasswd = kspwd.getPassword();
+        if(kspasswd ==null){
+            pn_Info.Load((JPanel) this.getParent(), this, "KeyStore password missing", "Please insert the KeyStore's password. <br>Keystore's password is required because blasar use an encrypted connection.", pn_Info.ICON_ERROR);
+            return false;
+        }
+        if(tgb_Login.isSelected()){
+            if(tgb_DNIe.isSelected()){
+                dg_Password pwd = new dg_Password(null, true);
+                pwd.setHeader("Insert PIN");
+                pwd.setLocationRelativeTo(this);
+                pwd.setVisible(true);
+                password = pwd.getPassword();
+                if(password == null){
+                    pn_Info.Load((JPanel) this.getParent(), this, "PIN missing", "Please insert your DNIe PIN. <br>Otherwise uncheck DNIe System or Login verification.", pn_Info.ICON_ERROR);
+                    return false;
+                }
+            }else{
+                password = pwd_Password.getPassword();
+            }
+        }
+        return true;
     }
 }

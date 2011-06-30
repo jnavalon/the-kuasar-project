@@ -33,10 +33,10 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="75" max="-2" attributes="1"/>
-                              <Component id="txt_name" pref="203" max="32767" attributes="0"/>
+                              <Component id="txt_name" pref="210" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="190" max="32767" attributes="0"/>
+                              <EmptySpace pref="200" max="32767" attributes="0"/>
                               <Component id="btn_Add" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>

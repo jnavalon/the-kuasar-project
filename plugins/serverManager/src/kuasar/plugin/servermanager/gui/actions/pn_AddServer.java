@@ -16,8 +16,9 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import kuasar.plugin.Intercom.GUI;
+import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.pn_Main;
-import kuasar.plugin.servermanager.network.Utils;
+import kuasar.plugin.servermanager.network.utils.IP;
 import kuasar.plugin.utils.XML;
 
 /**
@@ -29,6 +30,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
      private pn_Main panel;
      private int timeLeft =10;
      private boolean autosave= true;
+     private int port;
      private Timer autoclose= new Timer (1000, new ActionListener(){
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -73,6 +75,9 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         lbl_BAddress = new javax.swing.JLabel();
         lbl_BName = new javax.swing.JLabel();
         pn_scan = new javax.swing.JPanel();
+        lbl_Port = new javax.swing.JLabel();
+        txt_Port = new javax.swing.JTextField();
+        lbl_BPort = new javax.swing.JLabel();
         bt_accept = new javax.swing.JButton();
         bt_cancel = new javax.swing.JButton();
 
@@ -80,7 +85,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
 
         pn_Container.setOpaque(false);
 
-        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/server.png"))); // NOI18N
         lbl_title.setText("Add Server");
@@ -124,8 +129,21 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         );
         pn_scanLayout.setVerticalGroup(
             pn_scanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 238, Short.MAX_VALUE)
+            .addGap(0, 153, Short.MAX_VALUE)
         );
+
+        lbl_Port.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_Port.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_Port.setText("Port:");
+
+        txt_Port.setBackground(new Color(0,0,0,0));
+        txt_Port.setForeground(new java.awt.Color(204, 204, 204));
+        txt_Port.setText(String.valueOf(Config.GlobalServerCFG.port));
+        txt_Port.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txt_Port.setOpaque(false);
+
+        lbl_BPort.setForeground(new java.awt.Color(204, 0, 0));
+        lbl_BPort.setText("Bad port");
 
         javax.swing.GroupLayout pn_ContainerLayout = new javax.swing.GroupLayout(pn_Container);
         pn_Container.setLayout(pn_ContainerLayout);
@@ -137,18 +155,23 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
                         .addContainerGap()
                         .addComponent(lbl_title))
                     .addGroup(pn_ContainerLayout.createSequentialGroup()
-                        .addGap(79, 79, 79)
+                        .addGap(76, 76, 76)
                         .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lbl_Address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_hostname))
+                            .addComponent(lbl_hostname)
+                            .addComponent(lbl_Port, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_Address)
-                            .addComponent(txt_hostname, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_Address)
+                                .addComponent(txt_hostname, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbl_BAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_BName, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)))
+                        .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_BPort)
+                            .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lbl_BAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_BName, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))))
                     .addGroup(pn_ContainerLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(pn_scan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -157,7 +180,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         pn_ContainerLayout.setVerticalGroup(
             pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_ContainerLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(lbl_title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -169,7 +192,12 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
                     .addComponent(lbl_Address)
                     .addComponent(txt_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_BAddress))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_Port)
+                    .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_BPort))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_scan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -194,19 +222,19 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(410, Short.MAX_VALUE)
+                .addContainerGap(423, Short.MAX_VALUE)
                 .addComponent(bt_cancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_accept)
                 .addContainerGap())
+            .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(7, 7, 7)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_accept)
                     .addComponent(bt_cancel))
@@ -230,7 +258,8 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         hideErrors();
         bt_accept.setText("Checking...");
         bt_accept.setEnabled(false);
-        if(!Utils.isIP(txt_Address.getText().trim()))
+        
+        if(!IP.isIP(txt_Address.getText().trim()))
             lbl_BAddress.setVisible(true);
         if(!XML.isCorrectName(txt_hostname.getText().trim())){
             lbl_BName.setText("Bad name");
@@ -238,11 +267,19 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
             lbl_BName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/help.png")));
             lbl_BName.setVisible(true);
         }
+        try{
+            port = Integer.parseInt(txt_Port.getText());
+            if(port<1 || port > 65535){
+                lbl_BPort.setVisible(true);
+            }
+        }catch(NumberFormatException ex){
+            lbl_BPort.setVisible(true);
+        }
         if(panel.childExists(txt_hostname.getText().trim())){
             lbl_BName.setText("Name alredy exists!");
             lbl_BName.setVisible(true);
         }
-        if(lbl_BAddress.isVisible()|| lbl_BName.isVisible()){
+        if(lbl_BAddress.isVisible()|| lbl_BName.isVisible()|| lbl_BPort.isVisible()){
             bt_accept.setText("Check");
             autosave=true;
             lbl_BName.setToolTipText(null);
@@ -250,7 +287,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
             bt_accept.setEnabled(true);
             return;
         }
-        pn_CheckServer checker = new pn_CheckServer(this,txt_Address.getText().trim());
+        pn_CheckServer checker = new pn_CheckServer(this,txt_Address.getText().trim(),port);
         pn_scan.removeAll();
         checker.setBounds(0, 0, pn_scan.getWidth(), pn_scan.getHeight());
         pn_scan.add(checker);
@@ -266,11 +303,14 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
     private javax.swing.JLabel lbl_Address;
     private javax.swing.JLabel lbl_BAddress;
     private javax.swing.JLabel lbl_BName;
+    private javax.swing.JLabel lbl_BPort;
+    private javax.swing.JLabel lbl_Port;
     private javax.swing.JLabel lbl_hostname;
     private javax.swing.JLabel lbl_title;
     private javax.swing.JPanel pn_Container;
     private javax.swing.JPanel pn_scan;
     private javax.swing.JTextField txt_Address;
+    private javax.swing.JTextField txt_Port;
     private javax.swing.JTextField txt_hostname;
     // End of variables declaration//GEN-END:variables
 
@@ -280,7 +320,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         bt_accept.setEnabled(true);
     }
     protected boolean  Save(){
-        panel.addServer(txt_hostname.getText(), txt_Address.getText());
+        panel.addServer(txt_hostname.getText(), txt_Address.getText(), port);
         if(autosave){
             autoclose.start();
         }
@@ -294,5 +334,6 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
     private void hideErrors(){
         lbl_BAddress.setVisible(false);
         lbl_BName.setVisible(false);
+        lbl_BPort.setVisible(false);
     }
 }
