@@ -23,6 +23,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.ProviderException;
 import java.security.Security;
 import java.security.Signature;
 import java.security.SignatureException;
@@ -32,8 +33,6 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.smartcardio.CardException;
 import javax.smartcardio.CardTerminal;
 import javax.smartcardio.TerminalFactory;
@@ -112,13 +111,13 @@ public class DNIe {
     }
     //************************************************************UNTESTED*********************************************************************
     
-    public static boolean loadKeyStore() throws CardException, KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
+    public static boolean loadKeyStore() throws CardException, KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, ProviderException {
         keyStore = getKeyStore();
         keyStore.load(null, pin);
         return true;
     }
 
-    public static X509Certificate getCertificate() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, CardException {
+    public static X509Certificate getCertificate() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, CardException, ProviderException {
         if (keyStore == null) {
             if (!loadKeyStore()) {
                 return null;
@@ -127,7 +126,7 @@ public class DNIe {
         return (X509Certificate) keyStore.getCertificate(getAlias());
     }
 
-    private static String getAlias() throws KeyStoreException, CardException, IOException, NoSuchAlgorithmException, CertificateException {
+    private static String getAlias() throws KeyStoreException, CardException, IOException, NoSuchAlgorithmException, CertificateException, ProviderException {
         if (keyStore == null) {
             loadKeyStore();
         }
@@ -148,7 +147,7 @@ public class DNIe {
         return alias;
     }
 
-    private static KeyStore getKeyStore() throws KeyStoreException {
+    private static KeyStore getKeyStore() throws KeyStoreException, ProviderException {
         String cfg = lib == null ? getLibrary() : lib;
         if (cfg == null) {
             return null;
