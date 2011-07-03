@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package kuasar.plugin.servermanager.gui.actions;
 
@@ -15,11 +27,12 @@ import kuasar.plugin.utils.pn_Info;
 
 /**
  *
- * @author jnavalon
+ * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class th_Scan extends Thread {
 
-    pn_Searcher parent;
+    private boolean stop=false;
+    private pn_Searcher parent;
 
     public th_Scan(pn_Searcher parent) {
         this.parent = parent;
@@ -28,11 +41,28 @@ public class th_Scan extends Thread {
     @Override
     public void run() {
         scan();
+        parent.hideStop();
+    }
+    
+    public void abort(){
+        stop=true;
     }
 
     private void scan() {
         List<InterfaceAddress> ias = parent.getInterfaces();
-        for (InterfaceAddress ia : ias) {
+        InterfaceAddress ia;
+        parent.setMaxProgress(100);
+        float percent=0;
+        long addresses=0;
+        long current=0;
+        float weight=0;
+        for(int i =0; i<ias.size(); i++){
+            ia =ias.get(i);
+            addresses += Math.pow(2,(ia.getAddress().getAddress().length==4 ? 32 : 128) - ia.getNetworkPrefixLength())-2;  
+        }
+        weight = (float) (100f/(float)addresses);
+        for (int i=0; i < ias.size() && !stop; i++) {
+            ia=ias.get(i);
             InetAddress inet = ia.getAddress();
             if (ia.getNetworkPrefixLength() > 0) {
                 parent.addLog("Local interface address: " + inet.getHostAddress() + "/" + ia.getNetworkPrefixLength());
@@ -57,7 +87,8 @@ public class th_Scan extends Thread {
                     broadcast = null;
                 }
                 if (broadcast != null) {
-                    while (!curIP.equals(broadcast)) {
+                    while (!curIP.equals(broadcast) && !stop) {
+                        current++;
                         parent.addLog("-> " + curIP.getHostAddress());
                         int status = Connection.checkServer(curIP.getHostAddress(), parent.port, parent.keyStore, parent.kspass, parent.user, parent.pass, parent.dnie);
                         if (status <= 0) {
@@ -66,6 +97,10 @@ public class th_Scan extends Thread {
                             parent.addServer(curIP.getHostName(), curIP.getHostAddress());
                         }
                         curIP = IP.getNextIP(curIP);
+                        percent+=weight;
+                        int round = Math.round(percent);
+                        parent.setProgress(round);
+                        parent.setProgressText(round + "% ( " + current + " / " + addresses + " )");
                     }
                 }
             }

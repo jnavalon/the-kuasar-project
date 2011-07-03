@@ -100,7 +100,7 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/kuasar/plugin/servermanager/icons/nologg.png"/>
+          <Image iconType="3" name="/kuasar/plugin/servermanager/icons/nologged.png"/>
         </Property>
       </Properties>
     </Component>

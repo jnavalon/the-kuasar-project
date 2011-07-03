@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -63,14 +75,14 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         lbl_server.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/bad_server.png"))); // NOI18N
 
         lbl_user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/nologg.png"))); // NOI18N
+        lbl_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/nologged.png"))); // NOI18N
 
         pb_progress.setIndeterminate(true);
 
         lbl_status.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/face-sad.png"))); // NOI18N
         lbl_status.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_title.setForeground(new java.awt.Color(204, 204, 204));
 
         lbl_info.setForeground(new java.awt.Color(204, 204, 204));
@@ -343,5 +355,8 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         } else {
             parent.setManual();
         }
+        pb_progress.setIndeterminate(false);
+        pb_progress.setMaximum(100);
+        pb_progress.setValue(100);
     }
 }
