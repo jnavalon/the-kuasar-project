@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -10,17 +22,23 @@
  */
 package kuasar.plugin.servermanager.gui.actions;
 
+import java.awt.Color;
 import java.net.InterfaceAddress;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import kuasar.plugin.Intercom.GUI;
+import kuasar.plugin.servermanager.gui.pn_Main;
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
+
+    private pn_Main main;
+    private th_Scan scan;
     List<InterfaceAddress> ias = null;
-    DefaultTableModel tableModel=createTableModel();
+    DefaultTableModel tableModel = createTableModel();
     boolean checkUser;
     String user;
     char[] pass;
@@ -28,16 +46,18 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
     char[] kspass;
     boolean dnie;
     int port;
+
     /** Creates new form pn_Searcher */
-    public pn_Searcher(List<InterfaceAddress> ias,int port, String keystore, char[] kspass, boolean dnie, String user, char[] pass, boolean checkUser) {
-        this.checkUser=checkUser;
-        this.user=user;
+    public pn_Searcher(List<InterfaceAddress> ias, int port, String keystore, char[] kspass, boolean dnie, String user, char[] pass, boolean checkUser, pn_Main main) {
+        this.main = main;
+        this.checkUser = checkUser;
+        this.user = user;
         this.pass = pass;
-        this.keyStore=keystore;
-        this.kspass=kspass;
-        this.dnie=dnie;
+        this.keyStore = keystore;
+        this.kspass = kspass;
+        this.dnie = dnie;
         this.ias = ias;
-        this.port=port;
+        this.port = port;
         initComponents();
         spn_Servers.getViewport().setOpaque(false);
     }
@@ -54,21 +74,32 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
         spn_Servers = new javax.swing.JScrollPane();
         tbl_Servers = new javax.swing.JTable();
         pb_Progress = new javax.swing.JProgressBar();
-        jButton1 = new javax.swing.JButton();
+        btn_OK = new javax.swing.JButton();
         lbl_log = new javax.swing.JLabel();
         spn_log = new javax.swing.JScrollPane();
         txa_log = new javax.swing.JTextArea();
+        btn_Cancel = new javax.swing.JButton();
+        btn_stop = new javax.swing.JButton();
+
+        setOpaque(false);
 
         spn_Servers.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         spn_Servers.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         spn_Servers.setOpaque(false);
 
+        tbl_Servers.setBackground(new Color(0,0,0,0f));
         tbl_Servers.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tbl_Servers.setForeground(new java.awt.Color(204, 204, 204));
         tbl_Servers.setModel(tableModel);
         tbl_Servers.setOpaque(false);
+        tbl_Servers.setTableHeader(null);
         spn_Servers.setViewportView(tbl_Servers);
 
-        jButton1.setText("Save");
+        pb_Progress.setString("");
+        pb_Progress.setStringPainted(true);
+
+        btn_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
+        btn_OK.setText("Save");
 
         lbl_log.setForeground(new java.awt.Color(204, 204, 204));
         lbl_log.setText("Log:");
@@ -78,20 +109,45 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
         txa_log.setRows(5);
         spn_log.setViewportView(txa_log);
 
+        btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
+        btn_Cancel.setText("Cancel");
+        btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CancelActionPerformed(evt);
+            }
+        });
+
+        btn_stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/stop.png"))); // NOI18N
+        btn_stop.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_stop.setBorderPainted(false);
+        btn_stop.setContentAreaFilled(false);
+        btn_stop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_stopActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spn_log, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
-                    .addComponent(spn_Servers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(pb_Progress, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_stop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addComponent(lbl_log))
+                        .addComponent(pb_Progress, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Cancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_OK))
+                    .addComponent(spn_log, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                    .addComponent(lbl_log, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(spn_Servers)
+                        .addGap(35, 35, 35)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -103,15 +159,32 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
                 .addComponent(lbl_log)
                 .addGap(4, 4, 4)
                 .addComponent(spn_log)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addComponent(pb_Progress, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pb_Progress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btn_OK, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
+                        .addComponent(btn_stop, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                        .addComponent(btn_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelActionPerformed
+        abortSearch();
+        GUI.loadPlugin(main);
+        GUI.visibleToolBar();
+    }//GEN-LAST:event_btn_CancelActionPerformed
+
+    private void btn_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_stopActionPerformed
+        abortSearch();
+        btn_stop.setVisible(false);
+    }//GEN-LAST:event_btn_stopActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_Cancel;
+    private javax.swing.JButton btn_OK;
+    private javax.swing.JButton btn_stop;
     private javax.swing.JLabel lbl_log;
     private javax.swing.JProgressBar pb_Progress;
     private javax.swing.JScrollPane spn_Servers;
@@ -119,50 +192,82 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JTable tbl_Servers;
     private javax.swing.JTextArea txa_log;
     // End of variables declaration//GEN-END:variables
-    protected void startSearch(){
-        th_Scan scan = new th_Scan(this);
+
+    private void abortSearch() {
+        if (scan != null) {
+            if (scan.isAlive()) {
+                scan.abort();
+                try {
+                    scan.join();
+                } catch (InterruptedException ex) {
+                    System.err.println("serverManager:\t Was impossible to wait scan process");
+                }
+            }
+        }
+    }
+
+    protected void startSearch() {
+        scan = new th_Scan(this);
         scan.start();
     }
-    private DefaultTableModel createTableModel(){
-         return new javax.swing.table.DefaultTableModel(
-            new Object [][] {
 
-            },
-            new String [] {
-                "Hostname", "Address"
-            }
-        ) {
-            Class[] types = new Class [] {
+    private DefaultTableModel createTableModel() {
+        return new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{
+                    "Hostname", "Address"
+                }) {
+
+            Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
+            boolean[] canEdit = new boolean[]{
                 true, false
             };
 
-        @Override
+            @Override
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
-        @Override
+            @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         };
     }
-    protected void addServer(String name, String IP){
-        tableModel.addRow(new Object[]{name,IP});
+
+    protected void addServer(String name, String IP) {
+        tableModel.addRow(new Object[]{name, IP});
     }
-    protected void setMaxProgress(int max){
+
+    protected void setMaxProgress(int max) {
         pb_Progress.setMaximum(max);
     }
-    protected void setProgress(int progress){
-        pb_Progress.setValue(progress);
+
+    protected void setProgress(int progress) {
+        if(progress<0){
+            if(!pb_Progress.isIndeterminate())
+                pb_Progress.setIndeterminate(true);
+        }else{
+            if(pb_Progress.isIndeterminate())
+                pb_Progress.setIndeterminate(false);
+            pb_Progress.setValue(progress);
+        }
+        
     }
-    protected List<InterfaceAddress> getInterfaces(){
+    protected void  setProgressText(String text){
+        pb_Progress.setString(text);
+    }
+    protected void hideStop(){
+        btn_stop.setVisible(false);
+    }
+
+    protected List<InterfaceAddress> getInterfaces() {
         return ias;
     }
-    protected void addLog(String message){
+
+    protected void addLog(String message) {
         txa_log.append(message + "\n");
         txa_log.setCaretPosition(txa_log.getText().length());
     }

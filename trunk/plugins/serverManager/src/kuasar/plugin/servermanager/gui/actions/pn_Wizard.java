@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -31,21 +43,22 @@ import kuasar.plugin.utils.pn_Info;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
+
     private pn_Main panel;
-    private HashMap<String,List<InterfaceAddress>> interfaces = IP.getInterfaces();
+    private HashMap<String, List<InterfaceAddress>> interfaces = IP.getInterfaces();
     private boolean name_edited = false;
     private String old_name;
-    private char[] kspasswd=null;
-    private char[] password=null;
+    private char[] kspasswd = null;
+    private char[] password = null;
     private int port;
     private List<InterfaceAddress> selectedInterfaces;
-    
+
     /** Creates new form pn_Wizard */
     public pn_Wizard(pn_Main panel) {
-        this.panel=panel;
+        this.panel = panel;
         initComponents();
         loadData();
-         pn_login.setVisible(false);
+        pn_login.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -77,6 +90,7 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
         tgb_DNIe = new javax.swing.JToggleButton();
         lbl_Port = new javax.swing.JLabel();
         txt_Port = new javax.swing.JTextField();
+        btn_selNetwork = new javax.swing.JButton();
         btn_OK = new javax.swing.JButton();
         btn_Cancel = new javax.swing.JButton();
         txt_groupname = new javax.swing.JTextField();
@@ -260,38 +274,54 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
         txt_Port.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_Port.setText(String.valueOf(Config.GlobalServerCFG.port));
 
+        btn_selNetwork.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/netsel.png"))); // NOI18N
+        btn_selNetwork.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btn_selNetwork.setBorderPainted(false);
+        btn_selNetwork.setContentAreaFilled(false);
+        btn_selNetwork.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_selNetwork.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_selNetworkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pn_ContainerLayout = new javax.swing.GroupLayout(pn_Container);
         pn_Container.setLayout(pn_ContainerLayout);
         pn_ContainerLayout.setHorizontalGroup(
             pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ContainerLayout.createSequentialGroup()
-                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_ContainerLayout.createSequentialGroup()
+            .addGroup(pn_ContainerLayout.createSequentialGroup()
+                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ContainerLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(pn_Server, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pn_ContainerLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lb_Interface)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmb_interfaces, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_selNetwork)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl_Port)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cb_global))
-                    .addGroup(pn_ContainerLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(pn_Server, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(cb_global)))
                 .addContainerGap())
         );
         pn_ContainerLayout.setVerticalGroup(
             pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pn_ContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_Interface)
-                    .addComponent(cmb_interfaces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_Port)
-                    .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_global))
+                .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_selNetwork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmb_interfaces)
+                        .addComponent(lb_Interface))
+                    .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbl_Port)
+                        .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_global)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_Server, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -373,17 +403,17 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
         jfc.setDialogTitle("Select the keystore file:");
         jfc.setMultiSelectionEnabled(false);
         jfc.setDialogType(JFileChooser.OPEN_DIALOG);
-        int status= jfc.showOpenDialog(this);
-        switch(status){
+        int status = jfc.showOpenDialog(this);
+        switch (status) {
             case JFileChooser.CANCEL_OPTION:
                 txt_keyStore.setText("");
                 return;
             case JFileChooser.ERROR_OPTION:
-                pn_Info.Load((JPanel)this.getParent(), this, "Error selecting file", "It was an error to choose the keystore file", pn_Info.ICON_ERROR);
+                pn_Info.Load((JPanel) this.getParent(), this, "Error selecting file", "It was an error to choose the keystore file", pn_Info.ICON_ERROR);
                 return;
         }
-        if(!jfc.getSelectedFile().canRead()){
-            pn_Info.Load((JPanel)this.getParent(), this, "File can't be readed", "File is unreadable, check permissions", pn_Info.ICON_ERROR);
+        if (!jfc.getSelectedFile().canRead()) {
+            pn_Info.Load((JPanel) this.getParent(), this, "File can't be readed", "File is unreadable, check permissions", pn_Info.ICON_ERROR);
             return;
         }
         txt_keyStore.setText(jfc.getSelectedFile().getAbsolutePath());
@@ -401,18 +431,11 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
     }//GEN-LAST:event_tgb_DNIeItemStateChanged
 
     private void cmb_interfacesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_interfacesItemStateChanged
-        if(evt.getStateChange()==ItemEvent.SELECTED){
-            if(!name_edited){
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if (!name_edited) {
                 txt_groupname.setText("net" + cmb_interfaces.getSelectedItem().toString());
             }
-            if(((List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem())).size() >1){
-                pn_Addresses adds = new pn_Addresses(this,(List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem()));
-                GUI.loadPlugin(adds);
-                GUI.visibleToolBar();
-                selectedInterfaces = adds.getList(); 
-            }else{
-                selectedInterfaces = (List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem());
-            }
+            selectedInterfaces = (List<InterfaceAddress>) interfaces.get((String) cmb_interfaces.getSelectedItem());
         }
     }//GEN-LAST:event_cmb_interfacesItemStateChanged
 
@@ -423,31 +446,39 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
     }//GEN-LAST:event_txt_groupnameFocusGained
 
     private void txt_groupnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_groupnameFocusLost
-        if(!old_name.equals(txt_groupname.getText())) name_edited=true;
+        if (!old_name.equals(txt_groupname.getText())) {
+            name_edited = true;
+        }
         txt_groupname.setEditable(false);
         txt_groupname.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_txt_groupnameFocusLost
 
     private void btn_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OKActionPerformed
-        if(check()){
-            pn_Searcher searcher =new pn_Searcher(selectedInterfaces,port, 
-                    txt_keyStore.getText(), kspasswd, tgb_DNIe.isSelected(),txt_User.getText(), password, tgb_Login.isSelected());
+        if (check()) {
+            pn_Searcher searcher = new pn_Searcher(selectedInterfaces, port,
+                    txt_keyStore.getText(), kspasswd, tgb_DNIe.isSelected(), txt_User.getText(), password, tgb_Login.isSelected(), panel);
             GUI.loadPlugin(searcher);
             searcher.startSearch();
         }
-        
+
     }//GEN-LAST:event_btn_OKActionPerformed
 
     private void cb_globalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_globalItemStateChanged
-        if(cb_global.isSelected()){
-           loadGlobalConfig();
+        if (cb_global.isSelected()) {
+            loadGlobalConfig();
         }
     }//GEN-LAST:event_cb_globalItemStateChanged
 
+    private void btn_selNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_selNetworkActionPerformed
+        pn_Addresses adds = new pn_Addresses(this, (List<InterfaceAddress>) interfaces.get((String) cmb_interfaces.getSelectedItem()));
+        GUI.loadPlugin(adds);
+        selectedInterfaces = adds.getList();
+    }//GEN-LAST:event_btn_selNetworkActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancel;
     private javax.swing.JButton btn_OK;
     private javax.swing.JButton btn_Select;
+    private javax.swing.JButton btn_selNetwork;
     private javax.swing.JCheckBox cb_global;
     private javax.swing.JComboBox cmb_interfaces;
     private javax.swing.JLabel lb_Interface;
@@ -470,38 +501,51 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JTextField txt_keyStore;
     // End of variables declaration//GEN-END:variables
 
-    private void loadGlobalConfig(){
-        if(Config.GlobalServerCFG.keyStore!=null)txt_keyStore.setText(Config.GlobalServerCFG.keyStore);
-        if(Config.GlobalServerCFG.ksPasswd!=null)kspasswd = Config.GlobalServerCFG.ksPasswd;
+    private void loadGlobalConfig() {
+        if (Config.GlobalServerCFG.keyStore != null) {
+            txt_keyStore.setText(Config.GlobalServerCFG.keyStore);
+        }
+        if (Config.GlobalServerCFG.ksPasswd != null) {
+            kspasswd = Config.GlobalServerCFG.ksPasswd;
+        }
         tgb_Login.setSelected(Config.GlobalServerCFG.checkClient);
-        if(!Config.GlobalServerCFG.checkClient)return;
+        if (!Config.GlobalServerCFG.checkClient) {
+            return;
+        }
         tgb_DNIe.setSelected(Config.GlobalServerCFG.dnie);
-        if(Config.GlobalServerCFG.dnie) return;
-        if(Config.GlobalServerCFG.user!=null)txt_User.setText(Config.GlobalServerCFG.user);
+        if (Config.GlobalServerCFG.dnie) {
+            return;
+        }
+        if (Config.GlobalServerCFG.user != null) {
+            txt_User.setText(Config.GlobalServerCFG.user);
+        }
     }
-    private void loadData(){
-        if(interfaces!=null){
+
+    private void loadData() {
+        if (interfaces != null) {
             Iterator i = interfaces.keySet().iterator();
-            while(i.hasNext()){
+            while (i.hasNext()) {
                 cmb_interfaces.addItem(i.next());
             }
         }
-        selectedInterfaces = (List<InterfaceAddress>)interfaces.get((String) cmb_interfaces.getSelectedItem());
+        selectedInterfaces = (List<InterfaceAddress>) interfaces.get((String) cmb_interfaces.getSelectedItem());
     }
-    
-    private boolean check(){
-        if(txt_Port.getText().trim().isEmpty()) txt_Port.setText(String.valueOf(Config.GlobalServerCFG.port));
-        try{
+
+    private boolean check() {
+        if (txt_Port.getText().trim().isEmpty()) {
+            txt_Port.setText(String.valueOf(Config.GlobalServerCFG.port));
+        }
+        try {
             port = Integer.parseInt(txt_Port.getText());
-            if(port<1 || port >65536){
+            if (port < 1 || port > 65536) {
                 pn_Info.Load((JPanel) this.getParent(), this, "Bad port", "Port must be a number between 1 and 65536.", pn_Info.ICON_ERROR);
                 return false;
-            }    
-        }catch(NumberFormatException ex){
+            }
+        } catch (NumberFormatException ex) {
             pn_Info.Load((JPanel) this.getParent(), this, "Bad port", "Port must be a number.", pn_Info.ICON_ERROR);
             return false;
         }
-        if(txt_keyStore.getText().isEmpty()){
+        if (txt_keyStore.getText().isEmpty()) {
             pn_Info.Load((JPanel) this.getParent(), this, "Empty KeyStore", "KeyStore is necessary to connect to a blasar server.", pn_Info.ICON_ERROR);
             return false;
         }
@@ -510,22 +554,22 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
         kspwd.setLocationRelativeTo(this);
         kspwd.setVisible(true);
         kspasswd = kspwd.getPassword();
-        if(kspasswd ==null){
+        if (kspasswd == null) {
             pn_Info.Load((JPanel) this.getParent(), this, "KeyStore password missing", "Please insert the KeyStore's password. <br>Keystore's password is required because blasar use an encrypted connection.", pn_Info.ICON_ERROR);
             return false;
         }
-        if(tgb_Login.isSelected()){
-            if(tgb_DNIe.isSelected()){
+        if (tgb_Login.isSelected()) {
+            if (tgb_DNIe.isSelected()) {
                 dg_Password pwd = new dg_Password(null, true);
                 pwd.setHeader("Insert PIN");
                 pwd.setLocationRelativeTo(this);
                 pwd.setVisible(true);
                 password = pwd.getPassword();
-                if(password == null){
+                if (password == null) {
                     pn_Info.Load((JPanel) this.getParent(), this, "PIN missing", "Please insert your DNIe PIN. <br>Otherwise uncheck DNIe System or Login verification.", pn_Info.ICON_ERROR);
                     return false;
                 }
-            }else{
+            } else {
                 password = pwd_Password.getPassword();
             }
         }
