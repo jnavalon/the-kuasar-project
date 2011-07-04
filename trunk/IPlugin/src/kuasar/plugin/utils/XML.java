@@ -35,8 +35,8 @@ public final class XML {
     }
 
     public static String adaptName(String name){
-
         if(name==null) return null;
+        if(name.isEmpty()) return null;
         if(isValidChar(name.charAt(0))==0) name = " " + name;
         if(Character.isDigit(name.charAt(0))) name = " " + name;
         for(int i=0; i<name.length(); i++){
