@@ -23,11 +23,17 @@
 package kuasar.plugin.servermanager.gui.actions;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.net.InterfaceAddress;
 import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.servermanager.gui.pn_Main;
+import kuasar.plugin.utils.XML;
+import kuasar.plugin.utils.pn_Info;
 
 /**
  *
@@ -37,6 +43,7 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
 
     private pn_Main main;
     private th_Scan scan;
+    private String groupName;
     List<InterfaceAddress> ias = null;
     DefaultTableModel tableModel = createTableModel();
     boolean checkUser;
@@ -48,8 +55,9 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
     int port;
 
     /** Creates new form pn_Searcher */
-    public pn_Searcher(List<InterfaceAddress> ias, int port, String keystore, char[] kspass, boolean dnie, String user, char[] pass, boolean checkUser, pn_Main main) {
+    public pn_Searcher(List<InterfaceAddress> ias, int port, String groupName, String keystore, char[] kspass, boolean dnie, String user, char[] pass, boolean checkUser, pn_Main main) {
         this.main = main;
+        this.groupName = groupName;
         this.checkUser = checkUser;
         this.user = user;
         this.pass = pass;
@@ -60,6 +68,7 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
         this.port = port;
         initComponents();
         spn_Servers.getViewport().setOpaque(false);
+        tbl_Servers.setDefaultRenderer(tbl_Servers.getColumnClass(0), new CellRenderer());
     }
 
     /** This method is called from within the constructor to
@@ -100,6 +109,12 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
 
         btn_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
         btn_OK.setText("Save");
+        btn_OK.setEnabled(false);
+        btn_OK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_OKActionPerformed(evt);
+            }
+        });
 
         lbl_log.setForeground(new java.awt.Color(204, 204, 204));
         lbl_log.setText("Log:");
@@ -162,10 +177,9 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pb_Progress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btn_OK, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
-                        .addComponent(btn_stop, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                        .addComponent(btn_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)))
+                    .addComponent(btn_OK, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(btn_stop, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(btn_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, Short.MAX_VALUE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -178,9 +192,19 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
 
     private void btn_stopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_stopActionPerformed
         abortSearch();
-        btn_stop.setVisible(false);
+        enableOK();
     }//GEN-LAST:event_btn_stopActionPerformed
 
+    private void btn_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OKActionPerformed
+        if(saveAll()){
+            GUI.loadPlugin(main);
+            GUI.visibleToolBar();
+        }else{
+            pn_Info.Load((JPanel) this.getParent(), this, "Error saving data", "All or some servers detected weren't saved. <p> Check for bad names (Red text) "
+                    + "or duplicated names", pn_Info.ICON_ERROR);
+        }
+        
+    }//GEN-LAST:event_btn_OKActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancel;
     private javax.swing.JButton btn_OK;
@@ -193,6 +217,46 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JTextArea txa_log;
     // End of variables declaration//GEN-END:variables
 
+    private boolean saveAll() {
+        if(tableModel.getRowCount()==0){
+            return true;
+        }
+        boolean close = true;
+        DefaultTableModel tmAux = createTableModel();
+        if (!main.addGroup(groupName)) {
+            pn_Info.Load((JPanel) this.getParent(), this, "Error saving groupname", "It was impossible to save the groupname.", pn_Info.ICON_ERROR);
+            return false;
+        }
+        main.goTo(groupName);
+        for(int i=0; i<tableModel.getRowCount(); i++){
+            String name = (String) tableModel.getValueAt(i, 0);
+            if(!XML.isCorrectName(name)){
+                close = false;
+                tmAux.addRow(new Object[]{tableModel.getValueAt(i, 0),tableModel.getValueAt(i, 1)});
+            }else{
+                if(main.childExists(name)){
+                    close = false;
+                    tmAux.addRow(new Object[]{tableModel.getValueAt(i, 0),tableModel.getValueAt(i, 1)});
+                }else{
+                    if(!main.addServer(name, (String) tableModel.getValueAt(i, 1), port)){
+                        close = false;
+                        tmAux.addRow(new Object[]{tableModel.getValueAt(i, 0),tableModel.getValueAt(i, 1)});
+                    }
+                }
+            }
+        }
+        tableModel=tmAux;
+        tbl_Servers.setModel(tableModel);
+        return close;
+    }
+    
+    /* Check ServerNames
+     *
+     * Return:
+     * Rows with bad names;
+     * 
+     */
+    
     private void abortSearch() {
         if (scan != null) {
             if (scan.isAlive()) {
@@ -204,13 +268,18 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
                 }
             }
         }
+        btn_OK.setEnabled(true);
     }
 
     protected void startSearch() {
         scan = new th_Scan(this);
         scan.start();
     }
-
+    
+    public void enableOK(){
+        btn_OK.setEnabled(true);
+    }
+    
     private DefaultTableModel createTableModel() {
         return new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
@@ -238,7 +307,7 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
     }
 
     protected void addServer(String name, String IP) {
-        tableModel.addRow(new Object[]{name, IP});
+        tableModel.addRow(new Object[]{name,IP});
     }
 
     protected void setMaxProgress(int max) {
@@ -246,20 +315,24 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
     }
 
     protected void setProgress(int progress) {
-        if(progress<0){
-            if(!pb_Progress.isIndeterminate())
+        if (progress < 0) {
+            if (!pb_Progress.isIndeterminate()) {
                 pb_Progress.setIndeterminate(true);
-        }else{
-            if(pb_Progress.isIndeterminate())
+            }
+        } else {
+            if (pb_Progress.isIndeterminate()) {
                 pb_Progress.setIndeterminate(false);
+            }
             pb_Progress.setValue(progress);
         }
-        
+
     }
-    protected void  setProgressText(String text){
+
+    protected void setProgressText(String text) {
         pb_Progress.setString(text);
     }
-    protected void hideStop(){
+
+    protected void hideStop() {
         btn_stop.setVisible(false);
     }
 
@@ -271,4 +344,19 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
         txa_log.append(message + "\n");
         txa_log.setCaretPosition(txa_log.getText().length());
     }
+}
+class CellRenderer extends DefaultTableCellRenderer
+{
+    @Override
+   public Component getTableCellRendererComponent(JTable table,Object value,boolean isSelected, boolean hasFocus, int row, int column)
+   {
+      super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);
+      String name = (String) value;
+      if (XML.isCorrectName(name)){
+         this.setForeground(new Color(204,204,204));
+      }else{
+          this.setForeground(Color.red);
+      }
+      return this;
+   }
 }

@@ -90,10 +90,14 @@ public class th_Scan extends Thread {
                     while (!curIP.equals(broadcast) && !stop) {
                         current++;
                         parent.addLog("-> " + curIP.getHostAddress());
-                        int status = Connection.checkServer(curIP.getHostAddress(), parent.port, parent.keyStore, parent.kspass, parent.user, parent.pass, parent.dnie);
+                        int status = Connection.checkServer(curIP.getHostAddress(), parent.port, parent.keyStore, parent.kspass, parent.user, parent.pass, parent.checkUser);
                         if (status <= 0) {
                             logError(status, curIP.getHostAddress());
                         } else {
+                            if(parent.checkUser){
+                                if(status<2)
+                                    parent.addLog(curIP.getHostAddress() + " : " + "Bad User / Password");
+                            }
                             parent.addServer(curIP.getHostName(), curIP.getHostAddress());
                         }
                         curIP = IP.getNextIP(curIP);
@@ -105,6 +109,7 @@ public class th_Scan extends Thread {
                 }
             }
         }
+        parent.enableOK();
     }
 
     private void logError(int status, String address) {

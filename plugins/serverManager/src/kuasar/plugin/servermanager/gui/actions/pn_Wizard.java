@@ -36,6 +36,7 @@ import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.pn_Main;
 import kuasar.plugin.servermanager.network.dg_Password;
 import kuasar.plugin.servermanager.network.utils.IP;
+import kuasar.plugin.utils.XML;
 import kuasar.plugin.utils.pn_Info;
 
 /**
@@ -317,7 +318,7 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
                     .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btn_selNetwork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cmb_interfaces)
-                        .addComponent(lb_Interface))
+                        .addComponent(lb_Interface, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lbl_Port)
                         .addComponent(txt_Port, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,7 +434,7 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
     private void cmb_interfacesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_interfacesItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             if (!name_edited) {
-                txt_groupname.setText("net" + cmb_interfaces.getSelectedItem().toString());
+                txt_groupname.setText(getGroupName());
             }
             selectedInterfaces = (List<InterfaceAddress>) interfaces.get((String) cmb_interfaces.getSelectedItem());
         }
@@ -455,7 +456,7 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
 
     private void btn_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OKActionPerformed
         if (check()) {
-            pn_Searcher searcher = new pn_Searcher(selectedInterfaces, port,
+            pn_Searcher searcher = new pn_Searcher(selectedInterfaces, port, txt_groupname.getText(),
                     txt_keyStore.getText(), kspasswd, tgb_DNIe.isSelected(), txt_User.getText(), password, tgb_Login.isSelected(), panel);
             GUI.loadPlugin(searcher);
             searcher.startSearch();
@@ -501,6 +502,22 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JTextField txt_keyStore;
     // End of variables declaration//GEN-END:variables
 
+    private String getGroupName() {
+        String name = "net";
+        if (XML.isCorrectName(cmb_interfaces.getSelectedItem().toString())) {
+            name += cmb_interfaces.getSelectedItem().toString();
+        }
+        if (panel.existsNode(name)) {
+            int i = 0;
+            String aux = "";
+            do {
+                aux = name + "_" + i++;
+            } while (panel.existsNode(aux));
+            name = aux;
+        }
+        return name;
+    }
+    
     private void loadGlobalConfig() {
         if (Config.GlobalServerCFG.keyStore != null) {
             txt_keyStore.setText(Config.GlobalServerCFG.keyStore);

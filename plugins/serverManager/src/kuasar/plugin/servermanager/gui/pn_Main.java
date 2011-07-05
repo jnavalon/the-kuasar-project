@@ -122,6 +122,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     private void lst_ServersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_ServersMouseClicked
         if(!evt.isControlDown()){
+            if(lst_Servers.getSelectedIndices().length==0) return;
             String  nodename = (String) ((Object[])lst_Servers.getSelectedValue())[2];
             Element e = curDir == null?root.getChild(nodename):root.getChild(curDir).getChild(nodename);
             if(e.getAttributeValue("type").equals("group"))
@@ -226,6 +227,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         attributes.add(new String[]{"name", groupname});
         String adaptedName = XML.adaptName(groupname);
         if(adaptedName==null)return false;
+        if(childExists(adaptedName)) return true;
         if(XML.AddElement(root, adaptedName, attributes))
             kuasar.plugin.Intercom.GUI.launchInfo("Group \"" + groupname + "\" added successfully!" );
         else
@@ -247,8 +249,16 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
             return root.getChild(curDir).removeChild(name);
         }
     }
-    protected void goToRoot(){
+    public void goToRoot(){
         fillList(null);
+    }
+    public boolean goTo(String group){
+        if(existsNode(group)){
+            fillList(group);
+            return true;
+        }
+        return false;
+            
     }
     protected void loadConfig(){
        GUI.loadPlugin(new pn_Config(this));
@@ -263,7 +273,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         GUI.invisibleToolBar();
     }
      protected void loadWizard(){
-         GUI.loadPlugin(new pn_Wizard(this));
+        GUI.loadPlugin(new pn_Wizard(this));
         GUI.invisibleToolBar();
      }
 
