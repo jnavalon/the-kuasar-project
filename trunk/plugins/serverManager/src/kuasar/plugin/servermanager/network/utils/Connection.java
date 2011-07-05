@@ -217,6 +217,7 @@ public final class Connection {
             }
             line = br.readLine();
             if (!line.contains("setAUTH"))return false;
+            ps.println("<0");
             return true;
         } catch (IOException ex) {
             return false;
