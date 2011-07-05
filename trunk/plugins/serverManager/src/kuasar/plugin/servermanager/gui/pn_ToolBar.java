@@ -62,6 +62,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
 
         lbl_toRoot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/toRoot.png"))); // NOI18N
         lbl_toRoot.setToolTipText("Go to root");
+        lbl_toRoot.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_toRoot.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_toRootMouseClicked(evt);
@@ -70,6 +71,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_toRoot);
 
         lbl_wizard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/wizard.png"))); // NOI18N
+        lbl_wizard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_wizard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_wizardMouseClicked(evt);
@@ -78,6 +80,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_wizard);
 
         lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/folder-new.png"))); // NOI18N
+        lbl_addGroup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_addGroupMouseClicked(evt);
@@ -86,6 +89,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_addGroup);
 
         lbl_addServer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/add-server.png"))); // NOI18N
+        lbl_addServer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addServer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_addServerMouseClicked(evt);
@@ -94,6 +98,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_addServer);
 
         lbl_Remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/remove.png"))); // NOI18N
+        lbl_Remove.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Remove.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_RemoveMouseClicked(evt);
@@ -102,6 +107,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tb_Actions.add(lbl_Remove);
 
         lbl_Config.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/configure.png"))); // NOI18N
+        lbl_Config.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_Config.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_ConfigMouseClicked(evt);

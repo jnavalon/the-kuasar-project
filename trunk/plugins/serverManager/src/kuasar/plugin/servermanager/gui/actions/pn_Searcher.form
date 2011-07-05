@@ -121,7 +121,11 @@
           <Image iconType="3" name="/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Save"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_OKActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_log">
       <Properties>
