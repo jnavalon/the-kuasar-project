@@ -5,8 +5,6 @@
 
 package blasar.Services.Com.vms;
 
-import java.util.StringTokenizer;
-
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
@@ -14,7 +12,7 @@ import java.util.StringTokenizer;
 public interface PluginInterface {
     
     String getEngine();
-    boolean execCMD(StringTokenizer st);
+    boolean execCMD(String st);
     boolean Start();
     boolean Stop();
    String getPluginName();
