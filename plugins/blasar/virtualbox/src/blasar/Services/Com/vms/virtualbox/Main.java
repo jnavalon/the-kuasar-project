@@ -17,7 +17,6 @@
 package blasar.Services.Com.vms.virtualbox;
 
 import blasar.Services.Com.vms.PluginInterface;
-import java.util.StringTokenizer;
 
 /**
  *
@@ -35,8 +34,8 @@ public class Main implements PluginInterface{
     }
 
     @Override
-    public boolean execCMD(StringTokenizer st) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean execCMD(String cmd) {
+        return true;
     }
 
     @Override
