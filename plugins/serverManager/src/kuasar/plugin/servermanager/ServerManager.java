@@ -64,9 +64,10 @@ public class ServerManager implements kuasar.plugin.PluginInterface {
     public boolean Start(Object ODRClassInstance, Class ODRClass) {
         Global.ODRClass = ODRClass;
         Global.ODRClassInstance = ODRClassInstance;
-         XML.Load(Config.path, Config.fileServers);
-        ODR.setValue(getPluginName() + ".path", ODRClassInstance);
+        XML.Load(Config.path, Config.fileServers);
+        ODR.setValue(getPluginName() + ".path", Config.path);
         ODR.setValue(Config.PluginName+".usersecrets", Config.GlobalServerCFG.usersecrets);
+        ODR.setValue(Config.PluginName+".data", Config.fileServers);
         Config.loadConfig();
         DNIe.loadAutoChecker();
         return true;
