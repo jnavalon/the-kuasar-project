@@ -54,6 +54,7 @@ public class VMCreator implements kuasar.plugin.PluginInterface {
         ODR.setValue(getPluginName()+".path", Config.path);
         ODR.setValue(getPluginName()+".data", Config.network);
         ODR.setValue(getPluginName()+".nodes", Config.virtualmachine);
+        ODR.setValue(getPluginName()+".iconpath", "/kuasar/plugin/vmcreator/icons/icon");
         return true;
 
     }
