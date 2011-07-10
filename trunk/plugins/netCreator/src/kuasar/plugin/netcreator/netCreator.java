@@ -50,7 +50,7 @@ public class netCreator implements kuasar.plugin.PluginInterface{
     public boolean Start(Object ODRClassInstance, Class ODRClass) {
         Global.ODRClass=ODRClass;
         Global.ODRClassInstance = ODRClassInstance;
-        ODR.setValue(getPluginName()+".path", ODRClassInstance);
+        ODR.setValue(getPluginName()+".path", Config.path);
         return true;
     }
 
