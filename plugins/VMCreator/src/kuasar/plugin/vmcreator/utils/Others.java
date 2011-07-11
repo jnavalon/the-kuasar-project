@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.utils.XML;
@@ -122,6 +123,18 @@ public final class Others {
         return map;
     }
 
+    public static boolean removeVMFile(Element root){
+        boolean delete = true;
+        List<Element> children = root.getChildren();
+        for(Element child: children){
+            if(child.getAttributeValue("type").isEmpty()){
+                if(!removeVMFile(child)) delete=false;
+            }else{
+                if(!removeVMFile(child.getAttributeValue("path"))) delete=false;
+            }
+        }
+        return delete;
+    }
     public static boolean removeVMFile(String Filename){
         String path = ((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR")) + File.separator + kuasar.plugin.vmcreator.Config.path + File.separator + kuasar.plugin.vmcreator.Config.virtualmachine;
         File file = new File(path+File.separator+Filename);
