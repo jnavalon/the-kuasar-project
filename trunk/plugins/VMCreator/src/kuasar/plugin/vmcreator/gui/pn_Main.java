@@ -159,7 +159,12 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             for (int i = 0; i < lst_Nets.getSelectedIndices().length; i++) {
                 Object[] values = (Object[]) lst_Nets.getSelectedValues()[lst_Nets.getSelectedValues().length - i - 1];
-                Others.removeVMFile((String) values[3]);
+                Element aux = root.getChild((String) values[2]);
+                if(aux == null) return;
+                if(aux.getAttributeValue("type").isEmpty())
+                    Others.removeVMFile(aux);
+                else
+                    Others.removeVMFile((String) values[3]);
                 XML.RemoveElement(onAir, root, (String) values[2]);
             }
             if (XML.Save(Config.path, Config.network, root)) {
