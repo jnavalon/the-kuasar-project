@@ -49,6 +49,7 @@ public final class Configuration {
         public static final String extPlug = "jet"; //Plugin extension
         public static final String pluginsKey = "$PLUGINS";
     }
+    public static final String pathkeystore = "keystores";
     public static String startDir = "./";
     public static final String cfgFile = "preferences";
     protected static HashMap<String, Object> ODR = new HashMap<String, Object>();
