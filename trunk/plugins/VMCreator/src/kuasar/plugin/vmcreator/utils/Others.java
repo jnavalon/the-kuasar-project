@@ -88,7 +88,7 @@ public final class Others {
         attributs.add(new String[]{"icon", Others.getIcon((Integer) data.get(keyMaps.OS + ".id"))});
         attributs.add(new String[]{"path", file.getName()});
         Element root = XML.getElementOnPath(XMLPath, (Element) ODR.getValue(Config.path + "." + Config.network));
-        root = XML.getElementOnPath(".", (Element) ODR.getValue(Config.path + "." + Config.network));
+        root = XML.getElementOnPath("/", (Element) ODR.getValue(Config.path + "." + Config.network));
         Element node = root.getChild(name);
         if (node != null) {
             if (delete) {

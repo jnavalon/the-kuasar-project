@@ -52,7 +52,7 @@ import org.jdom.Element;
  */
 public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
-    public String onAir = ".";
+    public String onAir = "/";
     protected Stack<String> back = new Stack<String>();
     protected Stack<String> next = new Stack<String>();
     public pn_ToolBar tb = null;
@@ -64,7 +64,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         pn_aux.setVisible(false);
         scp_List.getViewport().setOpaque(false);
         lst_Nets.setBorder(BorderFactory.createEmptyBorder());
-        fillList(".", false);
+        fillList("/", false);
     }
 
     /** This method is called from within the constructor to
@@ -155,14 +155,12 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lst_NetsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lst_NetsKeyReleased
-        Element root = XML.getElementOnPath(".", (Element) ODR.getValue(Config.path + "." + Config.network));
+        Element root = XML.getElementOnPath("/", (Element) ODR.getValue(Config.path + "." + Config.network));
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             for (int i = 0; i < lst_Nets.getSelectedIndices().length; i++) {
                 Object[] values = (Object[]) lst_Nets.getSelectedValues()[lst_Nets.getSelectedValues().length - i - 1];
-                Element aux = root.getChild((String) values[2]);
-                if(aux == null) return;
-                if(aux.getAttributeValue("type").isEmpty())
-                    Others.removeVMFile(aux);
+                if(values[3] == null)
+                    Others.removeVMFile(XML.getElementOnPath(onAir, root));
                 else
                     Others.removeVMFile((String) values[3]);
                 XML.RemoveElement(onAir, root, (String) values[2]);
@@ -349,10 +347,10 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
     }
 
     private void groupClicked(String data) {
-        if (onAir.endsWith(".")) {
+        if (onAir.endsWith("/")) {
             fillList(onAir + data, true);
         } else {
-            fillList(onAir + "." + data, true);
+            fillList(onAir + "/" + data, true);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
