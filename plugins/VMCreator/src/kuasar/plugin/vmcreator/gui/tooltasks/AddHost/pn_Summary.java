@@ -257,10 +257,8 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         return true;
     }
 
-    protected void save(String name) {
+    protected void save(String name, boolean overwrite) {
         String path = ((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR")) + File.separator + kuasar.plugin.vmcreator.Config.path + File.separator + kuasar.plugin.vmcreator.Config.virtualmachine;
-        int i = 0;
-        String filename = "0.bin";
         File file;
         if (toolbar.filename == null) {
             file = Others.nextFileAvailable(path);
@@ -269,7 +267,10 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
         }
 
         saveObject(file.getAbsolutePath(), toolbar.data);
-        Others.saveXML(name, file, toolbar.data, toolbar.panel.onAir, true);
+        if(!overwrite)
+            Others.saveXML(name, file, toolbar.data, toolbar.panel.onAir, true);
+        else
+            GUI.launchInfo("VM "+ name + " update successfully!");
         toolbar.panel.reloadList();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

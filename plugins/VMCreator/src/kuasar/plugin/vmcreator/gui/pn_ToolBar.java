@@ -225,8 +225,8 @@ public class pn_ToolBar extends javax.swing.JPanel {
         if(!lbl_up.isEnabled())
             return;
         String up = panel.onAir;
-        up = up.substring(0, up.lastIndexOf('.'));
-        if(up.length()==0) up= ".";
+        up = up.substring(0, up.lastIndexOf('/'));
+        if(up.length()==0) up= "/";
         panel.back.push(panel.onAir);
         panel.fillList(up,true);
     }//GEN-LAST:event_lbl_upMouseReleased
@@ -280,7 +280,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         } else {
             lbl_next.setEnabled(true);
         }
-         if (panel.onAir.equals(".")) {
+         if (panel.onAir.equals("/")) {
             lbl_up.setEnabled(false);
         } else {
             lbl_up.setEnabled(true);

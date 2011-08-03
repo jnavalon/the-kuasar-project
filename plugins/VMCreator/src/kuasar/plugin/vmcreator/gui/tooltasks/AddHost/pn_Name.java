@@ -135,7 +135,7 @@ public class pn_Name extends javax.swing.JPanel {
             txt_Name.setBackground(Color.pink);
             return;
         } 
-
+        
         Element root = XML.getElementOnPath(parent.toolbar.panel.onAir, (Element) ODR.getValue(Config.path + "." + Config.network));
         String name = XML.adaptName(txt_Name.getText());
         Element node = root.getChild(name);
@@ -152,7 +152,8 @@ public class pn_Name extends javax.swing.JPanel {
         }else{
             root.removeChild(name);
         }
-        parent.save(name);
+        
+        parent.save(name, parent.toolbar.name != null);
         if(parent.toolbar.name==null)
             parent.exit();
         else

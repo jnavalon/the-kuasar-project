@@ -191,7 +191,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
         List<String[]> attributs = new ArrayList<String[]>();
         attributs.add(new String[]{"name", txt_name.getText()});
         attributs.add(new String[]{"type", ""});
-        root= XML.getElementOnPath(".", (Element) ODR.getValue(Config.path + "." + Config.network));
+        root= XML.getElementOnPath("/", (Element) ODR.getValue(Config.path + "." + Config.network));
         if(XML.AddElement(panel.onAir, root, transformNodeName(), attributs))
             kuasar.plugin.Intercom.GUI.launchInfo("Group \"" + txt_name.getText().trim() + "\" added successfully!" );
         XML.Save(Config.path, Config.network, root);
