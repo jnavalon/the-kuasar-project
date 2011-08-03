@@ -54,8 +54,8 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
     
     DefaultListModel model = new DefaultListModel();
     ArrayList<JButton> paths = new ArrayList<JButton>();
-    String actdir = ".";
-    String namePath = ".";
+    String actdir = "/";
+    String namePath = "/";
 
     /** Creates new form pn_Main */
     public pn_Main() {
@@ -319,11 +319,11 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         Element e = (Element) lst_Dir.getSelectedValue();
         if (!e.getAttributeValue("type").toString().isEmpty()) {
             if(evt.getValueIsAdjusting())
-                showVMNet(actdir.endsWith(".") ? actdir+ e.getName() : actdir + "." + e.getName());
+                showVMNet(actdir.endsWith("/") ? actdir+ e.getName() : actdir + "/" + e.getName());
             return;
         }
-        namePath = namePath.concat(namePath.endsWith(".") ? e.getAttributeValue("name") : "." + e.getAttributeValue("name"));
-        loadData(actdir.endsWith(".") ? actdir + e.getName() : actdir + "." + e.getName());
+        namePath = namePath.concat(namePath.endsWith("/") ? e.getAttributeValue("name") : "/" + e.getAttributeValue("name"));
+        loadData(actdir.endsWith("/") ? actdir + e.getName() : actdir + "/" + e.getName());
     }//GEN-LAST:event_lst_DirValueChanged
 
     private void btn_PreviousMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_PreviousMouseEntered
@@ -483,7 +483,7 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     private void reloadButtons() {
 
-        String[] dirs = namePath.split("[.]");
+        String[] dirs = namePath.split("/");
         int i = 0;
         paths.clear();
         pn_Bt_Dir.removeAll();
@@ -546,8 +546,8 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     private void returnToPath(int position) {
         String path = "";
-        String[] dirs = actdir.split("[.]");
-        String[] names = namePath.split("[.]");
+        String[] dirs = actdir.split("/");
+        String[] names = namePath.split("/");
         namePath = "";
         if (dirs.length != names.length) {
             System.err.println("Directories and Names Vector haven't same length");
@@ -560,17 +560,17 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         if (dirs.length > 0) {
             for (int i = 0; i <= position; i++) {
                 if (!dirs[i].isEmpty()) {
-                    path = path.concat("." + dirs[i]);
-                    namePath = namePath.concat("." + names[i]);
+                    path = path.concat("/" + dirs[i]);
+                    namePath = namePath.concat("/" + names[i]);
                 }
             }
             if (path.isEmpty()) {
-                path = path.concat(".");
-                namePath = namePath.concat(".");
+                path = path.concat("/");
+                namePath = namePath.concat("/");
             }
         } else {
-            namePath = ".";
-            path = ".";
+            namePath = "/";
+            path = "/";
         }
 
         loadData(path);
