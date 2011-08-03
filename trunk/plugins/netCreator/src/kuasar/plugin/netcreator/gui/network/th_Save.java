@@ -99,12 +99,12 @@ public class th_Save extends Thread {
             System.err.println("CleanClosed exception received, old data is untouched, that's good.");
             return;
         }
-        if (!netpath.equals(".")) {
-            String path = netpath.substring(0, netpath.lastIndexOf("."));
+        if (!netpath.equals("/")) {
+            String path = netpath.substring(0, netpath.lastIndexOf("/"));
             if (path.isEmpty()) {
-                path = ".";
+                path = "/";
             }
-            String nameNode = netpath.substring(netpath.lastIndexOf(".") + 1);
+            String nameNode = netpath.substring(netpath.lastIndexOf("/") + 1);
             XML.RemoveElement(path, Config.rootNetwork, nameNode);
             XML.AddElement(path, Config.rootNetwork, node);
         }

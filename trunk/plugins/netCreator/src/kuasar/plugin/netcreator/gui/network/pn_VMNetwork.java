@@ -336,11 +336,11 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
     private void save(){
         if(!checkNet()) return;
         setAttributes();
-        String path = nodepath.substring(0, nodepath.lastIndexOf("."));
+        String path = nodepath.substring(0, nodepath.lastIndexOf("/"));
         if (path.isEmpty()) {
-             path = ".";
+             path = "/";
         }
-        String nameNode = nodepath.substring(nodepath.lastIndexOf(".") + 1);
+        String nameNode = nodepath.substring(nodepath.lastIndexOf("/") + 1);
         XML.RemoveElement(path, Config.rootNetwork, nameNode);
         XML.AddElement(path, Config.rootNetwork, node);
         XML.Save(Config.VMdir, Config.VMdata, Config.rootNetwork);
