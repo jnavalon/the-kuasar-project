@@ -57,6 +57,7 @@ public final class SetVariables {
         }
         Configuration.addODR("$STARTDIR", Configuration.startDir);
         Configuration.addODR("$PLUGINDIR", Configuration.startDir + Configuration.Plugins.pathplugins);
+        Configuration.addODR("$KEYSTOREDIR",Configuration.pathkeystore);
         Configuration.addODR("$SKINDIR", Configuration.Interfice.pathskins);
         Configuration.addODR("$SKINNAME", Configuration.Interfice.skin);
         loadPreferences();
