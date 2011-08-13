@@ -35,7 +35,7 @@ import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.actions.pn_AddGroup;
 import kuasar.plugin.servermanager.gui.actions.pn_AddServer;
 import kuasar.plugin.servermanager.gui.actions.pn_Wizard;
-import kuasar.plugin.servermanager.network.utils.Connection;
+import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.XML;
 import org.jdom.Element;
 
@@ -125,7 +125,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
             if(lst_Servers.getSelectedIndices().length==0) return;
             String  nodename = (String) ((Object[])lst_Servers.getSelectedValue())[2];
             Element e = curDir == null?root.getChild(nodename):root.getChild(curDir).getChild(nodename);
-            if(e.getAttributeValue("type").equals("group"))
+            if(e.getAttributeValue("type").isEmpty())
                 fillList(nodename);
         }
     }//GEN-LAST:event_lst_ServersMouseClicked
@@ -160,7 +160,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
         lst_Servers.setModel(model);
         Object[] data = new Object[5];
         for (Element child : children) {
-            if (child.getAttributeValue("type").equals("group")) {
+            if (child.getAttributeValue("type").isEmpty()) {
                 data[Config.ServerList.ICON] = new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/folder-servers.png"));
                 data[Config.ServerList.NAME] = child.getAttributeValue("name");
                 data[Config.ServerList.LABEL] = lbl_Info;
@@ -223,7 +223,7 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
     public boolean addGroup(String groupname) {
         List<String[]> attributes = new ArrayList<String[]>();
-        attributes.add(new String[]{"type", "group"});
+        attributes.add(new String[]{"type", ""});
         attributes.add(new String[]{"name", groupname});
         String adaptedName = XML.adaptName(groupname);
         if(adaptedName==null)return false;
@@ -282,11 +282,11 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
             for(Object data : lst_Servers.getSelectedValues()){
                 Object[] dataa = (Object[]) data;
                 String nodeName = (String) dataa[2];
-                String address =root.getChild(nodeName).getAttributeValue("address");
+                String address =root.getChild(curDir).getAttributeValue("address");
                 if(delChild(nodeName)){
                     GUI.launchInfo(nodeName + " was deleted successfully!");
                     Connection.delKSPassword(address);
-                    Connection.delKeyServer(address); 
+                    Connection.delKeyStore(address); 
                 }
             }
             if(updateList){

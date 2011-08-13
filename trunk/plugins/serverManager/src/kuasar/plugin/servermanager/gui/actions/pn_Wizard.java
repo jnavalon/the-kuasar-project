@@ -34,9 +34,9 @@ import javax.swing.JPanel;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.pn_Main;
-import kuasar.plugin.servermanager.network.dg_Password;
 import kuasar.plugin.servermanager.network.utils.IP;
 import kuasar.plugin.utils.XML;
+import kuasar.plugin.utils.dialogs.dg_Password;
 import kuasar.plugin.utils.pn_Info;
 
 /**
@@ -566,11 +566,13 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
             pn_Info.Load((JPanel) this.getParent(), this, "Empty KeyStore", "KeyStore is necessary to connect to a blasar server.", pn_Info.ICON_ERROR);
             return false;
         }
-        dg_Password kspwd = new dg_Password(null, true);
-        kspwd.setHeader("Insert the KeyStore Password");
-        kspwd.setLocationRelativeTo(this);
-        kspwd.setVisible(true);
-        kspasswd = kspwd.getPassword();
+        if(kspasswd==null){
+            dg_Password kspwd = new dg_Password(null, true);
+            kspwd.setHeader("Insert the KeyStore Password");
+            kspwd.setLocationRelativeTo(this);
+            kspwd.setVisible(true);
+            kspasswd = kspwd.getPassword();
+        }
         if (kspasswd == null) {
             pn_Info.Load((JPanel) this.getParent(), this, "KeyStore password missing", "Please insert the KeyStore's password. <br>Keystore's password is required because blasar use an encrypted connection.", pn_Info.ICON_ERROR);
             return false;
