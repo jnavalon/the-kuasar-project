@@ -86,19 +86,21 @@ public class SocketTools {
             session = ((SSLSocket) socket).getSession();
             certificate = session.getLocalCertificates();
 
-            if (Config.BLASAR.verbose) {
-                System.out.println("=============  INFO  =============");
-                for (int i = 0; i < certificate.length; i++) {
-                    System.out.println(((X509Certificate) certificate[i]).getSubjectDN());
-                }
-                System.out.println("Peer host is " + session.getPeerHost());
-                System.out.println("Cipher is " + session.getCipherSuite());
-                System.out.println("Protocol is " + session.getProtocol());
-                System.out.println("ID is " + new BigInteger(session.getId()));
-                System.out.println("Session created in " + session.getCreationTime());
-                System.out.println("Session accessed in " + session.getLastAccessedTime());
+            if(certificate.length>0){
+                if (Config.BLASAR.verbose) {
+                    System.out.println("=============  INFO  =============");
+                    for (int i = 0; i < certificate.length; i++) {
+                        System.out.println(((X509Certificate) certificate[i]).getSubjectDN());
+                    }
+                    System.out.println("Peer host is " + session.getPeerHost());
+                    System.out.println("Cipher is " + session.getCipherSuite());
+                    System.out.println("Protocol is " + session.getProtocol());
+                    System.out.println("ID is " + new BigInteger(session.getId()));
+                    System.out.println("Session created in " + session.getCreationTime());
+                    System.out.println("Session accessed in " + session.getLastAccessedTime());
 
-                System.out.println("==================================");
+                    System.out.println("==================================");
+                }
             }
             os = socket.getOutputStream();
             out = new PrintStream(os);
@@ -116,7 +118,7 @@ public class SocketTools {
             }
             throw ex;
         } catch (Exception ex) {
-            Info.showError("Unknown Error ");
+            Info.showError("BAD Protocol or there was a port scanner");
             throw ex;
         }
     }

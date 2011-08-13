@@ -68,7 +68,6 @@ public class Auth {
         switch (value) {
             case 0: //CLEAN EXIT
                 st.sendLine("See you!");
-                st.closeAll();
                 Info.showMessage(st.getRemoteAdress() + " made a clear exit");
                 break;
             case 1: //PLAIN TEXT
