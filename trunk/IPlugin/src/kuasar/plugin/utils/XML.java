@@ -70,11 +70,11 @@ public final class XML {
     public static Element getElementOnPath(String netpath, Element root) {
 
         if (netpath == null) {
-            netpath = ".";
+            netpath = "/";
         }
         netpath = netpath.substring(1);
         if (netpath.trim().length() > 0) {
-            String[] netnames = netpath.split("[.]");
+            String[] netnames = netpath.split("/");
             for (String netname : netnames) {
                 root = root.getChild(netname);
                 if (root == null) {
@@ -86,7 +86,7 @@ public final class XML {
     }
     
     public static boolean AddElement(Element root, String name, List<String[]> attributes){
-        return AddElement(".",root,name,attributes);
+        return AddElement("/",root,name,attributes);
     }
 
     public static boolean AddElement(String netpath, Element root, String name, List<String[]> attributes) {
