@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ * Copyright (C) 2011 jnavalon
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,23 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package kuasar.plugin.deployer;
+package kuasar.plugin.deployer.gui.classmod;
 
 /**
  *
- * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
+ * @author jnavalon
  */
-public class Config {
-    public static final String PluginName = "deployer";
-    
-    public static String VMnodes;
-    public static String VMdir;
-    public static String VMdata;
-    public static String VMicondir;
-    
-    public static String SMdir;
-    public static String SMdata;
-    public static String startDir;
-    public static String pluginDir;
-    
+public interface I_Panels {
+    public void goNext();
+    public void goPrevious();
 }
