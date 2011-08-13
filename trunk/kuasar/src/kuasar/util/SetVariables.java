@@ -18,6 +18,7 @@ package kuasar.util;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import kuasar.util.config.Configuration;
 
@@ -58,8 +59,12 @@ public final class SetVariables {
         Configuration.addODR("$STARTDIR", Configuration.startDir);
         Configuration.addODR("$PLUGINDIR", Configuration.startDir + Configuration.Plugins.pathplugins);
         Configuration.addODR("$KEYSTOREDIR",Configuration.pathkeystore);
+        Configuration.addODR("$KEYSTORE_EXT", ".ks");
+        Configuration.addODR("$KEYSTORE_PWD_EXT", ".pwd");
         Configuration.addODR("$SKINDIR", Configuration.Interfice.pathskins);
         Configuration.addODR("$SKINNAME", Configuration.Interfice.skin);
+        Configuration.addODR("#KS_SECRET", new HashMap<String,Object>());
+        Configuration.addODR("#USER_SECRET", new HashMap<String,Object>());
         loadPreferences();
     }
     public boolean isOK(){

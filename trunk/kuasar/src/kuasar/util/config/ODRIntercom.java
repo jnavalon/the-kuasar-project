@@ -28,9 +28,17 @@ public class ODRIntercom {
         return Configuration.ODR.get(key);
     }
 
+    /*
+     * $ ONLY READABLE
+     * # SEMI WRITABLE (Only may write it if Value exists)
+     *   FULL ACCESS
+     */
     public boolean setValue(String key, Object value) {
         if (key.startsWith("$")) {
             return false;
+        }else if(key.startsWith("#")){
+            if(Configuration.ODR.get(key) ==null)
+                return false;
         }
         Configuration.ODR.put(key, value);
         return true;

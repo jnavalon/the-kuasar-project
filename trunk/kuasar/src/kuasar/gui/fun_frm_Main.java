@@ -55,6 +55,10 @@ public class fun_frm_Main extends frm_Main {
         }
         unCheckList();
     }
+    
+    public java.awt.Point getFrameLocation(){
+        return this.getLocation();
+    }
 
     public void updateUI() {
         pn_ShareContainerFrame.updateUI();
