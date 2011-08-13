@@ -52,11 +52,14 @@ public class Splitter extends Thread {
 
     @Override
     public void run() {
-        if(st == null){
-            return;
+        if(st != null){
+            init();
+            st.closeAll();
+        Info.showMessage("X_X :: Client " + st.getRemoteIP() + " (" + st.getRemotePort() + ") " + 
+                "has been disconnected. [ " + Config.BLASAR.online + " online ]" );
+        }else{
+            Config.BLASAR.online--;
         }
-        init();
-        st.closeAll();
         dead = true;
     }
 
@@ -70,9 +73,6 @@ public class Splitter extends Thread {
             if(st.getUser()==null) return;
             UserService us = new UserService(st);
         } catch (Exception ex) {}
-
-        st.closeAll();
-        Info.showMessage("X_X :: Client " + st.getRemoteIP() + " (" + st.getRemotePort() + ") " + "has been disconnected." );
     }
 
     public Socket getSocket() {
