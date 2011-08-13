@@ -20,7 +20,7 @@ import javax.swing.ImageIcon;
 import kuasar.plugin.Global;
 import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.PluginInterface;
-import kuasar.plugin.deployer.gui.pn_Main;
+import kuasar.plugin.deployer.gui.pn_Targets;
 
 /**
  *
@@ -60,6 +60,14 @@ public class Deployer implements kuasar.plugin.PluginInterface{
     public boolean Start(Object ODRClassInstance, Class ODRClass) {
         Global.ODRClass = ODRClass;
         Global.ODRClassInstance = ODRClassInstance;
+        Config.SMdata = (String) ODR.getValue("servermanager.data");
+        Config.SMdir = (String) ODR.getValue("servermanager.path");
+        Config.VMdata = (String) ODR.getValue("vmcreator.data");
+        Config.VMdir =(String) ODR.getValue("vmcreator.path");
+        Config.VMnodes = (String) ODR.getValue("vmcreator.nodes");
+        Config.VMicondir = (String) ODR.getValue("vmcreator.iconpath");
+        Config.startDir = (String) ODR.getValue("$STARTDIR");
+        Config.pluginDir = (String) ODR.getValue("$PLUGINDIR");
         return true;
     }
 
@@ -96,10 +104,10 @@ public class Deployer implements kuasar.plugin.PluginInterface{
             state = "<html><body>We sorry but " + getName() + " requires serverManager plugin.<br> Please, check if serverManager is installed!";
             return false;
         }
-
-        pn_Main panel = new pn_Main();
+        
+        pn_Targets panel = new pn_Targets();
         kuasar.plugin.Intercom.GUI.loadPlugin(panel);
-        kuasar.plugin.Intercom.GUI.visibleToolBar();
+        kuasar.plugin.Intercom.GUI.invisibleToolBar();
         return true;
     }
 
