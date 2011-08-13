@@ -21,8 +21,8 @@ import java.net.InterfaceAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 import javax.swing.JPanel;
-import kuasar.plugin.servermanager.network.utils.Connection;
 import kuasar.plugin.servermanager.network.utils.IP;
+import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.pn_Info;
 
 /**
@@ -113,50 +113,6 @@ public class th_Scan extends Thread {
     }
 
     private void logError(int status, String address) {
-        String error = "";
-        switch (status) {
-            case 0:
-            case -10:
-            case -20:
-                error = "Error connection";
-                break;
-            case -1:
-                error = "Server unknown";
-                break;
-            case -11:
-                error = "Error KeyStore";
-                break;
-            case -12:
-                error = "Error algorithm";
-                break;
-            case -13:
-                error = "Error certificate";
-                break;
-            case -14:
-                error = "Error card";
-                break;
-            case -15:
-                error = "Bad PIN";
-                break;
-            case -16:
-                error = "Error gettink key";
-                break;
-            case -17:
-                error = "Bad sign";
-                break;
-            case -18:
-            case -22:
-                error = "Bad server";
-                break;
-            case -19:
-                error = "Bad user";
-                break;
-            case -21:
-                error = "Bad user or password";
-                break;
-            default:
-                error = "Unknown error";
-        }
-        parent.addLog(address + " : " + error);
+        parent.addLog(address + " : " + Connection.getErrorDescription(status));
     }
 }

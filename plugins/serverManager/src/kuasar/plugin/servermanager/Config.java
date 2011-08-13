@@ -21,8 +21,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import kuasar.plugin.Intercom.ODR;
+import kuasar.plugin.utils.Connection;
 import org.jdom.Element;
 
 /**
@@ -35,9 +34,9 @@ public final class Config {
     public static final String path = "servermanager";
     public static final String fileServers = "servers";
     public static final String filecfg = "config";
-    public static final String keystoreDIR = "keystores";
-    public static final String keystoreEXT = ".ks";
-    public static final String keystore_PWD_EXT = ".pwd";
+    public static String keystoreDIR = "keystores";
+    public static String keystoreEXT = ".ks";
+    public static String keystore_PWD_EXT = ".pwd";
     public static String NetworkFile;
     public static Element rootNetwork;
 
@@ -51,19 +50,8 @@ public final class Config {
         public static boolean checkClient = false;
         public static int port = 46600;
         public static final int connection_timeout = 250;
-        public static HashMap<String, Object> kssecrets = new HashMap<String, Object>();
-        public static HashMap<String, Object> usersecrets = new HashMap<String, Object>();
     }
 
-    public static final class KS_Secrets{
-        public static final String KEYSTORE = ".keystore";
-        public static final String KS_PASSWD = ".kspass";
-    }
-    public static final class User_Secrets{
-        public static final String USERNAME = ".user";
-        public static final String PASSWD = ".pass";
-        public static final String DNIE = ".dnie";
-    }
     public static final class ServerList {
 
         public static final Integer ICON = 0;
@@ -73,7 +61,7 @@ public final class Config {
     }
 
     public static void loadConfig() {
-        loadKSSecrets();
+        Connection.loadKSSecrets();
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File((String) kuasar.plugin.Intercom.ODR.getValue("$PLUGINDIR") + File.separator + Config.path + File.separator + Config.filecfg)));
             GlobalServerCFG.dnie = false;
@@ -110,61 +98,6 @@ public final class Config {
             }
         } catch (IOException ex) {
         }
-    }
-
-    public static void loadKSSecrets() {
-        GlobalServerCFG.kssecrets.clear();
-        File dir = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + Config.keystoreDIR);
-        if (!dir.exists()) {
-            dir.mkdir();
-            return;
-        }
-        File[] files = dir.listFiles(new KSFilter());
-        for(File file : files){
-            String address = file.getName().substring(0, file.getName().lastIndexOf("."));
-            GlobalServerCFG.kssecrets.put(address + KS_Secrets.KEYSTORE, file.getAbsolutePath());
-            GlobalServerCFG.kssecrets.put(address + KS_Secrets.KS_PASSWD, loadPWDFile(address + Config.keystore_PWD_EXT));
-        }
-        ODR.setValue(Config.PluginName+".kssecrets", GlobalServerCFG.kssecrets);
-    }
-    
-    public static void addUserSecret(String address, String user, char[] password, boolean dnie){
-        Config.GlobalServerCFG.usersecrets = (HashMap<String, Object>) ODR.getValue(Config.PluginName+".usersecrets");
-        GlobalServerCFG.usersecrets.put(address + User_Secrets.USERNAME, user);
-        GlobalServerCFG.usersecrets.put(address + User_Secrets.PASSWD, password);
-        GlobalServerCFG.usersecrets.put(address + User_Secrets.DNIE, dnie);
-        ODR.setValue(Config.PluginName+".usersecrets", GlobalServerCFG.usersecrets);
-    }
-    
-    public static void delUserSecret(String address){
-        Config.GlobalServerCFG.usersecrets = (HashMap<String, Object>) ODR.getValue(Config.PluginName+".usersecrets");
-        GlobalServerCFG.usersecrets.remove(address + User_Secrets.USERNAME);
-        GlobalServerCFG.usersecrets.remove(address + User_Secrets.PASSWD);
-        GlobalServerCFG.usersecrets.remove(address + User_Secrets.DNIE);
-        ODR.setValue(Config.PluginName+".usersecrets", GlobalServerCFG.usersecrets);
-    }
-    
-    private static char[] loadPWDFile(String name){
-        char[] passwd = null;
-        File file = new File((String) kuasar.plugin.Intercom.ODR.getValue("$STARTDIR") + File.separator + Config.keystoreDIR+File.separator+name);
-        if(!file.exists()) return null;
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(file));
-            while(br.ready()){
-                String line = br.readLine();
-                if(line.startsWith("password")){
-                    passwd = line.substring(line.indexOf("=") + 1).toCharArray();
-                }
-            }
-        } catch (Exception ex) {
-            return null;
-        }finally{
-            try{
-                br.close();
-            }catch(IOException ex){}
-        }
-        return passwd;
     }
 
     public static class KSFilter implements FileFilter {

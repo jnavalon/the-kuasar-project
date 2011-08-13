@@ -22,12 +22,14 @@
  */
 package kuasar.plugin.servermanager.gui.actions;
 
+import java.util.HashMap;
+import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.servermanager.Config;
-import kuasar.plugin.servermanager.network.utils.Connection;
-import kuasar.plugin.servermanager.network.dg_KeyStore;
-import kuasar.plugin.servermanager.network.dg_Password;
-import kuasar.plugin.servermanager.network.dg_Username;
 import kuasar.plugin.servermanager.network.utils.IP;
+import kuasar.plugin.utils.Connection;
+import kuasar.plugin.utils.dialogs.dg_KeyStore;
+import kuasar.plugin.utils.dialogs.dg_Password;
+import kuasar.plugin.utils.dialogs.dg_Username;
 
 /**
  *
@@ -175,7 +177,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
 
         String ks;
         char[] kspasswd = null;
-        ks = (String) Config.GlobalServerCFG.kssecrets.get(address + Config.KS_Secrets.KEYSTORE);
+        ks = Connection.getKeyStore(address);
         if (ks == null) {
             ks = Config.GlobalServerCFG.keyStore;
             if (ks == null) {
@@ -193,7 +195,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
             }
         }
         if (kspasswd == null) {
-            kspasswd = (char[]) Config.GlobalServerCFG.kssecrets.get(address + Config.KS_Secrets.KS_PASSWD);
+            kspasswd = Connection.getKeyStorePWD(address);
             if (kspasswd == null) {
                 kspasswd = Config.GlobalServerCFG.ksPasswd;
                 if (kspasswd == null) {
@@ -215,7 +217,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         if (status < 1) {
             lbl_title.setText("BLASAR IS NOT LISTENING!");
             Connection.delKSPassword(address);
-            Connection.delKeyServer(address);
+            Connection.delKeyStore(address);
             if (status == -1) {
                 lbl_info.setText("<html>We couldn't connect to the Server again! Maybe caused by:<p> - Server was disconnected <br> - Firewall rejects our connection");
             } else {
@@ -236,13 +238,14 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
             lbl_info.setText("<html>We 're trying to connect to blasar server with your USERNAME/Password or SPANISH DNIe.");
             this.updateUI();
             boolean badClient = false;
-            Object data = (Object) Config.GlobalServerCFG.usersecrets.get(address + Config.User_Secrets.DNIE);
+            HashMap<String,Object> map = (HashMap<String,Object>) ODR.getValue("#USER_SECRET");
+            Object data = (Object) map.get(address + Connection.DNIE);
             String user = null;
             if (data != null) {
                 dnie = (Boolean) data;
                 if (!dnie) {
-                    user = (String) Config.GlobalServerCFG.usersecrets.get(address + Config.User_Secrets.USERNAME);
-                    password =(char[]) Config.GlobalServerCFG.usersecrets.get(address + Config.User_Secrets.PASSWD);
+                    user = (String) map.get(address + Connection.USERNAME);
+                    password =(char[]) map.get(address + Connection.PASSWD);
                     if (user == null) {
                         data = null;
                     }
@@ -345,7 +348,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         return true;
     }
     private void deletePassword(){
-        Config.delUserSecret(address);
+        Connection.delUserSecret(address);
     }
 
     @Override

@@ -23,6 +23,7 @@ import kuasar.plugin.Intercom.ODR;
 import kuasar.plugin.PluginInterface;
 import kuasar.plugin.servermanager.gui.pn_Main;
 import kuasar.plugin.servermanager.gui.pn_ToolBar;
+import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.DNIe;
 import kuasar.plugin.utils.XML;
 
@@ -66,8 +67,7 @@ public class ServerManager implements kuasar.plugin.PluginInterface {
         Global.ODRClassInstance = ODRClassInstance;
         XML.Load(Config.path, Config.fileServers);
         ODR.setValue(getPluginName() + ".path", Config.path);
-        ODR.setValue(Config.PluginName+".usersecrets", Config.GlobalServerCFG.usersecrets);
-        ODR.setValue(Config.PluginName+".data", Config.fileServers);
+        ODR.setValue(getPluginName()+".data", Config.fileServers);
         Config.loadConfig();
         DNIe.loadAutoChecker();
         return true;
@@ -77,8 +77,11 @@ public class ServerManager implements kuasar.plugin.PluginInterface {
     public boolean Load(Object mainClassInstance, Class mainClass) {
         Global.mainClass = mainClass;
         Global.mainClassInstance = mainClassInstance;
-        Config.loadKSSecrets();
+        Connection.loadKSSecrets();
         PluginInterface[] plugins = (PluginInterface[]) ODR.getValue("$PLUGINS");
+        Config.keystoreDIR = (String) ODR.getValue("$KEYSTOREDIR");
+        Config.keystoreEXT = (String) ODR.getValue("$KEYSTORE_EXT");
+        Config.keystore_PWD_EXT = (String) ODR.getValue("$KEYSTORE_PWD_EXT");
         boolean vmcLoaded = false;
         boolean netcLoaded = false;
 
