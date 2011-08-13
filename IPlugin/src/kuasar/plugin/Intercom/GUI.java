@@ -39,6 +39,17 @@ public final class GUI {
             return false;
         }
     }
+    
+    public static java.awt.Point getFrameLocation(){
+        try {
+            @SuppressWarnings("unchecked")
+            Method meth = Global.mainClass.getMethod("getFrameLocation");
+            return (java.awt.Point) meth.invoke(Global.mainClassInstance);
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return null;
+        }
+    }
 
     public static boolean loadPlugin(JPanel panel) {
         Class args[] = new Class[1];
