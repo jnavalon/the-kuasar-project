@@ -65,7 +65,7 @@ public class pn_Addresses extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 18));
         lbl_title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_title.setText("Select networks you wish to search");
 
@@ -75,6 +75,8 @@ public class pn_Addresses extends kuasar.plugin.classMod.AbstractPanel {
         lst_addresses.setModel(model);
         spn_addresses.setViewportView(lst_addresses);
 
+        bt_accept.setBackground(new java.awt.Color(0, 0, 0));
+        bt_accept.setForeground(new java.awt.Color(204, 204, 204));
         bt_accept.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
         bt_accept.setText("Accept");
         bt_accept.addActionListener(new java.awt.event.ActionListener() {

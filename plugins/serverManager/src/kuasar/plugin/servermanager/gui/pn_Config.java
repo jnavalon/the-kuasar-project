@@ -276,11 +276,13 @@ public class pn_Config extends kuasar.plugin.classMod.AbstractPanel {
                     .addComponent(cb_cuser)
                     .addComponent(lbl_port)
                     .addComponent(txt_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addComponent(lbl_warning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
+        btn_Save.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Save.setForeground(new java.awt.Color(204, 204, 204));
         btn_Save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/save.png"))); // NOI18N
         btn_Save.setText("Save");
         btn_Save.addActionListener(new java.awt.event.ActionListener() {
@@ -289,6 +291,8 @@ public class pn_Config extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
+        btn_cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
         btn_cancel.setText("Cancel");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {

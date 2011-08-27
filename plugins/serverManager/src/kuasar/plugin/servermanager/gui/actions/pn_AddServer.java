@@ -214,16 +214,20 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
                 .addContainerGap())
         );
 
+        bt_accept.setBackground(new java.awt.Color(0, 0, 0));
         bt_accept.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
         bt_accept.setText("Check");
+        bt_accept.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bt_accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_acceptActionPerformed(evt);
             }
         });
 
+        bt_cancel.setBackground(new java.awt.Color(0, 0, 0));
         bt_cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
         bt_cancel.setText("Cancel");
+        bt_cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bt_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_cancelActionPerformed(evt);

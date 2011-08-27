@@ -107,8 +107,11 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
         pb_Progress.setString("");
         pb_Progress.setStringPainted(true);
 
+        btn_OK.setBackground(new java.awt.Color(0, 0, 0));
+        btn_OK.setForeground(new java.awt.Color(204, 204, 204));
         btn_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
         btn_OK.setText("Save");
+        btn_OK.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_OK.setEnabled(false);
         btn_OK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,8 +127,11 @@ public class pn_Searcher extends kuasar.plugin.classMod.AbstractPanel {
         txa_log.setRows(5);
         spn_log.setViewportView(txa_log);
 
+        btn_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
+        btn_Cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelActionPerformed(evt);

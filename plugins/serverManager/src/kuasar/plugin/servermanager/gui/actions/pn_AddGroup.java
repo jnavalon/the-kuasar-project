@@ -65,16 +65,22 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
         lbl_info.setForeground(new java.awt.Color(204, 204, 204));
         lbl_info.setText("Insert a group name:");
 
+        btn_Add.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Add.setForeground(new java.awt.Color(204, 204, 204));
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
         btn_Add.setText("Add");
+        btn_Add.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AddActionPerformed(evt);
             }
         });
 
+        btn_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
+        btn_Cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelActionPerformed(evt);
@@ -114,9 +120,9 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(75, 75, 75)
-                                .addComponent(txt_name, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
+                                .addComponent(txt_name, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(190, Short.MAX_VALUE)
+                                .addContainerGap(200, Short.MAX_VALUE)
                                 .addComponent(btn_Add)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_Cancel)))
