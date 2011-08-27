@@ -40,8 +40,11 @@ public class InitConsole {
         do{
             printHeaderLine();
             try {
-                command = br.readLine().trim();
+                command = br.readLine();
+                if(command!=null)
+                    command = command.trim();
             } catch (IOException ex) {
+                System.err.println(ex.getMessage());
                 System.err.println("Blasar got an error while reads a command line. Blasar will be closed cleanly!");
                 exit = true;
             }

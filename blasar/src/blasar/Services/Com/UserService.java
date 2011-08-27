@@ -20,6 +20,7 @@ import blasar.Config;
 import blasar.Config.CMD.CHARS;
 import blasar.Info;
 import blasar.Services.Com.vms.PluginInterface;
+import blasar.Services.Com.vms.SysCommands;
 import blasar.Services.Com.vms.VMService;
 import blasar.Services.Exceptions.IllegalStatement;
 import blasar.Services.SocketTools;
@@ -71,6 +72,8 @@ public class UserService {
         String act = cmd.nextToken().toLowerCase();
         if (act.equals("exit")) {
             return true;
+        }else if(act.charAt(0) == '$'){
+            return !SysCommands.splitter(act.substring(1), cmd ,st);
         } else if (act.equals("listvm")) {
             sendVMs();
         } else if (act.equals("switchvm")) {
