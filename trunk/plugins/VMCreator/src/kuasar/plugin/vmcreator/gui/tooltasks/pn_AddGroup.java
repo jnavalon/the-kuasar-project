@@ -67,27 +67,33 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
-        lbl_info.setFont(new java.awt.Font("URW Gothic L", 1, 14)); // NOI18N
+        lbl_info.setFont(new java.awt.Font("URW Gothic L", 1, 14));
         lbl_info.setForeground(new java.awt.Color(204, 204, 204));
         lbl_info.setText("Insert a project name:");
 
+        btn_Add.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Add.setForeground(new java.awt.Color(204, 204, 204));
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-ok-apply.png"))); // NOI18N
         btn_Add.setText("Add");
+        btn_Add.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AddActionPerformed(evt);
             }
         });
 
+        btn_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
+        btn_Cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelActionPerformed(evt);
             }
         });
 
-        txt_name.setFont(new java.awt.Font("URW Gothic L", 0, 16)); // NOI18N
+        txt_name.setFont(new java.awt.Font("URW Gothic L", 0, 16));
         txt_name.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_name.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
@@ -112,7 +118,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lbl_Error, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                        .addComponent(lbl_Error, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbl_info))
@@ -120,7 +126,7 @@ public class pn_AddGroup extends kuasar.plugin.classMod.AbstractPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(75, 75, 75)
-                                .addComponent(txt_name, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+                                .addComponent(txt_name, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap(235, Short.MAX_VALUE)
                                 .addComponent(btn_Add)))

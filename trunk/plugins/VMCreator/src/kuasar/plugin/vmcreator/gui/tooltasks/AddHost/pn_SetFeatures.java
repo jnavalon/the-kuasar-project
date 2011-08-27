@@ -211,6 +211,8 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
+        btn_Previous.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Previous.setForeground(new java.awt.Color(204, 204, 204));
         btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
@@ -219,6 +221,8 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
+        btn_Next.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Next.setForeground(new java.awt.Color(204, 204, 204));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-next.png"))); // NOI18N
         btn_Next.setText("Next");
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
@@ -227,6 +231,8 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
+        btn_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -238,7 +244,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         lbl_mem.setForeground(new java.awt.Color(204, 204, 204));
         lbl_mem.setText("Memory :");
 
-        txt_mem.setFont(new java.awt.Font("DejaVu Sans", 0, 18)); // NOI18N
+        txt_mem.setFont(new java.awt.Font("DejaVu Sans", 0, 18));
         txt_mem.setForeground(new java.awt.Color(0, 0, 0));
         txt_mem.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_mem.setText("512");
@@ -253,7 +259,6 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         });
 
         cmb_unit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Mb", "Gb", "Tb" }));
-        cmb_unit.setSelectedIndex(0);
 
         lbl_SafeMode.setForeground(new java.awt.Color(204, 204, 204));
         lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/security-medium.png"))); // NOI18N
@@ -867,7 +872,11 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
             txt_mem.setText(String.valueOf((Integer)data[0]));
             cmb_unit.setSelectedIndex((Integer)data[1]);
         }
-
+        if(toolbar.data.get(Namespace.keyMaps.SAFEMEMORY)!=null){
+            safeMode= (Boolean) toolbar.data.get(Namespace.keyMaps.SAFEMEMORY);
+            if(safeMode)
+                lbl_SafeMode.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/security-high.png")));
+        }
         if(toolbar.data.get(Namespace.keyMaps.DEVICES)!=null){
             TreeModel devices = (TreeModel)toolbar.data.get(Namespace.keyMaps.DEVICES);
             tre_Devices.setModel(devices);
@@ -893,6 +902,7 @@ public class pn_SetFeatures extends kuasar.plugin.classMod.AbstractPanel {
         toolbar.data.put(Namespace.keyMaps.MEMORY, memToMB(memory_size, (Integer)cmb_unit.getSelectedIndex()));
         toolbar.data.put(Namespace.keyMaps.DEVICES, tre_Devices.getModel());
         toolbar.data.put(Namespace.keyMaps.DEVICES + ".slots", module_slots);
+        toolbar.data.put(Namespace.keyMaps.SAFEMEMORY, safeMode);
     }
 
     //</editor-fold>

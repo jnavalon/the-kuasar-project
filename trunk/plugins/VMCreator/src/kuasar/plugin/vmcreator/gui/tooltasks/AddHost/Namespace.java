@@ -40,6 +40,7 @@ public final class Namespace {
         public static final String DEVICES = "dev";
         public static final String MEMORY = "mem";
         public static final String NETWORK = "net";
+        public static final String SAFEMEMORY = "safe";
     }
     
     public static final class OSystems{
