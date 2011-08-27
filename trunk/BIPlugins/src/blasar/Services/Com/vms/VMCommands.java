@@ -8,15 +8,9 @@ package blasar.Services.Com.vms;
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public interface PluginInterface {
-
-    String getEngine();
-
-    boolean Start();
-
-    boolean Stop();
-
-    String getPluginName();
-    
-    VMCommands getInterCom();
+public interface VMCommands {
+    public long getFreeSpace();
+    public String[] getRegisteredMachines();
+    public String getSysProperites(String key);
+    public boolean createvm(String name, String os);
 }
