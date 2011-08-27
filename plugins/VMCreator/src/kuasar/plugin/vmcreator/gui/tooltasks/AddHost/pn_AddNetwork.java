@@ -105,8 +105,11 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
         cbb_Type.setSelectedIndex(1);
         cbb_Type.setRequestFocusEnabled(false);
 
+        btn_Add.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Add.setForeground(new java.awt.Color(204, 204, 204));
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/attach.png"))); // NOI18N
         btn_Add.setText("Add");
+        btn_Add.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Add.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         btn_Add.setRequestFocusEnabled(false);
         btn_Add.addActionListener(new java.awt.event.ActionListener() {
@@ -174,24 +177,33 @@ public class pn_AddNetwork extends kuasar.plugin.classMod.AbstractPanel {
                 .addContainerGap())
         );
 
+        btn_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
+        btn_Cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelActionPerformed(evt);
             }
         });
 
+        btn_Next.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Next.setForeground(new java.awt.Color(204, 204, 204));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-next.png"))); // NOI18N
         btn_Next.setText("Next");
+        btn_Next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_NextActionPerformed(evt);
             }
         });
 
+        btn_Previous.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Previous.setForeground(new java.awt.Color(204, 204, 204));
         btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
+        btn_Previous.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_PreviousActionPerformed(evt);

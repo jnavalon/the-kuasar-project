@@ -71,24 +71,33 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
+        btn_Previous.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Previous.setForeground(new java.awt.Color(204, 204, 204));
         btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-previous.png"))); // NOI18N
         btn_Previous.setText("Previous");
+        btn_Previous.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Previous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_PreviousActionPerformed(evt);
             }
         });
 
+        btn_Next.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Next.setForeground(new java.awt.Color(204, 204, 204));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/save.png"))); // NOI18N
         btn_Next.setText("Save");
+        btn_Next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_NextActionPerformed(evt);
             }
         });
 
+        btn_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         btn_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/dialog-cancel.png"))); // NOI18N
         btn_Cancel.setText("Cancel");
+        btn_Cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CancelActionPerformed(evt);
@@ -127,7 +136,7 @@ public class pn_Summary extends kuasar.plugin.classMod.AbstractPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(spn_Summary, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                    .addComponent(spn_Summary, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_Favorites)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
