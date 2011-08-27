@@ -49,7 +49,20 @@ import kuasar.plugin.Intercom.ODR;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class Connection {
-    
+    public final class CMD {
+
+        public final static short NULL = 0;
+        public final static short ANSWER = 1;
+        public final static short QUESTION = 2;
+        public final static short INFO = 3;
+
+        public final class CHARS {
+
+            public final static char ANSWER = '<';
+            public final static char QUESTION = '>';
+            public final static char INFO = '#';
+        }
+    }
     public static final String KEYSTORE = ".keystore";
     public static final String KS_PASSWD = ".kspass";
     public static final String USERNAME = ".user";
@@ -98,6 +111,8 @@ public class Connection {
             ssocket = getServerSocket(netaddress, port, keystore, kspassword, timeout);
             ps = new PrintStream(ssocket.getOutputStream());
             br = new BufferedReader(new InputStreamReader(ssocket.getInputStream()));
+            br.readLine();
+            br.readLine();
             if (user.isEmpty()) {
                 status = checkDNIe(br, ps, passwd);
                 if (status < 0) {
@@ -131,6 +146,15 @@ public class Connection {
 
     }
 
+    public static SSLSocket getConnetion(String address, int port, String keystore, char[] kspassword, String user, char[] passwd, int timeout){
+        SSLSocket ssocket = getServerSocket(address, port, keystore, kspassword, timeout);
+        if (ssocket == null) {
+            return null;
+        }
+        
+        return ssocket;
+        
+    }
     /*
      * Return:
      * 1: OK
@@ -145,12 +169,12 @@ public class Connection {
      * -18: Bad Server
      * -19: Bad User
      */
-    private static int checkDNIe(BufferedReader br, PrintStream ps, char[] passwd) {
+    public static int checkDNIe(BufferedReader br, PrintStream ps, char[] passwd) {
         try {
             DNIe.setPIN(passwd);
-            ps.println("<2");
+            ps.println(CMD.CHARS.ANSWER + "2");
             String ticket = br.readLine();
-            if (!ticket.startsWith(">")) {
+            if (ticket.charAt(0) != CMD.CHARS.QUESTION) {
                 return -18;
             }
             ticket = ticket.substring(1);
@@ -174,7 +198,7 @@ public class Connection {
                 return -14;
             }
 
-            ps.println("<" + nif);
+            ps.println(CMD.CHARS.ANSWER + nif);
             byte[] sign = null;
             try {
                 sign = DNIe.sign(ticket);
@@ -213,21 +237,19 @@ public class Connection {
      * -21: BAD USER/PASSWORD
      * -22: BAD SERVER
      */
-    private static int checkUser(BufferedReader br, PrintStream ps, String user, char[] passwd) {
+    public static int checkUser(BufferedReader br, PrintStream ps, String user, char[] passwd) {
         try {
-            br.readLine();
-            br.readLine();
-            ps.println("<1");
+            ps.println(CMD.CHARS.ANSWER+"1");
             String line = br.readLine();
-            if (!line.equals(">Username?")) {
+            if (!line.equals(CMD.CHARS.QUESTION + "Username?")) {
                 return -22;
             }
-            ps.println("<" + user);
+            ps.println(CMD.CHARS.ANSWER + user);
             line = br.readLine();
-            if (!line.equals(">Passwd?")) {
+            if (!line.equals(CMD.CHARS.QUESTION + "Passwd?")) {
                 return -22;
             }
-            ps.println("<" + String.valueOf(passwd));
+            ps.println(CMD.CHARS.ANSWER + String.valueOf(passwd));
             line = br.readLine();
             if (!line.contains("Good to see you")) {
                 return -21;
@@ -239,7 +261,7 @@ public class Connection {
         return 1;
     }
 
-    private static boolean isServerOnline(BufferedReader br, PrintStream ps) {
+    public static boolean isServerOnline(BufferedReader br, PrintStream ps) {
         try {
             String line = null;
             line = br.readLine();
@@ -251,7 +273,7 @@ public class Connection {
             if (!line.contains("setAUTH")) {
                 return false;
             }
-            ps.println("<0");
+            ps.println(CMD.CHARS.ANSWER + "0");
             br.readLine();
             return true;
         } catch (IOException ex) {
@@ -279,7 +301,7 @@ public class Connection {
             case -15:
                 return "Bad PIN";
             case -16:
-                return "Error gettink key";
+                return "Error getting key";
             case -17:
                 return "Bad sign";
             case -18:
@@ -344,6 +366,8 @@ public class Connection {
         FileInputStream in = null;
         FileOutputStream out = null;
         try {
+            if(filed.exists())
+                filed.delete();
             in = new FileInputStream(files);
             out = new FileOutputStream(filed);
             int bytes;
@@ -351,12 +375,12 @@ public class Connection {
                 out.write(bytes);
             }
             return true;
+        } catch (SecurityException ex) {
+            System.err.println("I couldn't delete old keystore. Cause: " + ex.getMessage());
         } catch (FileNotFoundException ex) {
             System.err.println("I couldn't copy keystore. Cause: " + ex.getMessage());
-            return false;
         } catch (IOException ex) {
             System.err.println("I couldn't write in destiny file. Cause: " + ex.getMessage());
-            return false;
         } finally {
             try {
                 in.close();
@@ -364,6 +388,7 @@ public class Connection {
             } catch (IOException ex) {
             }
         }
+        return false;
     }
 
     public static boolean saveKSPassword(char[] password, String filename) {

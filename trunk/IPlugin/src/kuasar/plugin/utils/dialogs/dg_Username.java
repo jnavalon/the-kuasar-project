@@ -80,23 +80,23 @@ public class dg_Username extends javax.swing.JDialog {
 
         pn_Round_Container.setOpaque(false);
 
-        txt_username.setFont(new java.awt.Font("Dialog", 0, 18));
+        txt_username.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txt_username.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        tb_save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/document-nosave.png"))); // NOI18N
+        tb_save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/document-nosave.png"))); // NOI18N
         tb_save.setSelected(true);
         tb_save.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tb_save.setBorderPainted(false);
         tb_save.setContentAreaFilled(false);
         tb_save.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tb_save.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/document-save.png"))); // NOI18N
+        tb_save.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/document-save.png"))); // NOI18N
 
-        tb_dnie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/secure-card-bw.png"))); // NOI18N
+        tb_dnie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/secure-card-bw.png"))); // NOI18N
         tb_dnie.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tb_dnie.setBorderPainted(false);
         tb_dnie.setContentAreaFilled(false);
         tb_dnie.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tb_dnie.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/secure-card.png"))); // NOI18N
+        tb_dnie.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/secure-card.png"))); // NOI18N
         tb_dnie.setVerifyInputWhenFocusTarget(false);
         tb_dnie.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -104,7 +104,7 @@ public class dg_Username extends javax.swing.JDialog {
             }
         });
 
-        pwd_password.setFont(new java.awt.Font("Dialog", 0, 18));
+        pwd_password.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         pwd_password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         lbl_username.setForeground(new java.awt.Color(204, 204, 204));
@@ -298,5 +298,14 @@ public class dg_Username extends javax.swing.JDialog {
     }
     private void close(){
         this.dispose();
+    }
+    public void disableSave(){
+        tb_save.setSelected(false);
+        tb_save.setEnabled(false);
+    }
+    
+    public void disableDNIe(){
+        tb_dnie.setSelected(false);
+        tb_dnie.setEnabled(false);
     }
 }

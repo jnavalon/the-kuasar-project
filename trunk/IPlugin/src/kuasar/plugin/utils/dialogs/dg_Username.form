@@ -165,7 +165,7 @@
             <Component class="javax.swing.JToggleButton" name="tb_save">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/kuasar/plugin/servermanager/icons/document-nosave.png"/>
+                  <Image iconType="3" name="/kuasar/plugin/icons/document-nosave.png"/>
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -179,14 +179,14 @@
                   <Color id="Hand Cursor"/>
                 </Property>
                 <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/kuasar/plugin/servermanager/icons/document-save.png"/>
+                  <Image iconType="3" name="/kuasar/plugin/icons/document-save.png"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JToggleButton" name="tb_dnie">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/kuasar/plugin/servermanager/icons/secure-card-bw.png"/>
+                  <Image iconType="3" name="/kuasar/plugin/icons/secure-card-bw.png"/>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -199,7 +199,7 @@
                   <Color id="Hand Cursor"/>
                 </Property>
                 <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/kuasar/plugin/servermanager/icons/secure-card.png"/>
+                  <Image iconType="3" name="/kuasar/plugin/icons/secure-card.png"/>
                 </Property>
                 <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
               </Properties>
