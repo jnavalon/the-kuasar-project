@@ -16,41 +16,35 @@
  */
 package blasar.Services.Com.vms.virtualbox;
 
-import blasar.Services.Com.vms.PluginInterface;
 import blasar.Services.Com.vms.VMCommands;
+import blasar.Services.Com.vms.virtualbox.processes.Machines;
+import java.io.File;
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class Main implements PluginInterface{
+public class Commands implements VMCommands {
 
-    private Commands curCMD = null;
     @Override
-    public String getPluginName(){
-        return Config.pluginName;
-    }
-    @Override
-    public String getEngine() {
-       return "VBOX";
+    public long getFreeSpace() {
+        File dir = new File(Config.vmipath);
+        return dir.getFreeSpace();
     }
 
     @Override
-    public boolean Start() {
-        Config.load();
-        return true;
+    public String[] getRegisteredMachines() {
+        return Machines.getRegisteredMachines();
     }
 
     @Override
-    public boolean Stop() {
-        return true;
+    public String getSysProperites(String key) {
+        return Machines.getSysProperties(key);
     }
 
     @Override
-    public VMCommands getInterCom() {
-        if(curCMD==null)
-            curCMD = new Commands();
-        return curCMD;
+    public boolean createvm(String name, String os) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
