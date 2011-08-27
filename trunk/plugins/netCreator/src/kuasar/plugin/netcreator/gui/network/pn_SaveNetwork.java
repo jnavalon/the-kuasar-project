@@ -101,6 +101,8 @@ public class pn_SaveNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         setOpaque(false);
 
+        bt_Continue.setBackground(new java.awt.Color(0, 0, 0));
+        bt_Continue.setForeground(new java.awt.Color(204, 204, 204));
         bt_Continue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/save.png"))); // NOI18N
         bt_Continue.setText("Save");
         bt_Continue.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +111,8 @@ public class pn_SaveNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
+        bt_Cancel.setBackground(new java.awt.Color(0, 0, 0));
+        bt_Cancel.setForeground(new java.awt.Color(204, 204, 204));
         bt_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/cancel.png"))); // NOI18N
         bt_Cancel.setText("Back");
         bt_Cancel.addActionListener(new java.awt.event.ActionListener() {

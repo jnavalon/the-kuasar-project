@@ -118,7 +118,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         pn_container.setOpaque(false);
 
-        lbl_ipv4.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lbl_ipv4.setFont(new java.awt.Font("Dialog", 1, 16));
         lbl_ipv4.setForeground(new java.awt.Color(204, 204, 204));
         lbl_ipv4.setText("IPv4:");
 
@@ -238,7 +238,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv4_mask.setBackground(new Color(0,0,0,0));
         txt_ipv4_mask.setColumns(3);
-        txt_ipv4_mask.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv4_mask.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv4_mask.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv4_mask.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv4_mask.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -266,7 +266,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
-        lbl_t_ipv6.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        lbl_t_ipv6.setFont(new java.awt.Font("Dialog", 1, 16));
         lbl_t_ipv6.setForeground(new java.awt.Color(204, 204, 204));
         lbl_t_ipv6.setText("IPv6:");
 
@@ -467,7 +467,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv6_8.setBackground(new Color(0,0,0,0));
         txt_ipv6_8.setColumns(3);
-        txt_ipv6_8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_8.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_8.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_8.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -492,7 +492,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_ipv6_prefix.setBackground(new Color(0,0,0,0));
         txt_ipv6_prefix.setColumns(3);
-        txt_ipv6_prefix.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_ipv6_prefix.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_ipv6_prefix.setForeground(new java.awt.Color(204, 204, 204));
         txt_ipv6_prefix.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_ipv6_prefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -524,7 +524,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_gateway.setBackground(new Color(0,0,0,0));
         txt_gateway.setColumns(3);
-        txt_gateway.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_gateway.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_gateway.setForeground(new java.awt.Color(204, 204, 204));
         txt_gateway.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_gateway.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -548,7 +548,7 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
 
         txt_DNS.setBackground(new Color(0,0,0,0));
         txt_DNS.setColumns(3);
-        txt_DNS.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_DNS.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_DNS.setForeground(new java.awt.Color(204, 204, 204));
         txt_DNS.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txt_DNS.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -636,8 +636,11 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
         lbl_warning.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/info.png"))); // NOI18N
         lbl_warning.setText("Click to activate AutoIP feature");
 
+        btn_check.setBackground(new java.awt.Color(0, 0, 0));
+        btn_check.setForeground(new java.awt.Color(204, 204, 204));
         btn_check.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/check.png"))); // NOI18N
         btn_check.setText("Check");
+        btn_check.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_check.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_checkActionPerformed(evt);
@@ -652,9 +655,9 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pn_container, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_title, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                    .addComponent(lbl_title, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_warning, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+                        .addComponent(lbl_warning, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_check)))
                 .addContainerGap())

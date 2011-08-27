@@ -87,15 +87,21 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/IPVM.png"))); // NOI18N
         lbl_Title.setText("<Node Name>");
 
+        tbt_Manual.setBackground(new java.awt.Color(0, 0, 0));
+        tbt_Manual.setForeground(new java.awt.Color(204, 204, 204));
         tbt_Manual.setSelected(true);
         tbt_Manual.setText("Manual");
+        tbt_Manual.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tbt_Manual.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 tbt_ManualStateChanged(evt);
             }
         });
 
+        tbt_dhcp.setBackground(new java.awt.Color(0, 0, 0));
+        tbt_dhcp.setForeground(new java.awt.Color(204, 204, 204));
         tbt_dhcp.setText("DHCP");
+        tbt_dhcp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tbt_dhcp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tbt_dhcpActionPerformed(evt);
@@ -117,7 +123,7 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
         lbl_Mask.setText("Mask:");
 
         txt_Mask.setBackground(new Color(0,0,0,0));
-        txt_Mask.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        txt_Mask.setFont(new java.awt.Font("Dialog", 1, 14));
         txt_Mask.setForeground(new java.awt.Color(204, 204, 204));
         txt_Mask.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txt_Mask.setOpaque(false);
@@ -144,7 +150,7 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
         pn_IP.setLayout(pn_IPLayout);
         pn_IPLayout.setHorizontalGroup(
             pn_IPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 432, Short.MAX_VALUE)
+            .addGap(0, 440, Short.MAX_VALUE)
             .addGroup(pn_IPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_IPLayout.createSequentialGroup()
                     .addContainerGap()
@@ -156,14 +162,14 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(pn_IPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(txt_Mask, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_Gateway, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                        .addComponent(txt_DNS, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
-                        .addComponent(txt_IP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                        .addComponent(txt_Gateway, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                        .addComponent(txt_DNS, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                        .addComponent(txt_IP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                     .addContainerGap()))
         );
         pn_IPLayout.setVerticalGroup(
             pn_IPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 171, Short.MAX_VALUE)
+            .addGap(0, 175, Short.MAX_VALUE)
             .addGroup(pn_IPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pn_IPLayout.createSequentialGroup()
                     .addContainerGap()
@@ -182,7 +188,7 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
                     .addGroup(pn_IPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lbl_DNS)
                         .addComponent(txt_DNS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(53, Short.MAX_VALUE)))
+                    .addContainerGap(57, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout pn_ContainerLayout = new javax.swing.GroupLayout(pn_Container);
@@ -192,7 +198,7 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ContainerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbl_Title, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                    .addComponent(lbl_Title, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pn_ContainerLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(pn_ContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,8 +222,11 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
                 .addComponent(pn_IP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        btn_Accept.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Accept.setForeground(new java.awt.Color(204, 204, 204));
         btn_Accept.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/save.png"))); // NOI18N
         btn_Accept.setText("Save");
+        btn_Accept.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AcceptActionPerformed(evt);
