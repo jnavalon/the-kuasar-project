@@ -22,6 +22,7 @@
  */
 package kuasar.plugin.netcreator.gui;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -103,27 +104,29 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
 
         pn_Dir.setOpaque(false);
 
+        btn_Next.setBackground(new java.awt.Color(0, 0, 0));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/next.png"))); // NOI18N
         btn_Next.setContentAreaFilled(false);
         btn_Next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Next.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_NextMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_NextMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_NextMouseExited(evt);
+            }
         });
 
+        btn_Previous.setBackground(new java.awt.Color(0, 0, 0));
         btn_Previous.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/netcreator/icons/previous.png"))); // NOI18N
         btn_Previous.setContentAreaFilled(false);
         btn_Previous.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Previous.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_PreviousMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_PreviousMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_PreviousMouseExited(evt);
             }
         });
 
@@ -500,6 +503,10 @@ public class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
             aux.setCursor(new Cursor(Cursor.HAND_CURSOR));
             aux.setFont(new java.awt.Font("Verdana", 0, 15));
             aux.setName(Integer.toString(i++));
+            if(!dir.isEmpty()){
+                aux.setBackground(Color.BLACK);
+                aux.setForeground(new Color(204,204,204));
+            }
             aux.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
