@@ -41,7 +41,7 @@ public final class SysCommands {
                 return false;
             }
         }
-        if (data[0].equals("so")) {
+        if (data[0].equals("os")) {
             result = SOsplitter(data[1]);
         } else if (data[0].equals("cpu")) {
             result = CPUsplitter(data[1], arg);
