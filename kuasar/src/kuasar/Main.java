@@ -58,6 +58,7 @@ public class Main {
     private static void setTheme() {
         if (!(new File(Configuration.startDir + Configuration.Interfice.pathskins + File.separator + Configuration.Interfice.skin + File.separator + Configuration.Interfice.nimrod_theme)).exists()) {
             try {
+                //UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
             } catch (Exception ex) {
                 System.err.println("Nimbus Theme not supported");
