@@ -35,6 +35,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 
 /**
  *
@@ -179,6 +180,20 @@ public class SocketTools {
         Send(transcribeUTF(msg));
     }
 
+    public void Send(char command, String[] data) throws SocketException, IOException {
+        sendLine(Config.CMD.CHARS.INFO + Integer.toString(data.length));
+        for(String str : data){
+            sendLine(command + str);
+        }
+    }
+    
+    public void Send(char command, ArrayList<String> data) throws SocketException, IOException {
+        sendLine(Config.CMD.CHARS.INFO + Integer.toString(data.size()));
+        for(String str : data){
+            sendLine(command + str);
+        }
+    }
+    
     private byte[] transcribeUTF(String msg) {
         try {
             return msg.getBytes("UTF-8");

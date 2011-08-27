@@ -27,12 +27,14 @@ import java.util.StringTokenizer;
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class VMService {
+public class VMService{
     PluginInterface plugin;
     SocketTools st;
+    VMCommands intercom;
 
     public VMService(PluginInterface plugin, SocketTools st) {
         this.plugin =plugin;
+        this.intercom = plugin.getInterCom();
         this.st = st;
     }
     
@@ -41,16 +43,38 @@ public class VMService {
         try {
             cmd = new StringTokenizer(st.readLine(Config.CMD.QUESTION));       
         } catch (IllegalStatement ex) {
+            st.sendLine(Config.CMD.CHARS.INFO + "OUTVM");
             return true;
         }
         if(cmd == null) return true;
         if(!cmd.hasMoreTokens()) return false;
         String command = cmd.nextToken().toLowerCase();
-        if(command.equals("createvm"))
+        if(command.isEmpty()) return true;
+        if(command.equals("getfreespace"))
+            getFreeSpace();
+        else if(command.equals("getmachines"))
+            getMachines();
+        else if (command.equals("getdefaultfolder"))
+            getSysProperties("DefMachFolder");
+        else if(command.equals("createvm"))
             createVM(cmd);
-        if(command.equals("addstoragectl"))
+        else if(command.equals("addstoragectl"))
             addStorageCtl(cmd);
+        else
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR"); 
         return false;
+    }
+    
+    private void getMachines() throws SocketException, IOException{
+        st.Send(Config.CMD.CHARS.ANSWER, intercom.getRegisteredMachines());    
+    }
+    
+    private void getSysProperties(String key) throws SocketException{
+       st.sendLine(Config.CMD.CHARS.ANSWER + intercom.getSysProperites(key));
+    }
+    
+    private void getFreeSpace() throws SocketException{
+        st.sendLine(Config.CMD.CHARS.ANSWER + Long.toString(intercom.getFreeSpace()));
     }
 
     private void createVM(StringTokenizer cmd) throws SocketException {
@@ -77,7 +101,7 @@ public class VMService {
             st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
             return;
         }
-        if(plugin.execCMD("createvm " + name + " " + os)){
+        if(intercom.createvm(name, os)){
             st.sendLine(Config.CMD.CHARS.INFO + "OK");
         }else{
             st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
