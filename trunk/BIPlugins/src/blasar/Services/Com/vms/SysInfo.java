@@ -26,7 +26,7 @@ public final class SysInfo {
     private static Sigar sigar=new Sigar();
     
 
-    static class SO {
+    static class OS {
 
         private static OperatingSystem system = OperatingSystem.getInstance();
 
@@ -246,7 +246,7 @@ public final class SysInfo {
             if (!loadMemory(false)) {
                 return -1;
             }
-            return memory.getTotal();
+            return memory.getRam();
         }
         /*
          * Return Total MEM in bits
