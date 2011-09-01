@@ -111,8 +111,11 @@ public class pn_Targets extends kuasar.plugin.classMod.AbstractPanel implements 
 
         jPanel1.setOpaque(false);
 
+        btn_Next.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Next.setForeground(new java.awt.Color(204, 204, 204));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/next22.png"))); // NOI18N
         btn_Next.setText("Next");
+        btn_Next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Next.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_NextActionPerformed(evt);

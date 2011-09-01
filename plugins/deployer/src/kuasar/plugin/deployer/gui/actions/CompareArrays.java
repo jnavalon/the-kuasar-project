@@ -14,27 +14,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package kuasar.plugin.deployer;
+package kuasar.plugin.deployer.gui.actions;
+
+import java.util.Comparator;
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class Config {
-    public static final String PluginName = "deployer";
-    
-    public static String VMnodes;
-    public static String VMdir;
-    public static String VMdata;
-    public static String VMicondir;
-    
-    public static String SMdir;
-    public static String SMdata;
-    public static String startDir;
-    public static String pluginDir;
-    public static String gkeystore = null;
-    public static char[] gkssecret = null;
-    public static String guser = null;
-    public static char[] gusersecret = null;
+public class CompareArrays implements Comparator {
+
+    private boolean firstRAM; 
+    public CompareArrays(boolean firstRAM){
+        this.firstRAM = firstRAM;
+    }
+     
+    @Override
+    public int compare(Object o1, Object o2) {
+        String[] d1 = (String[]) o1;
+        String[] d2 = (String[]) o2;
+        
+        int r;
+        if(firstRAM)
+            r = d1[3].compareTo(d2[3]);
+        else
+            r = d1[2].compareTo(d2[2]);
+        if (r == 0) {
+            if(firstRAM)
+                return d1[2].compareTo(d2[2]);
+            else
+                return d1[3].compareTo(d2[3]);
+        } else {
+            return r;
+        }
+    }
     
 }

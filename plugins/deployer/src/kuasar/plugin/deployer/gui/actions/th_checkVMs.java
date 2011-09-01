@@ -28,6 +28,11 @@ import org.jdom.Element;
  */
 public class th_checkVMs extends Thread {
 
+    private static class AbortException extends Exception {
+
+        public AbortException() {
+        }
+    }
     private pn_Checker parent;
     /*
      * HashMap<String,Short>
@@ -41,66 +46,91 @@ public class th_checkVMs extends Thread {
      *         -1: Error IMAGE FILE;
      */
     private Element dataProject = null;
-    
+
     public th_checkVMs(pn_Checker parent) {
         this.parent = parent;
     }
 
     @Override
     public void run() {
-        parent.setInfoText("Extracting data");
-        extractData();
-        parent.setInfoText("Checking disk images");
-        checkImage();
-        parent.setInfoText("Checking servers");
-        checkServers();
-        parent.setVisibleNext(true);
+        try {
+            parent.setVisibleNext(false);
+            parent.setInfoText("Extracting data");
+            if (!extractData()) {
+                abort();
+            }
+            parent.setInfoText("Checking disk images");
+            if (!checkImage()) {
+                abort();
+            }
+            parent.setInfoText("Checking servers");
+            if (!checkServers()) {
+                abort();
+            }
+            parent.setVisibleNext(true);
+            parent.showFinished();
+            parent.project = dataProject;
+        } catch (AbortException ex) {
+        }
     }
 
-    private void extractData(){
+    private void abort() throws AbortException {
+        parent.goPrevious();
+        throw new AbortException();
+    }
+
+    private boolean extractData() {
         boolean recheck;
-        do{
+        boolean abort = false;
+        do {
             recheck = false;
             DataExtractor extractor = new DataExtractor();
-            if(!extractor.extract(parent.project)){
+            if (!extractor.extract(parent.project)) {
                 pn_BinErr binerr = new pn_BinErr(extractor.getErrors());
                 GUI.loadPlugin(binerr);
                 binerr.WaitAnswer();
-                recheck=binerr.getAnswer();
+                recheck = binerr.getAnswer();
+                abort = binerr.getAbort();
                 GUI.loadPlugin(parent);
             }
-            dataProject=extractor.getData();
-        }while(recheck == true);
+            dataProject = extractor.getData();
+        } while (recheck == true);
+        return !abort;
     }
-    
-    private void checkImage() {
+
+    private boolean checkImage() {
         boolean recheck;
-        do{
+        boolean abort = false;
+        do {
             recheck = false;
             ImageChecker checker = new ImageChecker();
-            if(!checker.check(dataProject)){
+            if (!checker.check(dataProject)) {
                 pn_BinErr binerr = new pn_BinErr(checker.getErrors());
                 GUI.loadPlugin(binerr);
                 binerr.WaitAnswer();
-                recheck=binerr.getAnswer();
+                recheck = binerr.getAnswer();
+                abort = binerr.getAbort();
                 GUI.loadPlugin(parent);
             }
-        }while(recheck == true);
+        } while (recheck == true);
+        return !abort;
     }
 
-    private void checkServers() {
+    private boolean checkServers() {
         boolean recheck;
-        do{
+        boolean abort = false;
+        do {
             recheck = false;
             ServerChecker checker = new ServerChecker();
-            if(!checker.check(parent)){
-                pn_SvErr binerr = new pn_SvErr(checker.getErrors());
+            if (!checker.check(parent)) {
+                pn_SvErr binerr = new pn_SvErr(checker.getErrors(), parent.target);
                 GUI.loadPlugin(binerr);
                 binerr.WaitAnswer();
-                recheck=binerr.getAnswer();
+                recheck = binerr.getAnswer();
+                abort = binerr.getAbort();
                 GUI.loadPlugin(parent);
             }
-        }while(recheck == true);
+        } while (recheck == true);
+        return !abort;
     }
-
 }

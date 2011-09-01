@@ -32,21 +32,28 @@ import java.util.Iterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+import kuasar.plugin.utils.Connection;
+import kuasar.plugin.utils.dialogs.dg_KeyStore;
+import kuasar.plugin.utils.dialogs.dg_Username;
+import kuasar.plugin.utils.pn_Info;
 import org.jdom.Element;
-
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
-    
+public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel {
+
     private DefaultListModel model = new DefaultListModel();
     private boolean recheck = false;
-    
+    private Element servers;
+    private boolean abort = false;
+
     /** Creates new form pn_BinErr */
-    public pn_SvErr(HashMap<String,String[]> errors) {
+    public pn_SvErr(HashMap<String, String[]> errors, Element servers) {
+        this.servers = servers;
         initComponents();
         loadData(errors);
     }
@@ -72,10 +79,11 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
         btn_users = new javax.swing.JButton();
         btn_OK = new javax.swing.JButton();
         btn_Check = new javax.swing.JButton();
+        btn_abort = new javax.swing.JButton();
 
         setOpaque(false);
 
-        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24));
         lbl_Title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/badcon.png"))); // NOI18N
         lbl_Title.setText("Error connecting to server.");
@@ -116,11 +124,21 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
         btn_certificate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/cert.png"))); // NOI18N
         btn_certificate.setToolTipText("Set Certificate");
         btn_certificate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_certificate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_certificateActionPerformed(evt);
+            }
+        });
 
         btn_users.setBackground(new java.awt.Color(0, 0, 0));
         btn_users.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/users.png"))); // NOI18N
         btn_users.setToolTipText("Set user");
         btn_users.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_users.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_usersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_buttonsLayout = new javax.swing.GroupLayout(pn_buttons);
         pn_buttons.setLayout(pn_buttonsLayout);
@@ -170,19 +188,36 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
 
         spn_Marquee.getViewport().setOpaque(false);
 
+        btn_OK.setBackground(new java.awt.Color(0, 0, 0));
+        btn_OK.setForeground(new java.awt.Color(204, 204, 204));
         btn_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/ignore.png"))); // NOI18N
         btn_OK.setText("Ignore");
+        btn_OK.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_OK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_OKActionPerformed(evt);
             }
         });
 
+        btn_Check.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Check.setForeground(new java.awt.Color(204, 204, 204));
         btn_Check.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/redo.png"))); // NOI18N
         btn_Check.setText("Check again");
+        btn_Check.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Check.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CheckActionPerformed(evt);
+            }
+        });
+
+        btn_abort.setBackground(new java.awt.Color(0, 0, 0));
+        btn_abort.setForeground(new java.awt.Color(204, 204, 204));
+        btn_abort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/abort16.png"))); // NOI18N
+        btn_abort.setText("Abort");
+        btn_abort.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_abort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_abortActionPerformed(evt);
             }
         });
 
@@ -196,7 +231,9 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
                         .addGap(24, 24, 24)
                         .addComponent(pn_Data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(338, Short.MAX_VALUE)
+                        .addContainerGap(237, Short.MAX_VALUE)
+                        .addComponent(btn_abort)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_Check)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_OK))
@@ -220,7 +257,8 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_OK)
-                    .addComponent(btn_Check))
+                    .addComponent(btn_Check)
+                    .addComponent(btn_abort))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -230,15 +268,15 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
     }//GEN-LAST:event_btn_CheckActionPerformed
 
     private void lst_ErrorsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_ErrorsValueChanged
-        if(!evt.getValueIsAdjusting()){
+        if (!evt.getValueIsAdjusting()) {
             String[] data = (String[]) lst_Errors.getSelectedValue();
             lbl_Info.setText(data[1]);
             lbl_Info.setVisible(true);
-        }         
+        }
     }//GEN-LAST:event_lst_ErrorsValueChanged
 
     private void lbl_InfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_InfoMouseClicked
-        if(evt.isControlDown()){
+        if (evt.isControlDown()) {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection string = new StringSelection(lbl_Info.getText());
             clipboard.setContents(string, null);
@@ -246,12 +284,27 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
     }//GEN-LAST:event_lbl_InfoMouseClicked
 
     private void btn_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_OKActionPerformed
+        removeIgnored();
         answer(false);
     }//GEN-LAST:event_btn_OKActionPerformed
+
+private void btn_certificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_certificateActionPerformed
+    changeKeyStore();
+}//GEN-LAST:event_btn_certificateActionPerformed
+
+private void btn_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_usersActionPerformed
+    changeUser();
+}//GEN-LAST:event_btn_usersActionPerformed
+
+private void btn_abortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abortActionPerformed
+        abort=true;
+        answer(false);
+}//GEN-LAST:event_btn_abortActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Check;
     private javax.swing.JButton btn_OK;
+    private javax.swing.JButton btn_abort;
     private javax.swing.JButton btn_certificate;
     private javax.swing.JButton btn_users;
     private javax.swing.JLabel lbl_Info;
@@ -264,45 +317,116 @@ public class pn_SvErr extends kuasar.plugin.classMod.AbstractPanel{
     private javax.swing.JScrollPane spn_Marquee;
     // End of variables declaration//GEN-END:variables
 
-    private void answer(boolean recheck){
-        this.recheck=recheck;
+    private void answer(boolean recheck) {
+        this.recheck = recheck;
         WakeUp();
     }
-    public synchronized void WaitAnswer(){
+
+    public synchronized void WaitAnswer() {
         try {
             wait();
-        } catch (InterruptedException ex) {}
+        } catch (InterruptedException ex) {
+        }
     }
-    private synchronized void WakeUp(){
+
+    private synchronized void WakeUp() {
         notify();
     }
+
     private void loadData(HashMap<String, String[]> errors) {
         model.removeAllElements();
         Iterator<String> keys = errors.keySet().iterator();
-        while(keys.hasNext()){
+        while (keys.hasNext()) {
             String key = keys.next();
             String[] data = errors.get(key);
-            model.addElement(new String[]{data[0],data[1], key});
+            model.addElement(new String[]{data[0], data[1], key, data[2]});
         }
-        
+
     }
-    public boolean getAnswer(){
+
+    public boolean getAnswer() {
         return recheck;
     }
-    class ErrorCellRenderer extends JLabel implements ListCellRenderer{
+
+    private void changeKeyStore() {
+        dg_KeyStore dks = new dg_KeyStore(null, true, null);
+        dks.setHeader("Insert KeyStore");
+        dks.setVisible(true);
+        String ks = dks.getKeyStore();
+        char[] kspwd = dks.getPassword();
+        if (ks == null || kspwd == null) {
+            pn_Info.Load((JPanel)this.getParent(), this, "Bad KeyStore or password", 
+                    "Please insert a keystore and password correctly.", pn_Info.ICON_ERROR);
+            return;
+        }
+        Object[] selected = lst_Errors.getSelectedValues();
+        for (Object data : (Object[]) selected) {
+            String address = ((String[]) data)[2];
+            Connection.saveKeyStore(ks, address);
+            Connection.saveKSPassword(kspwd, address);
+        }
+        Connection.loadKSSecrets();
+    }
+
+    private void changeUser() {
+        dg_Username dus = new dg_Username(null, true, null);
+        dus.setHeader("Insert username and Password");
+        dus.disableDNIe();
+        dus.disableSave();
+        dus.setVisible(true);
+        String username = null;
+        if(dus.isDNIe())
+            username = "";
+        else
+            username = dus.getUserName();
+        if(username == null){
+             pn_Info.Load((JPanel)this.getParent(), this, "Bad Username", 
+                    "Please insert a valid username o select DNIe if you want use that method", pn_Info.ICON_ERROR);
+             return;
+        }
+        char[] pwd = dus.getPassword();
+        Object[] selected = lst_Errors.getSelectedValues();
+        for (Object data : (Object[]) selected) {
+            String address = ((String[]) data)[3];
+            Connection.addUserSecret(address, username, pwd, dus.isDNIe());
+        }
+    }
+
+    private void removeIgnored() {
+        for(int i =0 ; i<lst_Errors.getModel().getSize();i++){
+            String[] value = (String[]) lst_Errors.getModel().getElementAt(i);
+            String[] path = value[2].split("/");
+            Element firstParent=servers;
+            for(int j = 1; j<path.length-1; j++){
+                String data = path[j];
+                firstParent = firstParent.getChild(data);
+            }
+            firstParent.removeChild(path[path.length-1]);
+        }
+    }
+
+    public boolean getAbort() {
+        return abort;
+    }
+
+    class ErrorCellRenderer extends JLabel implements ListCellRenderer {
+
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             /*VALUE => String[3] ::
              *                      [0] Name
              *                      [1] Error Description
-             *                      [2] Path
+             *                      [2] Key
+             *                      [3] Address
              */
+
             String[] data = (String[]) value;
-            JLabel label = new JLabel(data[0]);
-            label.setBackground(new Color(184,207,229));
-            label.setOpaque(isSelected);
-            return label;
+            pn_Err_List error = new pn_Err_List();
+            error.setPath(data[0]);
+            error.setAddress(data[3]);
+            error.setBackground(new Color(184, 207, 229));
+            error.setOpaque(isSelected);
+            return error;
         }
     }
 }
-
