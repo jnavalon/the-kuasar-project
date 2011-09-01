@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.deployer.gui.actions.th_checkVMs;
 import kuasar.plugin.deployer.gui.classmod.I_Panels;
 import kuasar.plugin.utils.pn_Info;
@@ -74,11 +75,11 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        lbl_title = new javax.swing.JLabel();
+        pn_Image = new javax.swing.JPanel();
         lbl_Info = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_left = new javax.swing.JLabel();
+        lbl_right = new javax.swing.JLabel();
         lbl_Image = new javax.swing.JLabel();
         pn_Sub = new javax.swing.JPanel();
         btn_Next = new javax.swing.JButton();
@@ -86,12 +87,12 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
 
         setOpaque(false);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 28));
-        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/checking.png"))); // NOI18N
-        jLabel1.setText("Checking");
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
+        lbl_title.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/checking.png"))); // NOI18N
+        lbl_title.setText("Checking");
 
-        jPanel1.setOpaque(false);
+        pn_Image.setOpaque(false);
 
         lbl_Info.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -102,30 +103,30 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
         lbl_Image.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lbl_Image.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pn_ImageLayout = new javax.swing.GroupLayout(pn_Image);
+        pn_Image.setLayout(pn_ImageLayout);
+        pn_ImageLayout.setHorizontalGroup(
+            pn_ImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pn_ImageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_ImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ImageLayout.createSequentialGroup()
+                        .addComponent(lbl_left, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(lbl_Image, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
+                        .addComponent(lbl_right, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        pn_ImageLayout.setVerticalGroup(
+            pn_ImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ImageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(pn_ImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbl_Image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+                    .addComponent(lbl_right, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                    .addComponent(lbl_left, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_Info, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -133,11 +134,22 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
 
         pn_Sub.setOpaque(false);
 
+        btn_Next.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Next.setForeground(new java.awt.Color(204, 204, 204));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/next22.png"))); // NOI18N
         btn_Next.setText("Next");
+        btn_Next.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NextActionPerformed(evt);
+            }
+        });
 
+        btn_Back.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Back.setForeground(new java.awt.Color(204, 204, 204));
         btn_Back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/previous22.png"))); // NOI18N
         btn_Back.setText("Back");
+        btn_Back.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_BackActionPerformed(evt);
@@ -172,17 +184,17 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pn_Sub, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
+                    .addComponent(pn_Image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pn_Image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pn_Sub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -193,21 +205,26 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
         goPrevious();
     }//GEN-LAST:event_btn_BackActionPerformed
 
+private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NextActionPerformed
+        goNext();
+}//GEN-LAST:event_btn_NextActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Back;
     private javax.swing.JButton btn_Next;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_Image;
     private javax.swing.JLabel lbl_Info;
+    private javax.swing.JLabel lbl_left;
+    private javax.swing.JLabel lbl_right;
+    private javax.swing.JLabel lbl_title;
+    private javax.swing.JPanel pn_Image;
     private javax.swing.JPanel pn_Sub;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void goNext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        pn_Strategy strategy = new pn_Strategy(project, target, previous);
+        GUI.loadPlugin(strategy);
     }
 
     @Override
@@ -234,6 +251,12 @@ public class pn_Checker extends kuasar.plugin.classMod.AbstractPanel implements 
     }
     public void setVisibleNext(boolean state){
         btn_Next.setVisible(state);
+    }
+    public void showFinished(){
+        lbl_title.setText("Checked!");
+        imageConnection.stop();
+        lbl_Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/ok128.png")));
+        lbl_Info.setText("All dependencies were solved.");
     }
 
 }

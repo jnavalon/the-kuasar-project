@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -127,13 +128,24 @@ public class DataExtractor {
             }else if(key.equals("dev.slots")){
                 //extract slots
             }else if(key.equals("net")){
-                //extract net
+                Element node = new Element(key);
+                loadNetwork((ArrayList<Object[]>) mapVM.get(key), node);
+                parent.addContent(node);
             }else{
                 parent.setAttribute(key,mapVM.get(key).toString());
             }
         }
     }
 
+     private void loadNetwork(ArrayList<Object[]> list, Element parent){
+         for(int i = 0; i<list.size(); i++){
+             Object[] data = list.get(i);
+             Element e = new Element(("_" + i));
+             e.setAttribute("name", (String) data[0]);
+             e.setAttribute("type", Integer.toString((Integer) data[1]));
+             parent.addContent(e);
+         }
+     }
     private boolean loadDevices(DefaultTreeModel treeModel,Element parent, String path, String name) {
          DefaultMutableTreeNode treenode = (DefaultMutableTreeNode) treeModel.getRoot();     
          Element curModuleNode=null;

@@ -18,6 +18,7 @@ package kuasar.plugin.deployer.gui.actions;
 
 import java.util.HashMap;
 import java.util.List;
+import kuasar.plugin.deployer.Config;
 import kuasar.plugin.deployer.gui.pn_Checker;
 import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.dialogs.dg_KeyStore;
@@ -31,10 +32,7 @@ import org.jdom.Element;
 public class ServerChecker {
     private pn_Checker parent;
     private HashMap<String, String[]> errors = new HashMap<String, String[]>();
-    private String gkeystore = null;
-    private char[] gkssecret = null;
-    private String guser = null;
-    private char[] gusersecret = null;
+
     
     public boolean check(pn_Checker parent){
         this.parent = parent;
@@ -42,35 +40,40 @@ public class ServerChecker {
         dg_KeyStore ksd = new dg_KeyStore(null, true, null);
         ksd.setHeader("Insert a global keystore (Optional)");
         ksd.setVisible(true);
-        gkeystore = ksd.getKeyStore();
-        gkssecret = ksd.getPassword();
+        Config.gkeystore = ksd.getKeyStore();
+        Config.gkssecret = ksd.getPassword();
         dg_Username userd = new dg_Username(null, true, null);
         userd.setHeader("Insert a global login (Optional)");
         userd.setVisible(true);
-        guser = userd.getUserName();
-        gusersecret = userd.getPassword();
+        Config.guser = userd.getUserName();
+        Config.gusersecret = userd.getPassword();
         if(root.getAttributeValue("type")==null){
             boolean correct = true;
             List<Element> children = root.getChildren();
             for(Element child : children){
-                if(!browseNodes(child))
-                    correct=false;
+                if(child.getAttributeValue("type").isEmpty()){
+                    if(!browseNodes(child,"/"+child.getAttributeValue("name") + "/","/"+child.getName()+"/"))
+                        correct=false;
+                }else if(child.getAttributeValue("type").equals("server")){
+                    if(!checkServer(child,"/","/"))
+                        correct = false;
+                }
             }
             return correct;
         }else if(root.getAttributeValue("type").isEmpty()){
-            return browseNodes(root);
+            return browseNodes(root,"/", "/");
         }else if(root.getAttributeValue("type").equals("server")){
             return checkServer(root, "", "");
         }
         return true;
     }
     
-    public boolean browseNodes(Element root){
+    public boolean browseNodes(Element root, String name, String path){
         boolean correct = true;
         List<Element> children = root.getChildren();
         for(Element child : children){
             if(child.getAttributeValue("type").equals("server")){
-                if(!checkServer(child, "/" + root.getAttributeValue("name"), "/" + root.getName())){
+                if(!checkServer(child, name, path)){
                     correct = false;
                 }
             }
@@ -83,7 +86,7 @@ public class ServerChecker {
     }
 
     private boolean checkServer(Element root, String name, String path) {
-        parent.setInfoText("Checking " + name + "/" + root.getAttributeValue("name") + "...");
+        parent.setInfoText("Checking " + name + root.getAttributeValue("name") + "...");
         if(root ==null) return true;
         if(!root.getAttributeValue("type").equals("server"))
             return true;
@@ -93,26 +96,26 @@ public class ServerChecker {
         try{
             port = Integer.parseInt(pt);
         }catch(NumberFormatException ex){
-            String[] info = {name, "Bad port", "1"};
+            String[] info = {name + root.getAttributeValue("name"), "Bad port", address, "1"};
             errors.put(path+root.getName(), info);
             return false;
             
         }
         String keystore = Connection.getKeyStore(address);
         if(keystore == null){
-            keystore = gkeystore;
+            keystore = Config.gkeystore;
             if(keystore==null){
-                String[] info = {name, "KeyStore not found", "2"};
-                errors.put(path, info);
+                String[] info = {name + root.getAttributeValue("name"), "KeyStore not found",  address, "2"};
+                errors.put(path+root.getName(), info);
                 return false;
             }
         }
         char[] kssecret = Connection.getKeyStorePWD(address);
         if(kssecret == null){
-            kssecret = gkssecret;
+            kssecret = Config.gkssecret;
             if(kssecret == null){
-                String[] info = {name, "KeyStore password not found", "3"};
-                errors.put(path, info);
+                String[] info = {name + root.getAttributeValue("name"), "KeyStore password not found", address, "3"};
+                errors.put(path+root.getName(), info);
                 return false;
             }
             
@@ -122,10 +125,10 @@ public class ServerChecker {
         if(!Connection.isDNIe(address)){
             username = Connection.getUserName(address);
             if(username == null){
-                username = guser;
+                username = Config.guser;
                 if(username == null){
-                    String[] info = {name, "Username not found", "4"};
-                    errors.put(path, info);
+                    String[] info = {name+root.getAttributeValue("name"), "Username not found", address, "4"};
+                    errors.put(path+root.getName(), info);
                     return false;
                 }
             }
@@ -135,18 +138,19 @@ public class ServerChecker {
         
         char[] userpwd = Connection.getUserPwd(address);
         if(userpwd == null){
-            userpwd = gusersecret;
+            userpwd = Config.gusersecret;
             if(userpwd == null){
-                String[] info = {name, "User's password not found", "5"};
-                errors.put(path, info);
+                String[] info = {name+ root.getAttributeValue("name"), "User's password not found", address, "5"};
+                errors.put(path+root.getName(), info);
                 return false;
             }
         }
         
         int status = Connection.checkServer(address, port, keystore, kssecret, username, userpwd, true);
         if(status<1){
-            String[] info = {name, Connection.getErrorDescription(status), Integer.toString(status)};
-            errors.put(path, info);
+            String[] info = {name + root.getAttributeValue("name") , Connection.getErrorDescription(status), 
+                address, Integer.toString(status)};
+            errors.put(path+root.getName(), info);
             return false;
         }
         return true;

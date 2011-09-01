@@ -33,7 +33,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import org.jdom.Element;
 
 /**
  *
@@ -43,6 +42,7 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
     
     private DefaultListModel model = new DefaultListModel();
     private boolean recheck = false;
+    private boolean abort = false;
     
     /** Creates new form pn_BinErr */
     public pn_BinErr(HashMap<String,String[]> errors) {
@@ -68,10 +68,11 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
         lbl_Info = new kuasar.plugin.deployer.gui.classmod.JMarqueeLabel();
         btn_OK = new javax.swing.JButton();
         btn_Check = new javax.swing.JButton();
+        btn_abort = new javax.swing.JButton();
 
         setOpaque(false);
 
-        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24));
         lbl_Title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/badbin.png"))); // NOI18N
         lbl_Title.setText("Error loading VM data");
@@ -127,19 +128,36 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
 
         spn_Marquee.getViewport().setOpaque(false);
 
+        btn_OK.setBackground(new java.awt.Color(0, 0, 0));
+        btn_OK.setForeground(new java.awt.Color(204, 204, 204));
         btn_OK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/ignore.png"))); // NOI18N
         btn_OK.setText("Ignore");
+        btn_OK.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_OK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_OKActionPerformed(evt);
             }
         });
 
+        btn_Check.setBackground(new java.awt.Color(0, 0, 0));
+        btn_Check.setForeground(new java.awt.Color(204, 204, 204));
         btn_Check.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/redo.png"))); // NOI18N
         btn_Check.setText("Check again");
+        btn_Check.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Check.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_CheckActionPerformed(evt);
+            }
+        });
+
+        btn_abort.setBackground(new java.awt.Color(0, 0, 0));
+        btn_abort.setForeground(new java.awt.Color(204, 204, 204));
+        btn_abort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/abort16.png"))); // NOI18N
+        btn_abort.setText("Abort");
+        btn_abort.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_abort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_abortActionPerformed(evt);
             }
         });
 
@@ -153,7 +171,9 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
                         .addGap(24, 24, 24)
                         .addComponent(pn_Data, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(338, Short.MAX_VALUE)
+                        .addContainerGap(243, Short.MAX_VALUE)
+                        .addComponent(btn_abort)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_Check)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_OK))
@@ -180,7 +200,8 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_OK)
-                    .addComponent(btn_Check))
+                    .addComponent(btn_Check)
+                    .addComponent(btn_abort))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -209,9 +230,15 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
         answer(false);
     }//GEN-LAST:event_btn_OKActionPerformed
 
+private void btn_abortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_abortActionPerformed
+        abort=true;
+        answer(false);
+}//GEN-LAST:event_btn_abortActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Check;
     private javax.swing.JButton btn_OK;
+    private javax.swing.JButton btn_abort;
     private javax.swing.JLabel lbl_Info;
     private javax.swing.JLabel lbl_Subtitle;
     private javax.swing.JLabel lbl_Title;
@@ -246,6 +273,9 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
     public boolean getAnswer(){
         return recheck;
     }
+    public boolean getAbort(){
+        return abort;
+    }
     class ErrorCellRenderer extends JLabel implements ListCellRenderer{
 
         @Override
@@ -253,10 +283,13 @@ public class pn_BinErr extends kuasar.plugin.classMod.AbstractPanel{
             /*VALUE => String[3] ::
              *                      [0] Name
              *                      [1] Error Description
-             *                      [2] Path
              */
             String[] data = (String[]) value;
-            JLabel label = new JLabel(data[0]);
+            String title = data[0];
+            if(title.trim().isEmpty()){
+                title = "<ERROR GETTING NAME. CLICK HERE FOR MORE INFO>";
+            }
+            JLabel label = new JLabel(title);
             label.setBackground(new Color(184,207,229));
             label.setOpaque(isSelected);
             return label;
