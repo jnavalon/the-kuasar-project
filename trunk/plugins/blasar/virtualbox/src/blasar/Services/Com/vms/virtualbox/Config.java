@@ -34,6 +34,7 @@ public final class Config {
     public static String application=null;
     public static String vmipath=null;
     public static final String VMAPP = "VBoxManage";
+    public static String EngineCode="VBX";
 
     public static void load() {
         File cfgFile = new File(startDir + File.separator + pluginName.toLowerCase() + ".cfg");
