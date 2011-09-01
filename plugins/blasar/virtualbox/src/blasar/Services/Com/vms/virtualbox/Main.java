@@ -32,7 +32,7 @@ public class Main implements PluginInterface{
     }
     @Override
     public String getEngine() {
-       return "VBOX";
+       return Config.EngineCode;
     }
 
     @Override
