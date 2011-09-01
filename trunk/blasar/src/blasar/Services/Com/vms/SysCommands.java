@@ -42,7 +42,7 @@ public final class SysCommands {
             }
         }
         if (data[0].equals("os")) {
-            result = SOsplitter(data[1]);
+            result = OSsplitter(data[1]);
         } else if (data[0].equals("cpu")) {
             result = CPUsplitter(data[1], arg);
         }else if (data[0].equals("mem")) {
@@ -58,26 +58,26 @@ public final class SysCommands {
         return true;
     }
 
-    public static String SOsplitter(String cmd) {
+    public static String OSsplitter(String cmd) {
         if (cmd.equals("get_description")) {
-            return SysInfo.SO.getDescription();
+            return SysInfo.OS.getDescription();
         } else if (cmd.equals("get_name")) {
-            return SysInfo.SO.getName();
+            return SysInfo.OS.getName();
         } else if (cmd.equals("get_arch")) {
-            return SysInfo.SO.getArch();
+            return SysInfo.OS.getArch();
         } else if (cmd.equals("get_version")) {
-            return SysInfo.SO.getVersion();
+            return SysInfo.OS.getVersion();
         } else if (cmd.equals("get_patch_lvl")) {
-            return SysInfo.SO.getPatchLevel();
+            return SysInfo.OS.getPatchLevel();
         } else if (cmd.equals("get_vendor")) {
-            return SysInfo.SO.getVendor();
+            return SysInfo.OS.getVendor();
         } else if (cmd.equals("get_vendor_cn")) {
-            return SysInfo.SO.getVendorCodename();
+            return SysInfo.OS.getVendorCodename();
         } else if (cmd.equals("get_uptime")) {
-            double uptime = SysInfo.SO.getUptime();
+            double uptime = SysInfo.OS.getUptime();
             return (uptime < 0) ? null : Double.toString(uptime);
         } else if (cmd.equals("get_fuptime")) {
-            short[] uptime = SysInfo.SO.getFormattedUptime();
+            short[] uptime = SysInfo.OS.getFormattedUptime();
             return uptime == null ? null : uptime[0] + "#" + uptime[1] + "#" + uptime[2];
         }
         return null;

@@ -50,6 +50,10 @@ public class VMService{
         if(!cmd.hasMoreTokens()) return false;
         String command = cmd.nextToken().toLowerCase();
         if(command.isEmpty()) return true;
+        if(command.equals("exit")){
+            st.sendLine(Config.CMD.CHARS.INFO + "OUTVM");
+            return true;
+        }
         if(command.equals("getfreespace"))
             getFreeSpace();
         else if(command.equals("getmachines"))

@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
@@ -149,11 +151,19 @@ public class Server extends Thread {
                 st.isAlive();
                 if(connection!=null){
                     if(connection.equals(st.getRemoteIP() + ":" + st.getRemotePort())){
-                        st.closeAll();
+                        try {
+                            curSplitter.getSocket().close();
+                        } catch (IOException ex) {
+                            return false;
+                        }
                         return true;
                     }
                 }else{
-                    st.closeAll();
+                    try {
+                        curSplitter.getSocket().close();
+                    } catch (IOException ex) {
+                        return false;
+                    }
                     status = true;
                 }
             } catch (SocketException ex) {}
