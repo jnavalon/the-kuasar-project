@@ -43,14 +43,14 @@ public final class Info {
     public static void showError(String error){
         if(isVerbose()){
            String[] date = getTime();
-            System.err.print(date[0]);
+            System.err.print("\n" + date[0]);
             for(int i=1 ; i< date.length; i++){
                 if(date[i].length()<2){
                     date[i] = "0" + date[i];
                 }
                 System.err.print(date[i]);
             }
-            System.err.println( "\t" + error);
+            System.err.println( "\n\t" + error);
         }
             
     }
@@ -58,7 +58,7 @@ public final class Info {
     public static void showMessage(String message){
          if(isVerbose()){
            String[] date = getTime();
-            System.out.print(date[0]);
+            System.out.print("\n" + date[0]);
             for(int i=1 ; i< date.length; i++){
                 if(date[i].length()<2){
                     date[i] = "0" + date[i];

@@ -71,6 +71,7 @@ public class UserService {
 
         String act = cmd.nextToken().toLowerCase();
         if (act.equals("exit")) {
+            st.sendLine(CHARS.INFO + "BYE");
             return true;
         }else if(act.charAt(0) == '$'){
             return !SysCommands.splitter(act.substring(1), cmd ,st);
@@ -85,13 +86,13 @@ public class UserService {
 
     private void switchVM(StringTokenizer cmd) throws SocketException {
         if (!cmd.hasMoreTokens()) {
-            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+            st.sendLine(CHARS.INFO + "ERROR");
         }
         String name = cmd.nextToken();
         if (loadValidVM(name)) {
-            st.sendLine(Config.CMD.CHARS.INFO + "OK");
+            st.sendLine(CHARS.INFO + "OK");
         } else {
-            st.sendLine(Config.CMD.CHARS.INFO + "BAD");
+            st.sendLine(CHARS.INFO + "BAD");
         }
     }
 
@@ -109,10 +110,10 @@ public class UserService {
 
     private void sendVMs() throws SocketException {
         HashMap<String, PluginInterface> plugins = Config.BLASAR.plugins;
-        st.sendLine("" + Config.CMD.CHARS.INFO + plugins.size());
+        st.sendLine("" + CHARS.INFO + plugins.size());
         for (String key : plugins.keySet()) {
             PluginInterface pi = plugins.get(key);
-            st.sendLine(Config.CMD.CHARS.ANSWER + pi.getEngine());
+            st.sendLine(CHARS.ANSWER + pi.getEngine());
         }
     }
 }
