@@ -69,7 +69,7 @@ public class Connection {
     public static final String PASSWD = ".pass";
     public static final String DNIE = ".dnie";
     
-    private static int timeout = 250;
+    public static int timeout = 250;
     
     /*
      * Return:
@@ -145,16 +145,7 @@ public class Connection {
         }
 
     }
-
-    public static SSLSocket getConnetion(String address, int port, String keystore, char[] kspassword, String user, char[] passwd, int timeout){
-        SSLSocket ssocket = getServerSocket(address, port, keystore, kspassword, timeout);
-        if (ssocket == null) {
-            return null;
-        }
-        
-        return ssocket;
-        
-    }
+    
     /*
      * Return:
      * 1: OK
@@ -440,18 +431,12 @@ public class Connection {
     public static String getKeyStore(String address) {
         HashMap map = (HashMap) ODR.getValue("#KS_SECRET");
         String path = (String)map.get(address + KEYSTORE);
-        if (path == null) {
-            return null;
-        }
         return path;
     }
 
     public static char[] getKeyStorePWD(String address) {
         HashMap map = (HashMap) ODR.getValue("#KS_SECRET");
         char[] pwd = (char[]) map.get(address + KS_PASSWD);
-        if (pwd == null) {
-            return null;
-        }
         return pwd;
     }
     

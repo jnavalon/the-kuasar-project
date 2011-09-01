@@ -26,4 +26,19 @@ public final class Global {
         public static Class mainClass = null;
         public static Class ODRClass = null;
         public static Object ODRClassInstance = null;
+        
+        public final class CMD {
+
+        public final static short NULL = 0;
+        public final static short ANSWER = 1;
+        public final static short QUESTION = 2;
+        public final static short INFO = 3;
+
+        public final class CHARS {
+
+            public final static char ANSWER = '<';
+            public final static char QUESTION = '>';
+            public final static char INFO = '#';
+        }
+    }
 }
