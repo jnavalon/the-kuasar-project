@@ -131,7 +131,7 @@ public class ConfigSetup {
         boolean cont = false;
         int tries = 0;
         String path;
-        System.out.println("We need too the path when we save the VM images disk.");
+        System.out.println("We need too the path where we'll save the VM images disk.");
         do {
             path = null;
             System.out.println();
