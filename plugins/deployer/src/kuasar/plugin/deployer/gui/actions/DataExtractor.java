@@ -180,9 +180,10 @@ public class DataExtractor {
                     node.setAttribute("id",Integer.toString((Integer) data[0]));
                     node.setAttribute("name", (String) data[1]);
                     node.setAttribute("cache", Boolean.toString((Boolean)deviceMap.get("cache")));
+                    node.setAttribute("type", Integer.toString((Integer)deviceMap.get("type")));
                     curModuleNode = node;
                     parent.addContent(curModuleNode);
-                }            
+                }
             }
             treenode = treenode.getNextNode();
         } while (treenode != null);
