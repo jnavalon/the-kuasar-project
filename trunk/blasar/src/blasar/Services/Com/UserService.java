@@ -38,7 +38,7 @@ public class UserService {
     private SocketTools st;
     VMService service = null;
 
-    public UserService(SocketTools st) throws IOException, SocketException {
+    public UserService(SocketTools st) throws IOException, SocketException, IllegalStatement {
         boolean exit = false;
         this.st = st;
         st.setSocketTime(0);
@@ -79,6 +79,8 @@ public class UserService {
             sendVMs();
         } else if (act.equals("switchvm")) {
             switchVM(cmd);
+        }else{
+            st.sendLine(CHARS.INFO + "BAD");
         }
 
         return false;

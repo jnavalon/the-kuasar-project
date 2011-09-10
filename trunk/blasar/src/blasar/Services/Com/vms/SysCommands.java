@@ -16,8 +16,8 @@
  */
 package blasar.Services.Com.vms;
 
-import blasar.Config.CMD;
 import blasar.Services.SocketTools;
+import blasar.Config.CMD;
 import java.net.SocketException;
 import java.util.StringTokenizer;
 
