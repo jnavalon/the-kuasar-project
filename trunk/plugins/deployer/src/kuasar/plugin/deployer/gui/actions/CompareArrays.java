@@ -33,20 +33,37 @@ public class CompareArrays implements Comparator {
     public int compare(Object o1, Object o2) {
         String[] d1 = (String[]) o1;
         String[] d2 = (String[]) o2;
+        long d1RAM = Long.parseLong(d1[3]);
+        long d2RAM = Long.parseLong(d2[3]);
+        long d1SZ = Long.parseLong(d1[2]);
+        long d2SZ = Long.parseLong(d2[2]);
         
         int r;
-        if(firstRAM)
-            r = d1[3].compareTo(d2[3]);
-        else
-            r = d1[2].compareTo(d2[2]);
+        if(firstRAM){
+            r=CompareNum(d1RAM,d2RAM);
+        }else{
+            r=CompareNum(d1SZ,d2SZ);
+        }
+        
         if (r == 0) {
             if(firstRAM)
-                return d1[2].compareTo(d2[2]);
+                r = CompareNum(d1SZ,d2SZ);
             else
-                return d1[3].compareTo(d2[3]);
-        } else {
-            return r;
+                r = CompareNum(d1RAM,d2RAM);
+            if(r==0){
+                r=1;
+            }
         }
+        return r;
+    }
+    
+    private short CompareNum(long o1, long o2){
+            if(o1<o2){
+                return 1;
+            }else if(o1>o2){
+                return -1;
+            }
+            return 0;
     }
     
 }

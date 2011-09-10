@@ -251,6 +251,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
        for(String[] data : allocated){
            String vm = data[0];
            String server = data[1];
+           String port = data[2];
            String[] path = vm.split("/");
            Element element = vms;
            for(String item : path){
@@ -258,9 +259,11 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                    element = element.getChild(item);
            }
            element.setAttribute("server", server);
+           element.setAttribute("server.port", port);
        }
        lbl_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/ok128.png")));
        btn_Next.setVisible(true);
+       goNext();
     }
 
     private ArrayList<String[]> loadServerInfo() {
@@ -307,6 +310,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 data[3] = child.getAttributeValue("mem");
                 data[4] = child.getAttributeValue("safe");
                 vmInfo.add(data);
+                
                 vmdata.put(child.getAttributeValue("hv"), vmInfo);   
             }
         }
@@ -329,8 +333,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 
     public void showErrors(ArrayList<String[]> errors) {
-        pn_AllocateErr err = new pn_AllocateErr(errors,first);
-        GUI.loadPlugin(err);
+        GUI.loadPlugin(new pn_AllocateErr(errors,first));
         GUI.updateUI();
     }
 
@@ -340,7 +343,8 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     
     @Override
     public void goNext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        GUI.loadPlugin(new pn_Allocated(vms,previous, first));
+        GUI.updateUI();
     }
 
     @Override

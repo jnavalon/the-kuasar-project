@@ -81,7 +81,7 @@ public class th_AllocateVMs extends Thread {
         HashMap<String, Object[]> map = new HashMap<String, Object[]>();
 
         for (String[] address : addresses) {
-            parent.setInfo("Sacanning " + address[0] + " server");
+            parent.setInfo("Scanning " + address[0] + " server");
             if(stop) return;
             int port;
             try {
@@ -140,9 +140,9 @@ public class th_AllocateVMs extends Thread {
         HashMap<String, Long> data = new HashMap<String, Long>();
         try {
             st.sendLine(CMD.CHARS.QUESTION + "$MEM:get_total");
-            totalRAM = st.readLong(CMD.ANSWER);
+            totalRAM = st.readLong(CMD.ANSWER)/1024/1024; //(IN MB)
             st.sendLine(CMD.CHARS.QUESTION + "$MEM:get_free");
-            freeRAM = st.readLong(CMD.ANSWER);
+            freeRAM = st.readLong(CMD.ANSWER)/1024/1024; //(IN MB)
         } catch (Exception ex) {
             return;
         }
@@ -160,10 +160,11 @@ public class th_AllocateVMs extends Thread {
         } catch (SocketException ex) {}
         catch (IOException ex){}
         st.closeAll();
-        Object[] odata = new Object[3];
+        Object[] odata = new Object[4];
         odata[0] = totalRAM;
         odata[1] = freeRAM;
         odata[2] = data;
+        odata[3] = port;
         map.put(address, odata);
     }
 
@@ -234,11 +235,12 @@ public class th_AllocateVMs extends Thread {
         Iterator<String> keys = map.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            String[] sdata = new String[4];
+            String[] sdata = new String[5];
             Object[] data = map.get(key);
             sdata[0] = key;
             sdata[1] = Long.toString((Long) data[0]);
             sdata[3] = Long.toString((Long) data[1]);
+            sdata[4] = Integer.toString((Integer)data[3]);
             HashMap<String, Long> imgsz = (HashMap<String, Long>) data[2];
             Iterator<String> ikeys = imgsz.keySet().iterator();
             while (ikeys.hasNext()) {
@@ -258,6 +260,7 @@ public class th_AllocateVMs extends Thread {
     }
 
     private void tryAllocate() {
+        errors.clear();
         Iterator<String> it = vmdata.keySet().iterator();
         while (it.hasNext()) {
             String key = it.next();
@@ -269,8 +272,8 @@ public class th_AllocateVMs extends Thread {
             }
             
 
-            Iterator<String[]> ivms = vms.descendingIterator();
-            Iterator<String[]> iservers = servers.descendingIterator();
+            Iterator<String[]> ivms = vms.iterator();
+            Iterator<String[]> iservers = servers.iterator();
             ArrayList<String[]> avms = new ArrayList<String[]>();
             ArrayList<String[]> aservers = new ArrayList<String[]>();
             
@@ -285,7 +288,7 @@ public class th_AllocateVMs extends Thread {
             iservers = null;
             servers.clear();
             vms.clear();
-            while (avms.size() > 0) {
+            while (avms.size() > 0 && errors.isEmpty()) {
                 ArrayList<ArrayList<Integer>> availability = new ArrayList<ArrayList<Integer>>();
                 for (int i = 0; i < avms.size(); i++) {
                     ArrayList<Integer> intersect = new ArrayList<Integer>();
@@ -319,7 +322,7 @@ public class th_AllocateVMs extends Thread {
                     }
                 }
                 if(selected>=0){
-                    allocatedVM.add(new String[]{avms.get(selected)[0], aservers.get(availability.get(selected).get(0))[0]});
+                    allocatedVM.add(new String[]{avms.get(selected)[0],aservers.get(availability.get(selected).get(0))[0], aservers.get(availability.get(selected).get(0))[4]});
                     String[] toreplace = aservers.get(availability.get(selected).get(0));
                     toreplace[2] = Long.toString( Long.parseLong(toreplace[2]) - Long.parseLong(avms.get(selected)[2]));
                     toreplace[3] = Long.toString(Long.parseLong(toreplace[3]) - Long.parseLong(avms.get(selected)[3]));
@@ -333,6 +336,8 @@ public class th_AllocateVMs extends Thread {
                     while(i.hasNext()){
                         aservers.add(i.next());
                     }
+                }else{
+                    avms.clear();
                 }
                 if(stop) return;
             }
