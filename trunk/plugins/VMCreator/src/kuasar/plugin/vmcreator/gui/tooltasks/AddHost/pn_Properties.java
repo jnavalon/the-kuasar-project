@@ -70,7 +70,7 @@ public class pn_Properties extends javax.swing.JPanel {
         if (data != null) {
             lbl_OS.setText((String) data);
         }
-        data = map.get(keyMaps.OS_VERSION);
+        data = map.get(keyMaps.OS_VERSION) + " (" +map.get(keyMaps.OS_VERSION+".arc") + " bits)";
         if (data != null) {
             lbl_Version.setText((String) data);
         }

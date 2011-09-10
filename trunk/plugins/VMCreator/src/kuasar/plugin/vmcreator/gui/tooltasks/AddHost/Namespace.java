@@ -45,13 +45,23 @@ public final class Namespace {
     
     public static final class OSystems{
         public static final String[] SYSTEMS = {"MS Windows", "Linux", "Solaris", "BSD", "IBM OS/2", "Mac OS X", "OTHER"};
-        public static final String[] WINDOWS ={"Windows 3.1", "Windows 95", "Windows 98", "Windows NT 4", "Windows 2000", "Windows XP", "Windows 2003", "Windows Vista", "Windows 2008", "Windows 7"};
+        public static final String[] WINDOWS ={"Windows 3.1", "Windows 95", "Windows 98", "Windows NT 4", "Windows ME", "Windows 2000", "Windows XP", "Windows 2003", "Windows Vista", "Windows 2008", "Windows 7"};
         public static final String[] LINUX={"Linux 2.2", "Linux 2.4", "Linux 2.6", "Arch Linux", "Debian", "OpenSuse", "Fedora","Gentoo","Mandriva", "Red Hat", "Turbolinux", "Ubuntu", "Xandros", "Oracle", "Other Linux"};
         public static final String[] SOLARIS ={"Solaris", "OpenSolaris"};
         public static final String[] BSD = {"FreeBSD", "OpenBSD", "NetBSD"};
         public static final String[] IBMOS2 ={"OS/2 Warp 3", "OS/2 Warp 4", "OS/2 Warp 4.5", "eComStation", "Other OS/2"};
         public static final String[] MACOSX = {"Mac OS X Server"};
-        public static final String[] OTHER = {"DOS","Netware", "L4", "QNX", "Other"};
+        public static final String[] OTHER = {"DOS","Netware", "L4", "QNX", "JRockitVE", "Other"};
+    }
+    public static final class OSKeys{
+        public static final String[] SYSTEMS = {"WIN", "LIN", "SOL", "BSD", "IBM", "MAC", "OTH"};
+        public static final String[] WINDOWS ={"3.1", "95", "98", "NT4", "ME", "2000", "XP", "2003", "Vista", "2008", "7"};
+        public static final String[] LINUX={"2.2", "2.4", "2.6", "ARCH", "DEBIAN", "OSUSE", "FEDORA","GENTOO","MANDRIVA", "REDHAT", "TURBO", "UBUNTU", "XANDROS", "ORACLE", "OTH"};
+        public static final String[] SOLARIS ={"SOLARIS", "OSOLARIS"};
+        public static final String[] BSD = {"FBSD", "OBSD", "NBSD"};
+        public static final String[] IBMOS2 ={"WARP3", "WARP4", "WARP4.5", "ECOMS", "OTH"};
+        public static final String[] MACOSX = {"MACSRV"};
+        public static final String[] OTHER = {"DOS","NET", "L4", "QNX", "JROCK" , "OTH"};
     }
 
 }
