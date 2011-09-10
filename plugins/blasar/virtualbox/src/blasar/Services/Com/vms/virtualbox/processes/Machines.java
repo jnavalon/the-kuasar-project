@@ -16,40 +16,125 @@
  */
 package blasar.Services.Com.vms.virtualbox.processes;
 
-import blasar.Services.Com.vms.virtualbox.Config;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
-
 public final class Machines {
     /*
      * Return vm registered on VirtualBox Hypervisor
      */
-    public static String[] getRegisteredMachines(){
-        return Extractor.extractRegMach(getStream("list vms"));
-    }
     
-    public static String getSysProperties(String key){
-        if(Extractor.sysproperties == null)
-            Extractor.extractSysProperties(getStream("list systemproperties"));
+    public static String[] getRegisteredMachines() {
+        return Extractor.extractRegMach(Hypervisor.getStream("list vms"));
+    }
+
+    public static String getSysProperties(String key) {
+        if (Extractor.sysproperties == null) {
+            Extractor.extractSysProperties(Hypervisor.getStream("list systemproperties"));
+        }
         return Extractor.sysproperties.get(key);
     }
-    
-    private static BufferedReader getStream(String cmd){
-        try {
-            Process p = Runtime.getRuntime().exec(Config.application + " -q " + cmd);
-            return new BufferedReader(new InputStreamReader(p.getInputStream()));  
-        } catch (IOException ex) {
+
+    public static String createMachine(String os, String preferredName) {
+        preferredName = checkName(preferredName);
+        String ostype = getOS(os);
+        if(ostype==null) return null;
+        
+        BufferedReader br = Hypervisor.getStream("createvm --name \""+ preferredName + "\" --ostype " + ostype + " --register");
+        if (br == null) {
             return null;
         }
+        String line, uuid = null;
+        try {
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("UUID:")) {
+                    uuid = line.substring(line.indexOf(':') + 1, line.length()).trim();
+                }
+            }
+        } catch (IOException ex) {
+        }
+        if (uuid == null) {
+            return null;
+        }
+        return uuid;
     }
     
-    public static boolean createMachine(String os, String Preferredname){
-        return true;
+    public static boolean setMemory(String uuid, Long memory){
+        return (Hypervisor.execute("modifyvm "+ uuid + " --memory " + memory)==0)? true: false;
     }
+    
+    public static boolean setStorageCtl(String name, String uuid, String type, String controller, boolean cache){
+        return(Hypervisor.execute("storagectl " + uuid + " --name \"" + name + "\" --add "
+                + type + " --controller " + controller + " --hostiocache " + (cache ? "on" : "off"))==0? true: false);
+    }
+    public static boolean addStorage(String uuid, String storagectl, int port, int device, String type, String filepath, boolean passthrought){
+        if(passthrought){
+            return(Hypervisor.execute("storageattach " + uuid + " --storagectl " + storagectl 
+                    + " --port " + port + " --device " + device + " --type " 
+                    + type + " --medium " + filepath + " -- passthrough on") ==0 ? true : false);
+        }else{
+            return(Hypervisor.execute("storageattach " + uuid + " --storagectl " + storagectl 
+                    + " --port " + port + " --device " + device + " --type " 
+                    + type + " --medium " + filepath) ==0 ? true : false);
+        }
+        
+    }
+    
+    public static boolean addNIC(String uuid, String nicID, String type) {
+        return(Hypervisor.execute("modifyvm " + uuid + " --nic" + nicID + " " + type) ==0 ? true : false );
+    }
+    
+
+    
+    protected synchronized void wakeUP(){
+        this.notify();
+    }
+
+    private static String checkName(String name) {
+        ArrayList<String> list = new ArrayList<String>(Arrays.asList(getRegisteredMachines()));
+        int count = 0;
+        if (!list.contains(name)) {
+            return name;
+        }
+        while (list.contains(name + "_" + count)) {
+            count++;
+        }
+        return name + "_" + count;
+    }
+
+    private static String getOS(String kuasarOS) {
+        if (kuasarOS == null) {
+            return null;
+        }
+        InputStream in = Extractor.class.getResourceAsStream("/blasar/Services/Com/vms/virtualbox/EqVMs");
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String line;
+        String os = null;
+        boolean stop = false;
+        try {
+            while ((line = br.readLine()) != null && !stop) {
+                if (!line.isEmpty()) {
+                    if (line.charAt(0) != '#') {
+                        if (line.substring(0, line.indexOf('=')).equals(kuasarOS)) {
+                            os = line.substring(line.indexOf('=') + 1);
+                            stop = true;
+                        }
+                    }
+                }
+            }
+        } catch (IOException ex) {
+        }
+        return os;
+    }
+    
 }
+

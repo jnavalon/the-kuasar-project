@@ -43,8 +43,33 @@ public class Commands implements VMCommands {
     }
 
     @Override
-    public boolean createvm(String name, String os) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String createvm(String name, String os) {
+        return Machines.createMachine(os, name);
+    }
+
+    @Override
+    public String getImagePath() {
+        return Config.vmipath;
+    }
+
+    @Override
+    public boolean setMemory(String uuid, Long memory) {
+        return Machines.setMemory(uuid, memory);
+    }
+
+    @Override
+    public boolean storageCtl(String uuid, String type, String controller, boolean cache) {
+         return Machines.setStorageCtl(type.toUpperCase() + " Module", uuid, type, controller, cache);
+    }
+
+    @Override
+    public boolean storageattach(String uuid, String storagectl, int port, int device, String type, String filepath, boolean passthrought) {
+        return Machines.addStorage(uuid, storagectl, port, device, type, filepath, passthrought);
+    }
+
+    @Override
+    public boolean addNIC(String uuid, String nicID, String type) {
+        return Machines.addNIC(uuid, nicID, type);
     }
     
 }
