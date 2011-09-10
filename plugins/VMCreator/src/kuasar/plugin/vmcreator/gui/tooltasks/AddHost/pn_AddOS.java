@@ -23,6 +23,7 @@
 
 package kuasar.plugin.vmcreator.gui.tooltasks.AddHost;
 
+import java.awt.event.ItemEvent;
 import javax.swing.ImageIcon;
 import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.Namespace.*;
 
@@ -57,6 +58,11 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
                 break;
             }
         }
+        if(toolbar.data.get(keyMaps.OS_VERSION + ".arc").equals("64")){
+            rbt_64.setSelected(true);
+        }else{
+            rbt_32.setSelected(true);
+        }
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -67,6 +73,7 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Arc = new javax.swing.ButtonGroup();
         btn_Next = new javax.swing.JButton();
         btn_Cancel = new javax.swing.JButton();
         btn_Previous = new javax.swing.JButton();
@@ -77,6 +84,8 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
         jLabel3 = new javax.swing.JLabel();
         cmb_Version = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        rbt_32 = new javax.swing.JRadioButton();
+        rbt_64 = new javax.swing.JRadioButton();
 
         setOpaque(false);
 
@@ -138,6 +147,17 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("Choose an Operating System:");
 
+        Arc.add(rbt_32);
+        rbt_32.setForeground(new java.awt.Color(204, 204, 204));
+        rbt_32.setSelected(true);
+        rbt_32.setText("32 bits");
+        rbt_32.setOpaque(false);
+
+        Arc.add(rbt_64);
+        rbt_64.setForeground(new java.awt.Color(204, 204, 204));
+        rbt_64.setText("64 bits");
+        rbt_64.setOpaque(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,36 +169,49 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(lbl_logo)
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(jLabel2))
-                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmb_OS, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmb_Version, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(65, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jLabel2))
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmb_OS, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmb_Version, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(rbt_32)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(rbt_64)))))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_logo)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel2)
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel3))
+                        .addGap(28, 28, 28)
+                        .addComponent(lbl_logo))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
-                        .addComponent(cmb_OS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(cmb_Version, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel2)
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cmb_OS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(cmb_Version, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbt_32)
+                            .addComponent(rbt_64))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -223,12 +256,16 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
     }//GEN-LAST:event_btn_PreviousActionPerformed
 
     private void cmb_OSItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_OSItemStateChanged
+        if(evt.getStateChange() != ItemEvent.SELECTED) return;
         loadVersions(cmb_OS.getSelectedIndex());
         changeIcon();
+        checkArc();
     }//GEN-LAST:event_cmb_OSItemStateChanged
 
     private void cmb_VersionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_VersionItemStateChanged
+        if(evt.getStateChange() != ItemEvent.SELECTED) return;
         changeIcon();
+        checkArc();
     }//GEN-LAST:event_cmb_VersionItemStateChanged
 
     private void changeIcon(){
@@ -321,14 +358,38 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
                 return null;
         }
     }
+    private String[] getVersionKeyList(int os){
+        switch(os){
+            case 0:
+                return OSKeys.WINDOWS;
+            case 1:
+                return OSKeys.LINUX;
+            case 2:
+                return OSKeys.SOLARIS;
+            case 3:
+                return OSKeys.BSD;
+            case 4:
+                return OSKeys.IBMOS2;
+            case 5:
+                return OSKeys.MACOSX;
+            case 6:
+                return OSKeys.OTHER;
+            default:
+                return null;
+        }
+    }
     
     private void save(){
         toolbar.data.put(keyMaps.OS, (String) cmb_OS.getSelectedItem());
         toolbar.data.put(keyMaps.OS+".id", cmb_OS.getSelectedIndex());
         toolbar.data.put(keyMaps.OS_VERSION, (String) cmb_Version.getSelectedItem());
+        toolbar.data.put(keyMaps.OS+".key", OSKeys.SYSTEMS[cmb_OS.getSelectedIndex()]);
+        toolbar.data.put(keyMaps.OS_VERSION + ".key", getVersionKeyList(cmb_OS.getSelectedIndex())[cmb_Version.getSelectedIndex()]);
+        toolbar.data.put(keyMaps.OS_VERSION + ".arc", rbt_32.isSelected()?"32":"64");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup Arc;
     private javax.swing.JButton btn_Cancel;
     private javax.swing.JButton btn_Next;
     private javax.swing.JButton btn_Previous;
@@ -339,6 +400,78 @@ public class pn_AddOS extends kuasar.plugin.classMod.AbstractPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_logo;
+    private javax.swing.JRadioButton rbt_32;
+    private javax.swing.JRadioButton rbt_64;
     // End of variables declaration//GEN-END:variables
+
+    private void checkArc() {
+        switch(cmb_OS.getSelectedIndex()){
+            case 0:
+                checkWin();
+                break;
+            case 1:
+                checkLin();
+                break;
+            case 2:
+                checkSOL();
+                break;
+            case 3:
+                checkBSD();
+                break;
+            case 4:
+                checkIBM();
+                break;
+            case 5:
+                checkMAC();
+                break;
+            case 6:
+                checkOTH();
+                break;
+        }
+    }
+    private void checkWin(){
+        switch(cmb_Version.getSelectedIndex()){
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                setOnly32(false);
+                break;
+            default:
+                setOnly32(true);
+        }
+    }
+    private void checkLin(){
+        switch(cmb_Version.getSelectedIndex()){
+            case 0:
+            case 14:
+                setOnly32(true);
+                break;
+            default:
+                setOnly32(false);
+        }
+    }
+    private void checkIBM(){
+        setOnly32(true);
+    }
+    private void checkSOL(){
+        setOnly32(false);
+    }
+    private void checkBSD(){
+        setOnly32(false);
+    }
+    private void checkMAC(){
+        setOnly32(false);
+    }
+    private void checkOTH(){
+        setOnly32(true);
+    }
+    private void setOnly32(boolean activate){
+        if(activate){
+            rbt_32.setSelected(true);
+        }
+        rbt_64.setEnabled(!activate);
+    }
 
 }
