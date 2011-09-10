@@ -36,6 +36,7 @@ import javax.net.ssl.SSLSocket;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -87,7 +88,7 @@ public class SocketTools {
             session = ((SSLSocket) socket).getSession();
             certificate = session.getLocalCertificates();
 
-            if(certificate.length>0){
+            if (certificate.length > 0) {
                 if (Config.BLASAR.verbose) {
                     System.out.println("=============  INFO  =============");
                     for (int i = 0; i < certificate.length; i++) {
@@ -106,7 +107,7 @@ public class SocketTools {
             os = socket.getOutputStream();
             out = new PrintStream(os);
             out.flush();
-            is=socket.getInputStream();
+            is = socket.getInputStream();
             in = new BufferedReader(new InputStreamReader(is));
             return true;
         } catch (IOException ex) {
@@ -124,6 +125,7 @@ public class SocketTools {
         }
     }
     //Read a line as this was sent
+
     public String readLine() throws IOException {
         return in.readLine();
     }
@@ -131,7 +133,8 @@ public class SocketTools {
      * Read a line from socket and check if this is in correct format according the command type
      * check Config->CMD Class to get available types.
      */
-    public String readLine(short commandFilter) throws IOException, IllegalStatement  {
+
+    public String readLine(short commandFilter) throws IOException, IllegalStatement {
         String value = readLine();
         if (whatCommand(value) != commandFilter) {
             throw new IllegalStatement("Command not agree with expectation");
@@ -157,7 +160,7 @@ public class SocketTools {
         ctc = data.charAt(0);
         switch (ctc) {
             case CHARS.ANSWER:
-                return CMD.ANSWER ;
+                return CMD.ANSWER;
             case CHARS.QUESTION:
                 return CMD.QUESTION;
             case CHARS.INFO:
@@ -168,7 +171,7 @@ public class SocketTools {
 
     }
 
-    public void Send(byte[] msg) throws SocketException, IOException{
+    public void Send(byte[] msg) throws SocketException, IOException {
 
         isAlive();
         out.write(msg);
@@ -176,24 +179,24 @@ public class SocketTools {
 
     }
 
-    public void Send(String msg) throws SocketException, IOException  {
+    public void Send(String msg) throws SocketException, IOException {
         Send(transcribeUTF(msg));
     }
 
     public void Send(char command, String[] data) throws SocketException, IOException {
         sendLine(Config.CMD.CHARS.INFO + Integer.toString(data.length));
-        for(String str : data){
+        for (String str : data) {
             sendLine(command + str);
         }
     }
-    
+
     public void Send(char command, ArrayList<String> data) throws SocketException, IOException {
         sendLine(Config.CMD.CHARS.INFO + Integer.toString(data.size()));
-        for(String str : data){
+        for (String str : data) {
             sendLine(command + str);
         }
     }
-    
+
     private byte[] transcribeUTF(String msg) {
         try {
             return msg.getBytes("UTF-8");
@@ -230,27 +233,32 @@ public class SocketTools {
         return new BigInteger(session.getId()).toString();
     }
 
-    public void setUser(String user){
+    public void setUser(String user) {
         userlogged = user;
     }
-    public String getUser(){
+
+    public String getUser() {
         return userlogged;
     }
-    public void unSetUser(){
+
+    public void unSetUser() {
         userlogged = null;
     }
-    public byte readByte() throws IOException{
+
+    public byte readByte() throws IOException {
         return readBytes(1)[0];
     }
-    public byte[] readBytes(int length) throws IOException{
+
+    public byte[] readBytes(int length) throws IOException {
         byte[] buffer = new byte[length];
         is.read(buffer);
         return buffer;
     }
+
     public long readLong(short filterCommand) throws Exception {
         try {
             String value = readLine();
-            if (whatCommand(value)!= filterCommand) {
+            if (whatCommand(value) != filterCommand) {
                 throw new IllegalStatement("This isn't a correct answer");
             }
             return Long.parseLong(value.substring(1));
@@ -263,7 +271,7 @@ public class SocketTools {
 
         try {
             String value = readLine();
-            if (whatCommand(value)!= filterCommand) {
+            if (whatCommand(value) != filterCommand) {
                 throw new IllegalStatement("This isn't a correct answer");
             }
             return Integer.parseInt(value.substring(1));
@@ -272,12 +280,40 @@ public class SocketTools {
         }
 
     }
-    public boolean setSocketTime(int timeout){
+
+    public boolean setSocketTime(int timeout) {
         try {
             socket.setSoTimeout(timeout);
         } catch (SocketException ex) {
             return false;
         }
         return true;
+    }
+
+    public String getFullArguments(StringTokenizer tokens) {
+        if (!tokens.hasMoreTokens()) {
+            return "";
+        }
+        String token;
+        do {
+            token = tokens.nextToken();
+        } while (token.isEmpty() && tokens.hasMoreTokens());
+        String arg = token;
+        boolean stop = false;
+        if (token.startsWith("\"")) {
+            if (token.endsWith("\"")) {
+                stop = true;
+            }
+            while (tokens.hasMoreTokens() && stop == false) {
+                token = tokens.nextToken();
+                arg = arg + " " + token;
+                if (token.charAt(token.length() - 1) == '"') {
+                    stop = true;
+                }
+            }
+            arg = arg.substring(1, arg.length() - 1);
+        }
+
+        return arg;
     }
 }
