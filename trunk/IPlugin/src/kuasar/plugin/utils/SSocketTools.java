@@ -111,7 +111,7 @@ public class SSocketTools {
     public String readLine(short commandFilter) throws IOException, IllegalStatement  {
         String value = readLine();
         if (whatCommand(value) != commandFilter) {
-            throw new IllegalStatement("Command not agree with expectation");
+            throw new IllegalStatement(value);
         }
         return value.substring(1);
     }
@@ -137,6 +137,7 @@ public class SSocketTools {
 
     }
     public void sendLine(String msg) throws SocketException {
+        System.out.println("SENT :: " + msg);
         isAlive();
         out.println(msg);
         out.flush();
