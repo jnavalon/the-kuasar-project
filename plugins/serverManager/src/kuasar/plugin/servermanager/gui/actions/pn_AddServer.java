@@ -215,6 +215,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         );
 
         bt_accept.setBackground(new java.awt.Color(0, 0, 0));
+        bt_accept.setForeground(new java.awt.Color(204, 204, 204));
         bt_accept.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-ok-apply.png"))); // NOI18N
         bt_accept.setText("Check");
         bt_accept.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -225,6 +226,7 @@ public class pn_AddServer extends kuasar.plugin.classMod.AbstractPanel{
         });
 
         bt_cancel.setBackground(new java.awt.Color(0, 0, 0));
+        bt_cancel.setForeground(new java.awt.Color(204, 204, 204));
         bt_cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/dialog-cancel.png"))); // NOI18N
         bt_cancel.setText("Cancel");
         bt_cancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
