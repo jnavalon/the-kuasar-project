@@ -16,6 +16,7 @@
  */
 package blasar.Services.Com.vms.virtualbox;
 
+import blasar.Services.Com.vms.virtualbox.processes.Hypervisor;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,6 +36,8 @@ public class ConfigSetup {
         int option;
         String app = null;
         String vmdir = null;
+        String bgiface = null;
+        String hoiface = null;
         printMainMenu();
         option = getOption();
         switch (option) {
@@ -50,15 +53,29 @@ public class ConfigSetup {
         if (app == null) {
             return false;
         }
+        Config.application = app;
         vmdir=getVMIPath();
         if(vmdir ==null)
             return false;
+        Config.vmipath=vmdir;
+        bgiface = getBridgedIf();
+        if (bgiface == null) {
+            return false;
+        }
+        Config.bridgedif=bgiface;
+        hoiface = getHostOnlyIf();
+        if (hoiface == null) {
+            return false;
+        }
+        Config.hostoif=hoiface;
         BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(Config.startDir + File.separator
                     + Config.pluginName.toLowerCase() + ".cfg"));
             bw.write("app=" + app + "\n");
             bw.write("vmipath=" + vmdir + "\n");
+            bw.write("bridgedif=" + bgiface + "\n");
+            bw.write("hostoif=" + hoiface + "\n");
             bw.flush();
         } catch (IOException ex) {
             return false;
@@ -294,6 +311,36 @@ public class ConfigSetup {
             info=path;
         }
         System.out.print('\r'+info);
+    }
+
+    private String getBridgedIf() {
+        System.out.println();
+        System.out.println("Select a Bridged Interface:");
+        System.out.println();
+        String[] ifs = Hypervisor.getBridgedIfs();
+        for(int i = 0 ; i <ifs.length; i++){
+               String intf = ifs[i];
+               System.out.println(i +")" + intf);
+        }
+        System.out.print("\nOption: ");
+        int option = getOption();
+        if(option<0 || option>ifs.length) return null;
+        return ifs[option];
+    }
+
+    private String getHostOnlyIf() {
+        System.out.println();
+        System.out.println("Select a Host Only Interface:");
+        System.out.println();
+        String[] ifs = Hypervisor.getHostOnlyIfs();
+        for(int i = 0 ; i <ifs.length; i++){
+               String intf = ifs[i];
+               System.out.println(i +")" + intf);
+        }
+        System.out.print("\nOption: ");
+        int option = getOption();
+        if(option<0 || option>ifs.length) return null;
+        return ifs[option];
     }
     
 }

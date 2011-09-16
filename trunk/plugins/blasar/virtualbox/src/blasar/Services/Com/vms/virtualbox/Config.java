@@ -33,6 +33,8 @@ public final class Config {
     public static final String pluginName = "VirtualBox";
     public static String application=null;
     public static String vmipath=null;
+    public static String bridgedif=null;
+    public static String hostoif=null;
     public static final String VMAPP = "VBoxManage";
     public static String EngineCode="VBX";
 
@@ -83,6 +85,10 @@ public final class Config {
             application = data.substring(data.indexOf('=')+1).trim();
         }else if(element.equals("vmipath")){
             vmipath = data.substring(data.indexOf('=')+1).trim();
+        }else if(element.equals("bridgedif")){
+            bridgedif = data.substring(data.indexOf('=')+1).trim();
+        }else if(element.equals("hostoif")){
+            hostoif = data.substring(data.indexOf('=')+1).trim();
         }
     }
 }

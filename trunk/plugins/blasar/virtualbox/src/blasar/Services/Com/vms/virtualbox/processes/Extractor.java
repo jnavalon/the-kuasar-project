@@ -48,6 +48,42 @@ public final class Extractor {
         return vmnames.toArray(machines);
     }
     
+    protected static String[] extractInterfaces(BufferedReader br){
+        if(br ==null) return new String[]{};
+        ArrayList<String> interfaces= new ArrayList<String>();
+        String line;
+        try {
+            while ((line = br.readLine()) != null){
+                if(line.startsWith("Name:")){
+                    interfaces.add(line.substring(5).trim());
+                }
+            }
+        } catch (IOException ex) {
+            return new String[]{};
+        }
+        String[] ifs = new String[interfaces.size()];
+        return interfaces.toArray(ifs);
+    }
+    
+    protected static String[] extractRunMachUUID(BufferedReader br){
+        if(br == null) return new String[]{};
+        ArrayList<String> vmuuids= new ArrayList<String>();
+        String line;
+        try {
+            while ((line = br.readLine()) != null){
+                line = line.trim();
+                if(line.startsWith("\"")){
+                   line = line.substring(line.indexOf('{')+1);
+                   vmuuids.add(line.substring(0, line.length()-1));
+                }
+            }
+        } catch (IOException ex) {
+            return new String[]{};
+        }
+        String[] machines = new String[vmuuids.size()];
+        return vmuuids.toArray(machines);
+    }
+    
     protected static void extractSysProperties(BufferedReader br){
         sysproperties = new HashMap<String,String>();
         if(br == null) return;
