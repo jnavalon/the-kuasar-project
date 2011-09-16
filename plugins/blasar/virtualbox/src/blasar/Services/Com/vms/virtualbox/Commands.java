@@ -68,8 +68,23 @@ public class Commands implements VMCommands {
     }
 
     @Override
-    public boolean addNIC(String uuid, String nicID, String type) {
-        return Machines.addNIC(uuid, nicID, type);
+    public boolean addNIC(String uuid, int nicID, String type, String mac) {
+        return Machines.addNIC(uuid, nicID, type, mac);
+    }
+
+    @Override
+    public boolean storageattach(String uuid, String storagectl, int port, int device, String type, boolean passthrought) {
+        return Machines.addEmptyDevice(uuid, storagectl, port, device, type, passthrought);
+    }
+
+    @Override
+    public boolean setNetwork(String uuid, String operator, String username, String password, String mac, String ip, String mask, String gw, String dns) {
+        return Machines.setNetwork(uuid, operator, username, password, mac, ip, mask, gw, dns);
+    }
+
+    @Override
+    public String[] getRunningMachines() {
+        return Machines.getRunningMachines();
     }
     
 }

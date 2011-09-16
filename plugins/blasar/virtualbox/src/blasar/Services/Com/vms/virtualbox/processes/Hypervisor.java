@@ -64,6 +64,14 @@ public final class Hypervisor {
         }
     }
 
+    public static String[] getBridgedIfs(){
+        return Extractor.extractInterfaces(getStream("list bridgedifs"));
+    }
+    
+    public static String[] getHostOnlyIfs(){
+        return Extractor.extractInterfaces(getStream("list hostonlyifs"));
+    }
+    
     private static String[] argsToArray(String args) {
         ArrayList<String> alargs = new ArrayList<String>();
         alargs.add(Config.application);
