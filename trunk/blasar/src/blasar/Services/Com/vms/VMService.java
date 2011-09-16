@@ -20,6 +20,7 @@ import blasar.Services.SocketTools;
 import blasar.Config;
 import blasar.Services.Exceptions.IllegalStatement;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.StringTokenizer;
 import java.util.UUID;
@@ -76,6 +77,8 @@ public class VMService {
             addStorage(cmd);
         } else if (command.equals("addnic")) {
             addNIC(cmd);
+        } else if (command.equals("setnetwork")) {
+            setNetwork(cmd);
         } else {
             st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
         }
@@ -147,6 +150,12 @@ public class VMService {
                 case 0: return "LSILogic";
                 case 1: return "BusLogic";
             }
+        }else if(typeStorage.equals("sata")){
+            return "IntelAHCI";
+        }else if(typeStorage.equals("sas")){
+            return "LSILogicSAS";
+        }else if(typeStorage.equals("floppy")){
+            return "I82078";
         }
         return null;
     }
@@ -179,13 +188,53 @@ public class VMService {
     }
 
     private void addNIC(StringTokenizer cmd) throws SocketException {
-        if(cmd.countTokens()!= 3){
+        if(cmd.countTokens()!= 4){
             st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
             return;
         }
         String uuid = cmd.nextToken();
-        String nicID = cmd.nextToken();
+        int nicID = 0;
+        try{
+            nicID = Integer.parseInt(cmd.nextToken());   
+        }catch(NumberFormatException ex){
+             st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+             return;
+        }
+        nicID++;
         String type = cmd.nextToken();
-        
+        String mac = cmd.nextToken();
+        if(intercom.addNIC(uuid, nicID, type, mac)){
+            st.sendLine(Config.CMD.CHARS.INFO + "OK");
+        }else{
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+        }
     }
+
+    private void setNetwork(StringTokenizer cmd) throws SocketException {
+        if(cmd.countTokens() < 9){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        String uuid = cmd.nextToken();
+        String op = st.getFullArguments(cmd);
+        String user = st.getFullArguments(cmd);
+        String pwd = st.getFullArguments(cmd);
+        String mac = cmd.nextToken();
+        String ip = cmd.nextToken();
+        String mask = cmd.nextToken();
+        String gw = cmd.nextToken();
+        String dns = cmd.nextToken();
+        try{
+            InetAddress.getByName(ip);
+        }catch(Exception ex){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        if(intercom.setNetwork(uuid, op, user, pwd, mac,ip, mask, gw, dns)){
+            st.sendLine(Config.CMD.CHARS.INFO + "OK");
+        }else{
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+        }
+    }
+
 }
