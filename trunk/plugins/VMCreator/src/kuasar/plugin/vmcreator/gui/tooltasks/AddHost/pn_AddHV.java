@@ -25,7 +25,10 @@ package kuasar.plugin.vmcreator.gui.tooltasks.AddHost;
 
 import java.awt.Color;
 import java.net.URL;
+import javax.swing.JPanel;
 import kuasar.plugin.Intercom.GUI;
+import kuasar.plugin.utils.dialogs.dg_Username;
+import kuasar.plugin.utils.pn_Info;
 import kuasar.plugin.vmcreator.gui.tooltasks.AddHost.Namespace.*;
 
 /**
@@ -36,6 +39,8 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
 
     private boolean locked = false;
     private pn_TB_AddHost toolbar = null;
+    private String user = null;
+    private char[] password = null;
 
     public pn_AddHV(pn_TB_AddHost toolbar) {
         this.toolbar = toolbar;
@@ -45,11 +50,19 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
     }
 
     private void load(){
-
+         if(toolbar.data.containsKey(keyMaps.OPERATOR)){
+             txt_operatorPath.setText((String)toolbar.data.get(keyMaps.OPERATOR));
+         }
+         if(toolbar.data.containsKey(keyMaps.OPERATOR+".user")){
+             user = (String) toolbar.data.get(keyMaps.OPERATOR+".user");
+         }
+         if(toolbar.data.containsKey(keyMaps.OPERATOR+".password")){
+             password = ((String) toolbar.data.get(keyMaps.OPERATOR+".password")).toCharArray();
+         }
+        
         if(!toolbar.data.containsKey(keyMaps.HYPERVISOR))
             return;
-
-        changelock((Boolean) toolbar.data.get(keyMaps.HYPERVISOR_SAFE));
+        
         if(toolbar.data.get(keyMaps.HYPERVISOR).equals(Namespace.HiperVisors.UNDEFINED)){
             cmb_hvs.setSelectedIndex(0);
             return;
@@ -79,12 +92,14 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
         lbl_title = new javax.swing.JLabel();
         lbl_icon = new javax.swing.JLabel();
         cmb_hvs = new javax.swing.JComboBox();
-        lbl_default = new javax.swing.JLabel();
         lbl_ID = new javax.swing.JLabel();
         txt_ID = new javax.swing.JTextField();
         lbl_help = new javax.swing.JLabel();
         btn_Cancel = new javax.swing.JButton();
         btn_Next = new javax.swing.JButton();
+        txt_operatorPath = new javax.swing.JTextField();
+        btn_User = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -102,16 +117,6 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
         cmb_hvs.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmb_hvsItemStateChanged(evt);
-            }
-        });
-
-        lbl_default.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_default.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/unlock.png"))); // NOI18N
-        lbl_default.setText("Define as default Hipervisor for this session");
-        lbl_default.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                lbl_defaultMouseReleased(evt);
             }
         });
 
@@ -161,6 +166,20 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
             }
         });
 
+        btn_User.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/operator22.png"))); // NOI18N
+        btn_User.setBorderPainted(false);
+        btn_User.setContentAreaFilled(false);
+        btn_User.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_User.setOpaque(false);
+        btn_User.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_UserActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setText("Blasar Operator Path:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,12 +187,11 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lbl_default, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txt_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,11 +200,18 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
                                     .addComponent(lbl_ID)
                                     .addComponent(cmb_hvs, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_Next)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Cancel)))
+                                .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addComponent(btn_Next)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_Cancel))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_operatorPath, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_User, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -207,18 +232,18 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
                             .addComponent(txt_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
-                .addComponent(lbl_default)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_operatorPath, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1))
+                    .addComponent(btn_User, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Cancel)
                     .addComponent(btn_Next))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void lbl_defaultMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_defaultMouseReleased
-        changelock(!locked);
-    }//GEN-LAST:event_lbl_defaultMouseReleased
 
     private void cmb_hvsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_hvsItemStateChanged
         URL iconpath = null;
@@ -275,16 +300,24 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
         txt_ID.setBackground(Color.WHITE);
     }//GEN-LAST:event_txt_IDFocusGained
 
-    private void changelock(boolean lock){
-         locked =lock;
-         if(locked)
-            lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/lock.png")));
-        else
-            lbl_default.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/unlock.png")));
-        GUI.updateUI();
-    }
+    private void btn_UserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UserActionPerformed
+        getUser();
+    }//GEN-LAST:event_btn_UserActionPerformed
     
     protected boolean save(){
+        if(txt_operatorPath.getText().trim().isEmpty()){
+            pn_Info.Load((JPanel) this.getParent(), this, 
+                    "Missing Blasar Operator path", "You must insert an Operator Path to set vms features. "
+                    + "Remember you need also an user and a password to access to the VM's System",
+                    pn_Info.ICON_FORBIDDEN);
+            return false;
+        }
+        if(user == null || password == null){
+            pn_Info.Load((JPanel) this.getParent(), this, 
+                    "Missing Blasar Operator user.", "You must insert an user and password to set vms",
+                    pn_Info.ICON_FORBIDDEN);
+            return false;
+        }
         if(cmb_hvs.getSelectedIndex()== cmb_hvs.getItemCount()-1){
             if(txt_ID.getText().trim().isEmpty()){
                 txt_ID.setBackground(Color.RED);
@@ -292,9 +325,11 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
             }
         }
         
-        toolbar.data.put(keyMaps.HYPERVISOR_SAFE, locked);
         toolbar.data.put(keyMaps.HYPERVISOR, getHVCode());
         toolbar.data.put(keyMaps.HYPERVISOR+".name", cmb_hvs.getSelectedItem());
+        toolbar.data.put(keyMaps.OPERATOR, txt_operatorPath.getText().trim());
+        toolbar.data.put(keyMaps.OPERATOR+".user", user);
+        toolbar.data.put(keyMaps.OPERATOR+".password", String.valueOf(password));
         return true;
     }
 
@@ -344,13 +379,24 @@ public class pn_AddHV extends kuasar.plugin.classMod.AbstractPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Cancel;
     private javax.swing.JButton btn_Next;
+    private javax.swing.JButton btn_User;
     private javax.swing.JComboBox cmb_hvs;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbl_ID;
-    private javax.swing.JLabel lbl_default;
     private javax.swing.JLabel lbl_help;
     private javax.swing.JLabel lbl_icon;
     private javax.swing.JLabel lbl_title;
     private javax.swing.JTextField txt_ID;
+    private javax.swing.JTextField txt_operatorPath;
     // End of variables declaration//GEN-END:variables
+
+    private void getUser() {
+        dg_Username username = new dg_Username(null, true, null);
+        username.disableDNIe();
+        username.disableSave();
+        username.setVisible(true);
+        user =username.getUserName();
+        password = username.getPassword();
+    }
 
 }
