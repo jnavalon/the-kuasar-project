@@ -84,6 +84,26 @@ public class DataExtractor {
         Element node = new Element(child.getName());
         node.setAttribute("name", child.getAttributeValue("name"));
         node.setAttribute("type", "vm");
+        String ip = child.getAttributeValue("ipv4");
+        if(ip!=null){
+           if(!ip.trim().isEmpty()){
+               node.setAttribute("ipv4", ip); 
+               node.setAttribute("mask", child.getAttributeValue("mask"));
+           }
+        }
+        ip =child.getAttributeValue("ipv6");
+        if(ip!=null){
+            if(!ip.trim().isEmpty()){
+                node.setAttribute("ipv6", ip);
+                node.setAttribute("prefix", child.getAttributeValue("prefix"));
+            }
+        }
+        if(child.getAttributeValue("gw")!=null){
+            node.setAttribute("gw", child.getAttributeValue("gw"));
+        }
+        if(child.getAttributeValue("dns")!=null){
+            node.setAttribute("dns", child.getAttributeValue("dns"));
+        }
         HashMap<String, Object> mapVM;
         String file = Config.pluginDir + File.separator + Config.VMdir + File.separator + Config.VMnodes + File.separator + child.getAttributeValue("path");
         File binFile = new File(file);

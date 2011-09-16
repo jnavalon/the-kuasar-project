@@ -100,6 +100,11 @@ public class pn_Allocated extends kuasar.plugin.classMod.AbstractPanel implement
         btn_Next.setForeground(new java.awt.Color(204, 204, 204));
         btn_Next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/gnext22.png"))); // NOI18N
         btn_Next.setText("Apply");
+        btn_Next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_NextActionPerformed(evt);
+            }
+        });
 
         btn_Previous.setBackground(new java.awt.Color(0, 0, 0));
         btn_Previous.setForeground(new java.awt.Color(204, 204, 204));
@@ -187,6 +192,10 @@ private void btn_AbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     GUI.updateUI();
 }//GEN-LAST:event_btn_AbortActionPerformed
 
+private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NextActionPerformed
+    goNext();
+}//GEN-LAST:event_btn_NextActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Abort;
     private javax.swing.JButton btn_Next;
@@ -200,7 +209,10 @@ private void btn_AbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
     @Override
     public void goNext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        pn_Deploy deploy = new pn_Deploy(first, vms);
+        GUI.loadPlugin(deploy);
+        GUI.updateUI();
+        deploy.start();
     }
 
     @Override
