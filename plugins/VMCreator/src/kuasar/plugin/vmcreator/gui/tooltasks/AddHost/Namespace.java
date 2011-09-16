@@ -33,8 +33,8 @@ public final class Namespace {
     }
 
     public static final class keyMaps{
-        public static final String HYPERVISOR_SAFE = "hvs";
         public static final String HYPERVISOR = "hv";
+        public static final String OPERATOR = "op";
         public static final String OS = "os";
         public static final String OS_VERSION = "osv";
         public static final String DEVICES = "dev";
