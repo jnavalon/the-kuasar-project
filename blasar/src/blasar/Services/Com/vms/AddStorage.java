@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public class AddStorage {
+    private final static int BUFFER_SIZE = 1024;
     String uuid,type,controller;
     boolean cache;
     VMCommands intercom;
@@ -70,20 +71,32 @@ public class AddStorage {
         
     }
     private void saveImage(StringTokenizer cmd, SocketTools st) throws SocketException, IOException {
-        if (cmd.countTokens() != 7) {
+        if (cmd.countTokens() != 6) {
             st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
             return;
         }
         String filename = st.getFullArguments(cmd);
         String extension = filename.substring(filename.lastIndexOf('.'));
         filename = filename.substring(0, filename.lastIndexOf('.'));
-        String imgType = cmd.nextToken();
+        String imgType = getType(cmd.nextToken());
         int port = Integer.parseInt(cmd.nextToken());
-        int device = Integer.parseInt(cmd.nextToken());
+        int device = 0;
+        if(type.equals("ide")){
+            device=port;
+            port=0;
+            if(device>1){
+                device = port - 2;
+                port = 1;
+            }
+        }
         boolean passthrough = Boolean.getBoolean(cmd.nextToken());
         
         String sha1 = cmd.nextToken();
 
+        if(imgType==null){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
         long total, size;
         total = intercom.getFreeSpace();
         if (total == -1) {
@@ -94,6 +107,14 @@ public class AddStorage {
             size = Long.parseLong(cmd.nextToken());
         } catch (NumberFormatException ex) {
             st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        if(size == -1){
+            if(intercom.storageattach(uuid, type.toUpperCase() + " Module", port, device, imgType, passthrough)){
+                st.sendLine(Config.CMD.CHARS.INFO + "OK");
+            }else{
+                st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+            }
             return;
         }
         if (total < size) {
@@ -113,7 +134,7 @@ public class AddStorage {
         while (outputFile.exists()) {
             outputFile = new File(file.getAbsolutePath() + File.separator + filename + "_" + i++ + extension);
         }
-
+        st.sendLine(Config.CMD.CHARS.QUESTION + "BINARY");
         long tsize = 0;
         BufferedOutputStream bos=null;
         try {
@@ -143,22 +164,27 @@ public class AddStorage {
         }else{
             st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
         }
-        if(intercom.storageattach(uuid, controller.toUpperCase() + " Module", port, device, imgType, outputFile.getAbsolutePath(), passthrough)){
+        if(intercom.storageattach(uuid, type.toUpperCase() + " Module", port, device, imgType, outputFile.getAbsolutePath(), passthrough)){
             st.sendLine(Config.CMD.CHARS.INFO + "OK");
         }else{
             st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
         }
         
     }
-        private String getSHA1(File outputFile) {
+    private String getSHA1(File outputFile) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA1");
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(outputFile));
             byte[] digest;
-            int data;
             String hash = "";
-            while ((data = bis.read()) >= 0) {
-                md.update((byte) data);
+            long size=outputFile.length();
+            byte[] data = new byte[size > BUFFER_SIZE  ? BUFFER_SIZE : (int) (size)];
+            long i =0;
+            while (bis.read(data) > 0) {
+                md.update(data);
+                i+=data.length;
+                if(size-i<BUFFER_SIZE)
+                    data = new byte[(int) (size-i)];
             }
             digest = md.digest();
             for (byte aux : digest) {
@@ -175,6 +201,25 @@ public class AddStorage {
             return null;
         } catch (IOException ex) {
             return null;
+        }
+    }
+
+    private String getType(String id) {
+        short num;
+        try{
+            num = Short.parseShort(id);
+        }catch(NumberFormatException ex){
+            return null;
+        }
+        switch(num){
+            case 0:
+                return "dvddrive";
+            case 1:
+                return "hdd";
+            case 2:
+                return "floppy";
+            default:
+                return null;
         }
     }
 }
