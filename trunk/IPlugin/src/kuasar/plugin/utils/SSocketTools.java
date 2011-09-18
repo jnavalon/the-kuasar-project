@@ -137,7 +137,6 @@ public class SSocketTools {
 
     }
     public void sendLine(String msg) throws SocketException {
-        System.out.println("SENT :: " + msg);
         isAlive();
         out.println(msg);
         out.flush();
