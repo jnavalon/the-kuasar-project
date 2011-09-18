@@ -23,9 +23,8 @@ import java.util.HashMap;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public final class Configuration {
-
+    
     public final class Interfice {
-
         public static final String pathskins = "skins";
         public static final String cfgskin = "config";
         public static final String skin = "default";
@@ -49,6 +48,7 @@ public final class Configuration {
         public static final String extPlug = "jet"; //Plugin extension
         public static final String pluginsKey = "$PLUGINS";
     }
+    public static final String version = "0.01dev";
     public static final String pathkeystore = "keystores";
     public static String startDir = "./";
     public static final String cfgFile = "preferences";

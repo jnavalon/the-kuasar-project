@@ -23,6 +23,8 @@
 
 package kuasar;
 
+import kuasar.util.config.Configuration;
+
 /**
  *
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
@@ -44,28 +46,35 @@ public class Splash extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLayeredPane1 = new javax.swing.JLayeredPane();
+        lpn_Container = new javax.swing.JLayeredPane();
+        lbl_Version = new javax.swing.JLabel();
         lbl_Logo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
 
-        jLayeredPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jLayeredPane1.setOpaque(true);
+        lpn_Container.setBackground(new java.awt.Color(255, 255, 255));
+        lpn_Container.setOpaque(true);
 
-        lbl_Logo.setText("LOGO");
-        lbl_Logo.setBounds(30, 30, 190, 240);
-        jLayeredPane1.add(lbl_Logo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        lbl_Version.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_Version.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lbl_Version.setText("Version: " + Configuration.version);
+        lbl_Version.setBounds(380, 270, 130, 15);
+        lpn_Container.add(lbl_Version, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        lbl_Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/kuasar.png"))); // NOI18N
+        lbl_Logo.setBounds(0, 0, 530, 300);
+        lpn_Container.add(lbl_Logo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+            .addComponent(lpn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(lpn_Container, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -74,8 +83,9 @@ public class Splash extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLabel lbl_Logo;
+    private javax.swing.JLabel lbl_Version;
+    private javax.swing.JLayeredPane lpn_Container;
     // End of variables declaration//GEN-END:variables
 
 }

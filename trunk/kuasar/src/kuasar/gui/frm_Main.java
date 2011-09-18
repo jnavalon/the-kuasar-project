@@ -35,7 +35,6 @@ import kuasar.plugin.classMod.Panel_Opaque;
 import kuasar.util.Files;
 import kuasar.util.config.Configuration;
 import kuasar.plugin.classMod.AbstractPanel;
-import kuasar.util.plugins.PluginLoader;
 
 /**
  *
@@ -49,6 +48,7 @@ public class frm_Main extends javax.swing.JFrame {
     /** Creates new form frm_Main */
     public frm_Main() {
         initComponents();
+        this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
         initConfiguration();
     }
 
@@ -87,7 +87,7 @@ public class frm_Main extends javax.swing.JFrame {
         mni_Preferences = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Kuasar (VM Manager) 0.1");
+        setTitle("Kuasar (VM Manager) " + Configuration.version);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -363,6 +363,8 @@ public class frm_Main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pn_MainFrame, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        getAccessibleContext().setAccessibleName("Kuasar (VM Manager) " + Configuration.version);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
