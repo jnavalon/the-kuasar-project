@@ -21,9 +21,9 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="pn_Left" max="32767" attributes="0"/>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Component id="lbl_Animation" min="-2" pref="403" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lbl_Image" min="-2" pref="403" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="pn_Right" max="32767" attributes="0"/>
           </Group>
           <Component id="pn_Lower" alignment="0" max="32767" attributes="0"/>
@@ -39,13 +39,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Component id="lbl_Title" min="-2" pref="49" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="pn_Upper" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="pn_Upper" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="lbl_Animation" pref="199" max="32767" attributes="1"/>
-                  <Component id="pn_Right" max="32767" attributes="1"/>
                   <Component id="pn_Left" alignment="1" max="32767" attributes="1"/>
+                  <Component id="lbl_Image" alignment="1" pref="219" max="32767" attributes="1"/>
+                  <Component id="pn_Right" alignment="1" max="32767" attributes="1"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="pn_Lower" max="32767" attributes="0"/>
@@ -67,14 +67,17 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="48" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="javax.swing.JLabel" name="lbl_Animation">
+    <Component class="javax.swing.JLabel" name="lbl_Image">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/kuasar/plugin/deployer/icons/animation/allocating/allocating1.png"/>
+        </Property>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="pn_Right">
@@ -90,7 +93,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="199" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="219" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -108,7 +111,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="199" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="219" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
