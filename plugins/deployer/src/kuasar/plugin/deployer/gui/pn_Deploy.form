@@ -19,34 +19,34 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pn_Title" alignment="0" max="32767" attributes="0"/>
-          <Component id="pn_Buttons" alignment="0" max="32767" attributes="0"/>
+          <Component id="pn_Buttons" alignment="0" max="32767" attributes="1"/>
           <Group type="102" alignment="0" attributes="0">
               <Component id="pn_Left" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pn_Center" max="32767" attributes="1"/>
-                  <Component id="pn_Upper" max="32767" attributes="2"/>
-                  <Component id="pn_Lower" max="32767" attributes="2"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="pn_Lower" alignment="0" max="32767" attributes="3"/>
+                  <Component id="pn_Center" alignment="0" max="32767" attributes="1"/>
+                  <Component id="pn_Upper" alignment="0" max="32767" attributes="3"/>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="pn_Right" max="32767" attributes="0"/>
           </Group>
+          <Component id="pn_Title" alignment="0" max="32767" attributes="2"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="pn_Title" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pn_Left" alignment="0" max="32767" attributes="0"/>
-                  <Component id="pn_Right" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="pn_Right" max="32767" attributes="0"/>
+                  <Component id="pn_Left" max="32767" attributes="1"/>
+                  <Group type="102" attributes="1">
                       <Component id="pn_Upper" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="pn_Center" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="pn_Lower" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -65,18 +65,18 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lbl_Title" pref="656" max="32767" attributes="0"/>
+                  <Component id="lbl_Title" min="-2" pref="571" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lbl_Title" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="lbl_Title" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -108,7 +108,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="573" max="32767" attributes="0"/>
+                  <EmptySpace pref="488" max="32767" attributes="0"/>
                   <Component id="btn_Stop" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -149,22 +149,15 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="lbl_Animation" alignment="0" pref="531" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="509" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="lbl_Animation" alignment="0" pref="215" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="217" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="lbl_Animation">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-      </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pn_Left">
       <Properties>
@@ -174,12 +167,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="69" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="294" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="306" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -192,12 +185,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="294" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="306" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -210,12 +203,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="531" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="509" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="29" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="39" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -228,14 +221,16 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="lbl_Info" alignment="0" pref="531" max="32767" attributes="0"/>
+              <Component id="lbl_Info" alignment="0" pref="509" max="32767" attributes="0"/>
+              <Component id="lbl_Current" alignment="0" pref="509" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="lbl_Info" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="23" max="32767" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
+                  <Component id="lbl_Current" min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace pref="10" max="32767" attributes="0"/>
+                  <Component id="lbl_Info" min="-2" pref="14" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -246,8 +241,21 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new kuasar.plugin.deployer.gui.classmod.JMarqueeLabel()"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_Current">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="cc" green="cc" red="cc" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="a"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new kuasar.plugin.deployer.gui.classmod.JMarqueeLabel()"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

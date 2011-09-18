@@ -23,9 +23,11 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 import kuasar.plugin.Global.CMD;
 import kuasar.plugin.deployer.Config;
+import kuasar.plugin.deployer.gui.actions.infopns.pn_Connecting;
+import kuasar.plugin.deployer.gui.actions.infopns.pn_Creating;
+import kuasar.plugin.deployer.gui.pn_Deploy;
 import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.SSocketTools;
 import kuasar.plugin.utils.SSocketTools.IllegalStatement;
@@ -41,14 +43,14 @@ public class th_Deploy extends Thread {
 
     private final static int BUFFER_SIZE = 1024;
     private Element vms;
-    private JPanel parent;
+    private pn_Deploy parent;
     private String ks;
     private char[] kspwd;
     private char[] userpwd;
     private String user;
     private ArrayList<String[]> errors = new ArrayList<String[]>();
-
-    public th_Deploy(Element vms, JPanel parent) {
+    private pn_Creating creat=null;
+    public th_Deploy(Element vms, pn_Deploy parent) {
         this.vms = vms;
         this.parent = parent;
     }
@@ -56,6 +58,11 @@ public class th_Deploy extends Thread {
     @Override
     public void run() {
         recursiveDeploy(vms, "", "");
+        if(!errors.isEmpty()){
+            parent.showErrors(errors);
+        }else{
+            parent.goNext();
+        }
     }
 
     private void recursiveDeploy(Element vms, String path, String gpath) {
@@ -70,8 +77,11 @@ public class th_Deploy extends Thread {
     }
 
     private void deployVM(Element vm, String path, String gpath) {
+        parent.setCurrentMachime(gpath);
         String address = vm.getAttributeValue("server");
         int port = Integer.parseInt(vm.getAttributeValue("server.port"));
+        pn_Connecting conn = new pn_Connecting();
+        parent.changePanel(conn);
         if (!loadSecrets(address)) {
             errors.add(new String[]{path, gpath, "It was impossible to get data login"});
             return;
@@ -88,24 +98,40 @@ public class th_Deploy extends Thread {
             st.closeAll();
             return;
         }
+        conn.stopAnimation();
+        creat = new pn_Creating();
+        parent.setInfo("Creating Machine...");
+        parent.changePanel(creat);
         if (!createMachine(st, vm, path, gpath)) {
             return;
         }
+        creat.setValueGlobal(10);
+        parent.setInfo("Setting VM's Memory...");
         if (!setMemory(st, vm, path, gpath)) {
             return;
         }
+        creat.setValueGlobal(20);
+        creat.showPBDisk(true);
+        parent.setInfo("Adding VM's Storage...");
         if (!addStorage(st, vm, path, gpath)) {
             return;
         }
+        creat.showPBDisk(false);
+        creat.setValueGlobal(70);
+        parent.setInfo("Adding VM's Interfaces...");
         if (!addIf(st, vm, path, gpath)) {
             return;
         }
+        creat.setValueGlobal(80);
+        parent.setInfo("First Running and Setting VM's Network...");
+        creat.changeCurrentImage("/kuasar/plugin/deployer/icons/animation/power/power");
         if (!setNetwork(st, vm, path, gpath)) {
             return;
         }
+        creat.setValueGlobal(100);
         closeConnection(st);
-        System.out.println("Finished and closed OK!");
-
+        parent.setInfo("VM was implemented successfully!");
+        creat.stopAnimation();
     }
 
     private boolean loadSecrets(String address) {
@@ -244,6 +270,7 @@ public class th_Deploy extends Thread {
     }
 
     private boolean addStorage(SSocketTools st, Element vm, String path, String gpath) {
+        
         String uuid = vm.getAttributeValue("server.uuid");
         Element devices = vm.getChild("dev");
         List<Element> modules = devices.getChildren();
@@ -257,6 +284,7 @@ public class th_Deploy extends Thread {
             String id = module.getAttributeValue("type");
             String cache = module.getAttributeValue("cache");
             try {
+                parent.setInfo("Adding module " + module.getAttributeValue("name") +"... ");
                 st.sendLine(CMD.CHARS.QUESTION + "addstorage " + uuid + " " + typeStorage
                         + " " + id + " " + cache);
                 String answer = st.readLine(CMD.INFO);
@@ -280,6 +308,7 @@ public class th_Deploy extends Thread {
                 return false;
             }
         }
+        creat.showPBDisk(false);
         return true;
     }
 
@@ -333,6 +362,8 @@ public class th_Deploy extends Thread {
 
     private boolean addDevice(SSocketTools st, Element image, String path, String gpath) {
         String name = image.getAttributeValue("name");
+        parent.setInfo("Adding image " + name + "...");
+        creat.changeCurrentImage("/kuasar/plugin/deployer/icons/animation/creating/creating");
         Short slot;
         try {
             slot = Short.parseShort(image.getAttributeValue("slot"));
@@ -365,6 +396,8 @@ public class th_Deploy extends Thread {
     }
 
     private boolean sendImage(SSocketTools st, String name, File file, Short slot, String type, String passthrough, Element image) {
+        parent.setInfo("Making SHA1-Hash of "+ name +"...   (It may take several minutes)");
+        creat.changeCurrentImage("/kuasar/plugin/deployer/icons/animation/hash/hash");
         String sha1 = Utils.getSHA1(file);
         if (sha1 == null) {
             return false;
@@ -386,6 +419,8 @@ public class th_Deploy extends Thread {
             if (!sendBinary(st, file)) {
                 return false;
             }
+            parent.setInfo("Server is checking the sent file... Be await...");
+            creat.changeCurrentImage("/kuasar/plugin/deployer/icons/animation/hash/hash");
             answer = st.readLine();
             if (answer.length() < 1) {
                 return false;
@@ -412,6 +447,8 @@ public class th_Deploy extends Thread {
     private boolean sendBinary(SSocketTools st, File file) {
         try {
             long size = file.length();
+            parent.setInfo("Sending file " + file.getAbsolutePath() + " ["+size + " bytes ]...");
+            creat.changeCurrentImage("/kuasar/plugin/deployer/icons/animation/creating/creating");
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
             byte[] data = new byte[size > BUFFER_SIZE ? BUFFER_SIZE : (int) (size)];
             long i = 0;
@@ -420,6 +457,9 @@ public class th_Deploy extends Thread {
                 i += data.length;
                 if (size - i < BUFFER_SIZE) {
                     data = new byte[(int) (size - i)];
+                }
+                if(i%(BUFFER_SIZE*100)==0){
+                    creat.setValueDisk(Math.round((float)((float)i/(float)size*100)));
                 }
             }
             bis.close();

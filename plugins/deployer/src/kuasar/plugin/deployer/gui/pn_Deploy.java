@@ -22,7 +22,10 @@
  */
 package kuasar.plugin.deployer.gui;
 
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import kuasar.plugin.Intercom.GUI;
+import kuasar.plugin.deployer.gui.actions.dialogs.pn_AllocateErr;
 import kuasar.plugin.deployer.gui.actions.th_Deploy;
 import kuasar.plugin.deployer.gui.classmod.I_Panels;
 import org.jdom.Element;
@@ -57,18 +60,18 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         pn_Buttons = new javax.swing.JPanel();
         btn_Stop = new javax.swing.JButton();
         pn_Center = new javax.swing.JPanel();
-        lbl_Animation = new javax.swing.JLabel();
         pn_Left = new javax.swing.JPanel();
         pn_Right = new javax.swing.JPanel();
         pn_Upper = new javax.swing.JPanel();
         pn_Lower = new javax.swing.JPanel();
-        lbl_Info = new javax.swing.JLabel();
+        lbl_Info = new kuasar.plugin.deployer.gui.classmod.JMarqueeLabel();
+        lbl_Current = new kuasar.plugin.deployer.gui.classmod.JMarqueeLabel();
 
         setOpaque(false);
 
         pn_Title.setOpaque(false);
 
-        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24));
         lbl_Title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/start.png"))); // NOI18N
         lbl_Title.setText("Deploying");
@@ -77,16 +80,16 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         pn_Title.setLayout(pn_TitleLayout);
         pn_TitleLayout.setHorizontalGroup(
             pn_TitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_TitleLayout.createSequentialGroup()
+            .addGroup(pn_TitleLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_Title, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                .addComponent(lbl_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         pn_TitleLayout.setVerticalGroup(
             pn_TitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_TitleLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_TitleLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_Title)
                 .addContainerGap())
         );
 
@@ -102,7 +105,7 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         pn_ButtonsLayout.setHorizontalGroup(
             pn_ButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_ButtonsLayout.createSequentialGroup()
-                .addContainerGap(573, Short.MAX_VALUE)
+                .addContainerGap(488, Short.MAX_VALUE)
                 .addComponent(btn_Stop)
                 .addContainerGap())
         );
@@ -116,17 +119,15 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
 
         pn_Center.setOpaque(false);
 
-        lbl_Animation.setText("jLabel1");
-
         javax.swing.GroupLayout pn_CenterLayout = new javax.swing.GroupLayout(pn_Center);
         pn_Center.setLayout(pn_CenterLayout);
         pn_CenterLayout.setHorizontalGroup(
             pn_CenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_Animation, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+            .addGap(0, 509, Short.MAX_VALUE)
         );
         pn_CenterLayout.setVerticalGroup(
             pn_CenterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_Animation, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+            .addGap(0, 217, Short.MAX_VALUE)
         );
 
         pn_Left.setOpaque(false);
@@ -135,11 +136,11 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         pn_Left.setLayout(pn_LeftLayout);
         pn_LeftLayout.setHorizontalGroup(
             pn_LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 69, Short.MAX_VALUE)
+            .addGap(0, 37, Short.MAX_VALUE)
         );
         pn_LeftLayout.setVerticalGroup(
             pn_LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 294, Short.MAX_VALUE)
+            .addGap(0, 306, Short.MAX_VALUE)
         );
 
         pn_Right.setOpaque(false);
@@ -148,11 +149,11 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         pn_Right.setLayout(pn_RightLayout);
         pn_RightLayout.setHorizontalGroup(
             pn_RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+            .addGap(0, 37, Short.MAX_VALUE)
         );
         pn_RightLayout.setVerticalGroup(
             pn_RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 294, Short.MAX_VALUE)
+            .addGap(0, 306, Short.MAX_VALUE)
         );
 
         pn_Upper.setOpaque(false);
@@ -161,55 +162,59 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         pn_Upper.setLayout(pn_UpperLayout);
         pn_UpperLayout.setHorizontalGroup(
             pn_UpperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 531, Short.MAX_VALUE)
+            .addGap(0, 509, Short.MAX_VALUE)
         );
         pn_UpperLayout.setVerticalGroup(
             pn_UpperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 29, Short.MAX_VALUE)
+            .addGap(0, 39, Short.MAX_VALUE)
         );
 
         pn_Lower.setOpaque(false);
 
         lbl_Info.setForeground(new java.awt.Color(204, 204, 204));
-        lbl_Info.setText("jLabel1");
+
+        lbl_Current.setForeground(new java.awt.Color(204, 204, 204));
+        lbl_Current.setText("a");
 
         javax.swing.GroupLayout pn_LowerLayout = new javax.swing.GroupLayout(pn_Lower);
         pn_Lower.setLayout(pn_LowerLayout);
         pn_LowerLayout.setHorizontalGroup(
             pn_LowerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+            .addComponent(lbl_Current, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
         );
         pn_LowerLayout.setVerticalGroup(
             pn_LowerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pn_LowerLayout.createSequentialGroup()
-                .addComponent(lbl_Info)
-                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_LowerLayout.createSequentialGroup()
+                .addComponent(lbl_Current, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(lbl_Info, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pn_Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pn_Buttons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pn_Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pn_Lower, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pn_Center, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pn_Upper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pn_Lower, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pn_Upper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(pn_Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pn_Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pn_Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pn_Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pn_Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pn_Upper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -222,7 +227,7 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Stop;
-    private javax.swing.JLabel lbl_Animation;
+    private javax.swing.JLabel lbl_Current;
     private javax.swing.JLabel lbl_Info;
     private javax.swing.JLabel lbl_Title;
     private javax.swing.JPanel pn_Buttons;
@@ -240,11 +245,32 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
     }
     @Override
     public void goNext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        GUI.loadPlugin(new pn_AllOK(first));
+        GUI.updateUI();
     }
 
     @Override
     public void goPrevious() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    public void changePanel(JPanel panel){
+        pn_Center.removeAll();
+        pn_Center.add(panel);
+        panel.setBounds(0,0,pn_Center.getWidth(), pn_Center.getHeight());
+        panel.setVisible(true);
+        pn_Center.updateUI();
+    }
+    public void setInfo(String msg){
+        lbl_Info.setText(msg);
+    }
+    public void setCurrentMachime(String machine){
+        lbl_Current.setText(machine);
+    }
+
+    public void showErrors(ArrayList<String[]> errors) {
+        GUI.loadPlugin(new pn_AllocateErr(errors,first));
+        GUI.updateUI();
+    }
+    
+    
 }

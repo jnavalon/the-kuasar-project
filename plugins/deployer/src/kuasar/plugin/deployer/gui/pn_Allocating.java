@@ -22,12 +22,15 @@
  */
 package kuasar.plugin.deployer.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.deployer.gui.actions.CompareArrays;
 import kuasar.plugin.deployer.gui.actions.dialogs.pn_AllocateErr;
@@ -47,6 +50,23 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
     private JPanel previous;
     protected JPanel first;
     private th_AllocateVMs scanner = null;
+    int currentFrame =0;
+    private Timer imageAllocating = new Timer (50, new ActionListener ()
+        {
+        @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                currentFrame++;
+                javax.swing.ImageIcon icon;
+                try{
+                    icon = new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/animation/allocating/allocating" + currentFrame + ".png"));
+                }catch(NullPointerException ex){
+                    currentFrame=1;
+                    icon =  new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/animation/allocating/allocating" + currentFrame + ".png"));
+                }
+                lbl_Image.setIcon(icon);
+             }
+        }); 
     /*
      * vmdata HashMap[>tring, String[]]:
      *          [0] : NICE NAME
@@ -65,6 +85,7 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
         this.vms = vms;
         this.servers = servers;
         initComponents();
+        imageAllocating.start();
     }
 
     /** This method is called from within the constructor to
@@ -77,7 +98,7 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
     private void initComponents() {
 
         pn_Upper = new javax.swing.JPanel();
-        lbl_Animation = new javax.swing.JLabel();
+        lbl_Image = new javax.swing.JLabel();
         pn_Right = new javax.swing.JPanel();
         pn_Left = new javax.swing.JPanel();
         pn_Lower = new javax.swing.JPanel();
@@ -98,10 +119,11 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
         );
         pn_UpperLayout.setVerticalGroup(
             pn_UpperLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+            .addGap(0, 48, Short.MAX_VALUE)
         );
 
-        lbl_Animation.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_Image.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/animation/allocating/allocating1.png"))); // NOI18N
 
         pn_Right.setOpaque(false);
 
@@ -113,7 +135,7 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
         );
         pn_RightLayout.setVerticalGroup(
             pn_RightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 199, Short.MAX_VALUE)
+            .addGap(0, 219, Short.MAX_VALUE)
         );
 
         pn_Left.setOpaque(false);
@@ -126,7 +148,7 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
         );
         pn_LeftLayout.setVerticalGroup(
             pn_LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 199, Short.MAX_VALUE)
+            .addGap(0, 219, Short.MAX_VALUE)
         );
 
         pn_Lower.setOpaque(false);
@@ -183,7 +205,7 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
 
         btn_Next.setVisible(false);
 
-        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 28)); // NOI18N
+        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 28));
         lbl_Title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/calc48.png"))); // NOI18N
         lbl_Title.setText("Allocating...");
@@ -195,7 +217,7 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pn_Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_Animation, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_Image, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(pn_Lower, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -210,12 +232,12 @@ public class pn_Allocating extends kuasar.plugin.classMod.AbstractPanel implemen
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(lbl_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pn_Upper, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pn_Upper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lbl_Animation, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                    .addComponent(pn_Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pn_Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pn_Left, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_Image, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                    .addComponent(pn_Right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pn_Lower, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -232,7 +254,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Back;
     private javax.swing.JButton btn_Next;
-    private javax.swing.JLabel lbl_Animation;
+    private javax.swing.JLabel lbl_Image;
     private javax.swing.JLabel lbl_Info;
     private javax.swing.JLabel lbl_Title;
     private javax.swing.JPanel pn_Left;
@@ -248,6 +270,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         scanner.start();
     }
     public void finished(ArrayList<String[]> allocated){
+        imageAllocating.stop();
        for(String[] data : allocated){
            String vm = data[0];
            String server = data[1];
@@ -261,7 +284,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
            element.setAttribute("server", server);
            element.setAttribute("server.port", port);
        }
-       lbl_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/ok128.png")));
+       lbl_Image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/ok128.png")));
        btn_Next.setVisible(true);
        goNext();
     }

@@ -361,7 +361,7 @@ private void btn_abortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         }
         Object[] selected = lst_Errors.getSelectedValues();
         for (Object data : (Object[]) selected) {
-            String address = ((String[]) data)[2];
+            String address = ((String[]) data)[3];
             Connection.saveKeyStore(ks, address);
             Connection.saveKSPassword(kspwd, address);
         }

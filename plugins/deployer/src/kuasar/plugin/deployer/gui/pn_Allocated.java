@@ -22,6 +22,7 @@
  */
 package kuasar.plugin.deployer.gui;
 
+import java.awt.Color;
 import java.awt.print.PrinterException;
 import java.util.List;
 import javax.swing.JPanel;
@@ -76,7 +77,16 @@ public class pn_Allocated extends kuasar.plugin.classMod.AbstractPanel implement
 
         pn_Data.setOpaque(false);
 
+        spn_Data.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        spn_Data.setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        spn_Data.setOpaque(false);
+
+        tbl_Data.setBackground(new Color(0,0,0,0f));
+        tbl_Data.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tbl_Data.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        tbl_Data.setForeground(new java.awt.Color(204, 204, 204));
         tbl_Data.setModel(model);
+        tbl_Data.setOpaque(false);
         spn_Data.setViewportView(tbl_Data);
 
         javax.swing.GroupLayout pn_DataLayout = new javax.swing.GroupLayout(pn_Data);
@@ -95,6 +105,8 @@ public class pn_Allocated extends kuasar.plugin.classMod.AbstractPanel implement
                 .addComponent(spn_Data, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        spn_Data.getViewport().setOpaque(false);
 
         btn_Next.setBackground(new java.awt.Color(0, 0, 0));
         btn_Next.setForeground(new java.awt.Color(204, 204, 204));
@@ -235,8 +247,7 @@ private void btn_NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             else{
                 extractData(child, path+"/"+child.getAttributeValue("name"));
             }
-        }
-        
+        }  
     }
 
     private void extractData(Element child, String path) {
