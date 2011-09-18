@@ -172,8 +172,8 @@ public final class Machines {
             wasRunning = true;
         }
         WaitingRoom wr = new WaitingRoom();
-        String cmd = "guestcontrol execute " + uuid + " \"" + operator + "\" --arguments \"ipchange " + mac + " "
-                + ip + " " + mask + " " + gw + " " + dns +"\" --username \"" + username + "\" --password \"" + password + "\"";
+        String cmd = "guestcontrol execute " + uuid + " \"" + operator + "\" --arguments \"setnetwork " + mac + " "
+                + ip + " " + mask + " " + gw + " " + dns +"\" --username \"" + username + "\" --password \"" + password + "\" -- wait-for exit";
         boolean ok = wr.waitForRun(cmd, 20, 15);
         if(!wasRunning && isRunning(uuid)){
             Hypervisor.acpiPowerMachine(uuid);
