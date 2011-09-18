@@ -305,7 +305,7 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
             if(value4==2){
                 txt_IP.setText(ipv4);
                 if(node.getAttributeValue("mask") != null)
-                    txt_Mask.setText(Integer.toString(IP.mask2Digit(node.getAttributeValue("mask"))));
+                    txt_Mask.setText(Integer.toString(IP.mask2Digit(node.getAttributeValue("mask.full"))));
             }else{
                 tbt_Manual.setSelected(false);
                 return;
@@ -367,7 +367,8 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
         if(!tbt_dhcp.isSelected()){
             node.setAttribute("ipv4", ip.getAddress().length==4 ? ip.getHostAddress() : "");
             node.setAttribute("ipv6", ip.getAddress().length>4 ? ip.getHostAddress() : "");
-            node.setAttribute("mask", ip.getAddress().length==4 ? IP.digit2Mask(txt_Mask.getText().trim(),4) : "");
+            node.setAttribute("mask", ip.getAddress().length==4 ? txt_Mask.getText().trim() : "");
+            node.setAttribute("mask.full", ip.getAddress().length==4 ? IP.digit2Mask(txt_Mask.getText().trim(),4) : "");
             node.setAttribute("prefix", ip.getAddress().length>4 ?  IP.digit2Mask(txt_Mask.getText().trim(),6): "");
             node.setAttribute("gw", txt_Gateway.getText().trim().isEmpty() ? "" : txt_Gateway.getText().trim());
             node.setAttribute("dns", txt_DNS.getText().trim().isEmpty() ? "" : txt_DNS.getText().trim());
@@ -406,11 +407,11 @@ public class pn_VMNetwork extends kuasar.plugin.classMod.AbstractPanel {
         }
 
         if(!txt_DNS.getText().trim().isEmpty()){
-            for(String dns : txt_DNS.getText().split(" ")){
+            for(String dns : txt_DNS.getText().split(",")){
                 try {
                     InetAddress.getByName(dns.trim());
                 } catch (UnknownHostException ex) {
-                    pn_Info.Load((JPanel) this.getParent(), this, "Error", "Incorrect Gateway.", pn_Info.ICON_ERROR);
+                    pn_Info.Load((JPanel) this.getParent(), this, "Error", "Incorrect DNS.", pn_Info.ICON_ERROR);
                     return false;
                 }
             }

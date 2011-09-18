@@ -934,12 +934,12 @@ public class pn_GroupNetwork extends kuasar.plugin.classMod.AbstractPanel {
             if(txt_DNS.getText().trim().isEmpty()){
                 dns=null;
             } else {
-                String[] adns = txt_DNS.getText().split(" ");
+                String[] adns = txt_DNS.getText().split(",");
                 for(String cdns : adns){
                     try{
                         dns.add(InetAddress.getByName(cdns));
                     }catch(UnknownHostException ex){
-                        pn_Info.Load((JPanel) this.getParent(), this, "Error", "Incorrect DNS. <p> Use spaces for more than one dns.", pn_Info.ICON_ERROR);
+                        pn_Info.Load((JPanel) this.getParent(), this, "Error", "Incorrect DNS. <p> Use commas for more than one dns.", pn_Info.ICON_ERROR);
                         return;
                     }
                 }

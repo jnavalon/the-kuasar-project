@@ -27,6 +27,7 @@ import javax.swing.JProgressBar;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import kuasar.plugin.netcreator.Config;
+import kuasar.plugin.netcreator.utils.IP;
 import kuasar.plugin.utils.XML;
 import org.jdom.Element;
 
@@ -221,7 +222,7 @@ public class th_Save extends Thread {
         for (InetAddress cdns : dns) {
             alldns += cdns.getHostAddress() + " ";
         }
-        return alldns.trim();
+        return alldns.trim().replace(' ', ',');
     }
 
     private Element setIPs(Element cnode) throws Exception {
@@ -237,7 +238,8 @@ public class th_Save extends Thread {
                             + " (" + (progress.getValue()) + "/" + progress.getMaximum() + ")");
                 }
                 child.setAttribute("ipv4", getIPv4());
-                child.setAttribute("mask", getMask());
+                child.setAttribute("mask", Integer.toString(IP.mask2Digit(getMask())));
+                child.setAttribute("mask.full", getMask());
                 child.setAttribute("ipv6", getIPv6());
                 child.setAttribute("prefix", getPrefix());
                 child.setAttribute("gw", getGw());
