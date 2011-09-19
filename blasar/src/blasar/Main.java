@@ -37,10 +37,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //<Test>
+        /*<Test>
         Config.BLASAR.verbose=true;
         Config.BLASAR.interactive=true;
-        //</Test>
+        </Test>*/
 
         SetVariables sv = new SetVariables();
         if(!sv.isOK()){
@@ -279,6 +279,5 @@ public class Main {
         System.err.println("\t\t\t Add verbose option to show the selected port");
         System.err.println("\t MAX_USERS: \t 0 (no limit) ");
         System.err.println("\n");
-
     }
 }
