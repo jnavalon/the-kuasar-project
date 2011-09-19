@@ -37,6 +37,7 @@ public final class UserLogin {
         if(passwd.startsWith(Config.BLASAR.DNIeChar)) return false;
         try {
             HashMap<String, String> users = getUsers();
+            if(users==null)return false;
             String SHApass =Encryptation.getSHA512(passwd.toCharArray());
             if(users.get(user)==null) return false;
             if(users.get(user).equals(SHApass)) return true;
