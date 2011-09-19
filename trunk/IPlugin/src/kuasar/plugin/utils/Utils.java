@@ -33,7 +33,6 @@ public final class Utils {
     
     public static String getSHA1(File file) {
         try {
-            System.out.println("Fent Hash de " + file.getAbsolutePath());
             MessageDigest md = MessageDigest.getInstance("SHA1");
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
             byte[] digest;
