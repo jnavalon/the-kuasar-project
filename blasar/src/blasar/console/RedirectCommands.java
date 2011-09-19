@@ -14,7 +14,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package blasar.console;
 
 import blasar.Config;
@@ -33,33 +32,37 @@ import java.util.StringTokenizer;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public final class RedirectCommands {
-    protected static boolean Redirect(String command){
+
+    protected static boolean Redirect(String command) {
         StringTokenizer st = new StringTokenizer(command);
-        if(st.countTokens() ==0) return false;
-        String token = st.nextToken().toLowerCase();
-        if(token.equals("show"))
-            ShowCommands.Redirect(st);
-        else if(token.equals("su"))
-            setSU();
-        else if(token.equals("?"))
-            printHelp();
-        else
+        if (st.countTokens() == 0) {
             return false;
+        }
+        String token = st.nextToken().toLowerCase();
+        if (token.equals("show")) {
+            ShowCommands.Redirect(st);
+        } else if (token.equals("su")) {
+            setSU();
+        } else if (token.equals("?")) {
+            printHelp();
+        } else {
+            return false;
+        }
         return true;
     }
 
-        private static boolean setSU(){
-        if(!checkPassFile()){
+    private static boolean setSU() {
+        if (!checkPassFile()) {
             System.out.println("Password is not set, However access is granted. Be careful.");
             InitConsole.su = true;
             return true;
         }
         Console terminal = System.console();
-        if(terminal == null){
-            System.out.println("Error found a usable terminal. Impossible to login as Admin.");
+        if (terminal == null) {
+            System.out.println("Error finding a usable terminal. Impossible to login as Admin.");
             return false;
         }
-        for(int i=0;i<3;i++ ){
+        for (int i = 0; i < 3; i++) {
             char[] passwd = terminal.readPassword("Password: ");
 
             String SHA = null;
@@ -70,17 +73,17 @@ public final class RedirectCommands {
                 return false;
             }
 
-            if(checkPass(SHA)){
-                InitConsole.su=true;
+            if (checkPass(SHA)) {
+                InitConsole.su = true;
                 return true;
             }
-            System.out.println("Access Denied! " + (i<2 ? "Try again." : "Access will be notified"));
+            System.out.println("Access Denied! " + (i < 2 ? "Try again." : "Access will be notified"));
 
         }
         return false;
     }
 
-    private static boolean checkPass(String hash){
+    private static boolean checkPass(String hash) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(Config.BLASAR.startDir + Config.BLASAR.passSUFile));
             String line = null;
@@ -101,40 +104,71 @@ public final class RedirectCommands {
 
     }
 
-    private static boolean checkPassFile(){
+    private static boolean checkPassFile() {
         File file = new File(Config.BLASAR.startDir + Config.BLASAR.passSUFile);
-        if(!file.exists()) return false;
-        if(!file.canRead()) return false;
-        if(file.canWrite()){
+        if (!file.exists()) {
+            return false;
+        }
+        if (!file.canRead()) {
+            return false;
+        }
+        if (file.canWrite()) {
             System.out.println("Warning! Be careful, your password file has writeable access. Check the file and change its permissions");
         }
         return true;
     }
-    protected static boolean RedirectSU(String command){
-        StringTokenizer st = new StringTokenizer(command);
-        if(st.countTokens() ==0) return false;
-        String token = st.nextToken().toLowerCase();
-        if(token.equals("logout"))
-            InitConsole.su = false;
-        else if(token.equals("vmuser"))
-            VMUserCommands.Redirect(st);
-        else if(token.equals("kill"))
-            KillCommands.kill(st);
-        else if(token.equals("killall"))
-            KillCommands.killAll();
-        else
+
+    private static boolean EncryptPwd() {
+        Console terminal = System.console();
+        if (terminal == null) {
+            System.out.println("Error finding a usable terminal.");
             return false;
+        }
+        char[] passwd = terminal.readPassword("Password: ");
+
+        String SHA = null;
+        try {
+            SHA = Encryptation.getSHA512(passwd);
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println("Oups! I can't use SHA Encrypt System.");
+            return false;
+        }
+        System.out.println(SHA);
+        return true;
+    }
+
+    protected static boolean RedirectSU(String command) {
+        StringTokenizer st = new StringTokenizer(command);
+        if (st.countTokens() == 0) {
+            return false;
+        }
+        String token = st.nextToken().toLowerCase();
+        if (token.equals("logout")) {
+            InitConsole.su = false;
+        } else if (token.equals("vmuser")) {
+            VMUserCommands.Redirect(st);
+        } else if (token.equals("encpwd")) {
+            EncryptPwd();
+        } else if (token.equals("kill")) {
+            KillCommands.kill(st);
+        } else if (token.equals("killall")) {
+            KillCommands.killAll();
+        } else {
+            return false;
+        }
         return true;
 
     }
-    private static void printHelp(){
+
+    private static void printHelp() {
         System.out.println("\tAvailable commands:\n");
         System.out.println("\t\texit    \tExit and close the server. All connections will be closed.");
         System.out.println("\t\tshow <?>\tShow information about server and its connexions.");
         System.out.println("\t\tsu      \tLogin as SuperUser (Admin) ");
         System.out.println();
-         if(InitConsole.su){
+        if (InitConsole.su) {
             System.out.println("\tAvailable SU commands:\n");
+            System.out.println("\t\tencpwd  \tEncript a password to save in supasswd file.");
             System.out.println("\t\tkill <ID>\tClose a active connection.");
             System.out.println("\t\tkillall  \tClose all active connections.");
             System.out.println("\t\tlogout   \tClose admin session. ");
