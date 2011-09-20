@@ -255,7 +255,7 @@ public class Main {
         System.err.println("\n\n");
         System.err.println("Values:\n");
         System.err.println("\t BIND_ADD: \t IP format; Exemple (0.0.0.0) to allow all remote connections");
-        System.err.println("\t KS_PWD: \t\t A path where there is a keystore. Eg: \"C:\\blasar.ks\"");
+        System.err.println("\t KS_PATH: \t\t A path where there is a keystore. Eg: \"C:\\blasar.ks\"");
         System.err.println("\t KS_PWD: \t\t The keystore's password. Eg: blasar");
         System.err.println("\t PORT: \t\t [0 - 65535] On *nix systems ports besides 1 and 1023 could need root privileges ");
         System.err.println("\t\t\t Warning! If you select port 0 on *nix. OS will select the next available port.");
