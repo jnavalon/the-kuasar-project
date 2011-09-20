@@ -30,7 +30,7 @@ public final class Config {
         }
     }
     public static final class BLASAR{
-
+        public final static String ConfigFile = "conf.cfg";
         public final static String passSUFile = "supasswd";
         public final static String passFile = "passwd";
         public final static String DNIeChar = "*"; //USED TO IDENTIFY A DNIE PASSWORD ON passFile

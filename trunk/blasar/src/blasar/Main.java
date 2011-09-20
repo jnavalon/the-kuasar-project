@@ -19,11 +19,11 @@ package blasar;
 import blasar.Services.Server;
 import blasar.util.Encryptation;
 import blasar.util.plugins.PluginScan;
+import java.io.BufferedReader;
 import java.io.Console;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
@@ -43,22 +43,24 @@ public class Main {
         </Test>*/
 
         SetVariables sv = new SetVariables();
-        if(!sv.isOK()){
+        if (!sv.isOK()) {
             System.err.println("Blasar couldn't load all required variables and won't continue");
             System.exit(1);
         }
         PluginScan plugins = new PluginScan();
-        System.setProperty("javax.net.ssl.keyStore", "/home/jnavalon/blasar.keystore");
-        System.setProperty("javax.net.ssl.keyStorePassword", "blasar");
-        if(!setArgs(args)) return;
+        loadConfig();
+        if (!setArgs(args)) {
+            return;
+        }
         Server server = new Server();
         server.start();
-        if(Config.BLASAR.interactive){
+        if (Config.BLASAR.interactive) {
             blasar.console.InitConsole console = new blasar.console.InitConsole(server);
-        }else{
+        } else {
             try {
                 server.join();
-            } catch (InterruptedException ex) {}
+            } catch (InterruptedException ex) {
+            }
         }
         System.exit(0);
     }
@@ -69,10 +71,10 @@ public class Main {
             if (args[i].startsWith("-")) {
                 if (isSimple(args[i])) {
                     if (i + 1 < args.length) {
-                        if (!setSimple(args[i], args[i+1])) {
+                        if (!setSimple(args[i], args[i + 1])) {
                             help = true;
                         }
-                    }else{
+                    } else {
                         if (!setComplex(args[i])) {
                             help = true;
                         }
@@ -83,7 +85,7 @@ public class Main {
                     }
                 }
             }
-            if(args[i].equals("genhash")){
+            if (args[i].equals("genhash")) {
                 printHash();
                 return false;
             }
@@ -94,30 +96,33 @@ public class Main {
         return !help;
     }
 
-    private static void printHash(){
+    private static void printHash() {
         Console terminal = System.console();
-        if(terminal == null){
+        if (terminal == null) {
             System.out.println("Error found a usable terminal. Impossible to continue.");
             return;
         }
         char[] passwd = null;
         char[] confirm = null;
-        int i=0;
-        do{
-           passwd = terminal.readPassword("password: ");
-           confirm = terminal.readPassword("again: ");
-           i++;
-           if(!Arrays.equals(passwd, confirm))
-               System.out.println("Passwords aren't equals. Try" + (i<3 ? " again." :" later"));
-        }while(!Arrays.equals(passwd, confirm) && i < 3);
-        if( i>= 3) return;
+        int i = 0;
+        do {
+            passwd = terminal.readPassword("password: ");
+            confirm = terminal.readPassword("again: ");
+            i++;
+            if (!Arrays.equals(passwd, confirm)) {
+                System.out.println("Passwords aren't equals. Try" + (i < 3 ? " again." : " later"));
+            }
+        } while (!Arrays.equals(passwd, confirm) && i < 3);
+        if (i >= 3) {
+            return;
+        }
         try {
-            System.out.println("HASH:\t\t" + Encryptation.getSHA512(passwd) );
+            System.out.println("HASH:\t\t" + Encryptation.getSHA512(passwd));
         } catch (NoSuchAlgorithmException ex) {
             System.out.println("MD5 or SHA1 is not supported. Imposssible to generate Hash String");
         }
-        
-        
+
+
     }
 
     private static boolean isSimple(String arg) {
@@ -130,45 +135,16 @@ public class Main {
         aux = att.substring(1);
         char character[] = aux.toCharArray();
         switch (character[0]) {
-            case 'b':
-                if (isIP(value)) {
-                    InetAddress ip = getIP(value);
-                    if (ip == null) {
-                        return false;
-                    }
-                    Config.BLASAR.bind = ip;
-                    return true;
-                } else {
-                    return false;
-                }
             case 'l':
-                if(isFile(value)){
-                    Config.BLASAR.log = true;
-                    Config.BLASAR.logFile = value;
-                    return true;
-                }else{
-                    return false;
-                }
+                return setLog(value);
+            case 'k':
+                return setKeyStore(value);
             case 'p':
-                if (isPort(value)) {
-                    Config.BLASAR.port = Integer.parseInt(value);
-                    return true;
-                } else {
-                    return false;
-                }
+                return setPort(value);
+            case 'w':
+                return setKSPwd(value);
             case 'U':
-                if (isNumber(value)) {
-                    try {
-                        Config.BLASAR.max_users = Integer.parseInt(value);
-                        return true;
-                    } catch (NumberFormatException Ex) {
-                        System.err.println("Max User, maybe was too high number.");
-                        return false;
-                    }
-                } else {
-                    System.err.println("Max users value isn't a number.");
-                    return false;
-                }
+                return setMaxUsers(value);
             default:
                 return setComplex(att);
         }
@@ -180,10 +156,10 @@ public class Main {
         for (char character : characters) {
             switch (character) {
                 case 'i':
-                    Config.BLASAR.interactive = true;
+                    setInteractive();
                     break;
                 case 'v':
-                    Config.BLASAR.verbose = true;
+                    setVerbose();
                     break;
                 default:
                     return false;
@@ -193,47 +169,51 @@ public class Main {
         return true;
     }
 
-    private static InetAddress getIP(String value) {
-        String[] ip = value.split("[.]");
-        byte ipa[] = new byte[4];
-        if (ipa.length != ip.length) {
-            return null;
-        }
-        try {
-            InetAddress bind = InetAddress.getByAddress(new byte[]{ipa[0], ipa[1], ipa[2], ipa[3]});
-            return bind;
-        } catch (UnknownHostException ex) {
-            System.err.println(ex.getMessage());
-            return null;
+    private static boolean setPort(String value) {
+        if (isPort(value)) {
+            Config.BLASAR.port = Integer.parseInt(value);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    private static boolean isFile(String path){
+    private static boolean setKeyStore(String value) {
+        File file = new File(value);
+        if (!file.exists()) {
+            System.err.println("KeyStore no exists");
+            return false;
+        }
+        if (!file.canRead()) {
+            System.err.println("KeyStore can't be readed.");
+            return false;
+        }
+        System.setProperty("javax.net.ssl.keyStore", value);
+        return true;
+    }
+
+    private static boolean setKSPwd(String value) {
+        System.setProperty("javax.net.ssl.keyStorePassword", value);
+        return true;
+    }
+
+    private static boolean isFile(String path) {
         File file = new File(path);
-        if(!file.exists()){
+        if (!file.exists()) {
             try {
-                if(!file.createNewFile())
+                if (!file.createNewFile()) {
                     return false;
+                }
             } catch (IOException ex) {
                 System.err.println("Log file couldn't be created:\t" + ex.getMessage());
                 return false;
             }
         }
-        if(!file.canWrite()){
+        if (!file.canWrite()) {
             System.err.println("Log file isn't writable! Check permissions or access!");
             return false;
         }
         return true;
-    }
-
-    private static boolean isIP(String value) {
-        try {
-            InetAddress.getByName(value);
-            return true;
-        } catch (UnknownHostException ex) {
-            return false;
-        }
-
     }
 
     private static boolean isNumber(String value) {
@@ -265,8 +245,9 @@ public class Main {
     private static void showHelp() {
         System.err.println("\nUsage blasar.jar [OPTIONS]\n\n");
         System.err.println("Options:\n");
-        System.err.println("\t-b #BIND_ADD \t IP Mask to restrict remote connections");
         System.err.println("\t-i \t\t Interactive Mode (CLI)");
+        System.err.println("\t-k #KS_PATH  \t KeyStore to secure connection.");
+        System.err.println("\t-w #KS_PWD  \t KeyStore password.");
         System.err.println("\t-p #PORT \t blasar will listen on selected port");
         System.err.println("\t-U #MAX_USERS \t Number of connections allowed");
         System.err.println("\t-h \t\t Show this help");
@@ -274,10 +255,93 @@ public class Main {
         System.err.println("\n\n");
         System.err.println("Values:\n");
         System.err.println("\t BIND_ADD: \t IP format; Exemple (0.0.0.0) to allow all remote connections");
+        System.err.println("\t KS_PWD: \t\t A path where there is a keystore. Eg: \"C:\\blasar.ks\"");
+        System.err.println("\t KS_PWD: \t\t The keystore's password. Eg: blasar");
         System.err.println("\t PORT: \t\t [0 - 65535] On *nix systems ports besides 1 and 1023 could need root privileges ");
         System.err.println("\t\t\t Warning! If you select port 0 on *nix. OS will select the next available port.");
         System.err.println("\t\t\t Add verbose option to show the selected port");
         System.err.println("\t MAX_USERS: \t 0 (no limit) ");
         System.err.println("\n");
+    }
+
+    private static void loadConfig() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(Config.BLASAR.startDir + Config.BLASAR.ConfigFile));
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.isEmpty()) {
+                    if (line.charAt(0) != '#') {
+                        String arg = line.substring(0, line.lastIndexOf('='));
+                        String value = line.substring(line.lastIndexOf('=') + 1);
+                        if (arg.equals("ks")) {
+                            setKeyStore(value);
+                        } else if (arg.equals("ksp")) {
+                            setKSPwd(value);
+                        } else if (arg.equals("port")) {
+                            setPort(value);
+                        } else if (arg.equals("maxusers")) {
+                            setMaxUsers(value);
+                        } else if (arg.equals("interactive")) {
+                            setInteractive(value);
+                        } else if (arg.equals("verbose")) {
+                            setVerbose(value);
+                        }
+                    }
+                }
+            }
+        } catch (IOException ex) {
+        }
+    }
+
+    private static boolean setMaxUsers(String value) {
+        if (isNumber(value)) {
+            try {
+                Config.BLASAR.max_users = Integer.parseInt(value);
+                return true;
+            } catch (NumberFormatException Ex) {
+                System.err.println("Max User, maybe was too high number.");
+                return false;
+            }
+        } else {
+            System.err.println("Max users value isn't a number.");
+            return false;
+        }
+    }
+
+    private static boolean setLog(String value) {
+        if (isFile(value)) {
+            Config.BLASAR.log = true;
+            Config.BLASAR.logFile = value;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static void setInteractive() {
+        Config.BLASAR.interactive = true;
+    }
+
+    private static void setVerbose() {
+        Config.BLASAR.verbose = true;
+    }
+
+    private static void setInteractive(String value) {
+        try {
+            if (Boolean.parseBoolean(value)) {
+                setInteractive();
+            }
+        } catch (Exception ex) {
+        }
+
+    }
+
+    private static void setVerbose(String value) {
+        try {
+            if (Boolean.parseBoolean(value)) {
+                setVerbose();
+            }
+        } catch (Exception ex) {
+        }
     }
 }
