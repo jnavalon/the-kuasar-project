@@ -517,7 +517,7 @@ public class th_Deploy extends Thread {
             String type = getNICType(interfac.getAttributeValue("type"));
             String mac = getMac(i, uuid);
             try {
-                st.sendLine(CMD.CHARS.QUESTION + "addnic " + uuid + " " + i + " " + type + " " + mac);
+                st.sendLine(CMD.CHARS.QUESTION + "addnic " + uuid + " " + i++ + " " + type + " " + mac);
                 String answer = st.readLine(CMD.INFO);
                 if (answer.equals("ERROR")) {
                     errors.add(new String[]{path, gpath, "There was an error to add a network inteface"});
