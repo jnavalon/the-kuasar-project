@@ -86,5 +86,50 @@ public class Commands implements VMCommands {
     public String[] getRunningMachines() {
         return Machines.getRunningMachines();
     }
+
+    @Override
+    public String getEngineName() {
+        return Config.EngineName;
+    }
+
+    @Override
+    public String getMachineName(String uuid) {
+        return Machines.getMachineName(uuid);
+    }
+
+    @Override
+    public String getMachineUUID(String name) {
+        return Machines.getMachineUUID(name);
+    }
+
+    @Override
+    public boolean isRunning(String uuid) {
+        return Machines.isRunning(uuid);
+    }
+
+    @Override
+    public boolean RunMachine(String uuid) {
+        return Machines.sendPower(uuid, Machines.PW_START);
+    }
+
+    @Override
+    public boolean ShutdownMachine(String uuid) {
+        return Machines.sendPower(uuid, Machines.PW_ACPIOFF);
+    }
+
+    @Override
+    public boolean ResetMachine(String uuid) {
+        return Machines.sendPower(uuid, Machines.PW_RESET);
+    }
+
+    @Override
+    public boolean PowerOffMachine(String uuid) {
+        return Machines.sendPower(uuid, Machines.PW_POWEROFF);
+    }
+
+    @Override
+    public boolean deleteVM(String uuid) {
+        return Machines.deleteVM(uuid);
+    }
     
 }
