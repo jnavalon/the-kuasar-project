@@ -28,16 +28,18 @@ import java.util.ArrayList;
  */
 public final class Hypervisor {
 
-    
-    public static boolean startMachine(String uuid){
-        return(execute("startvm " + uuid + " --type headless") ==0 ? true : false );
+    public static boolean startMachine(String uuid) {
+        return (execute("startvm " + uuid + " --type headless") == 0 ? true : false);
     }
-    public static boolean powerOffMachine(String uuid){
-        return(execute("controlvm " + uuid + " poweroff") ==0 ? true : false );
+
+    public static boolean powerOffMachine(String uuid) {
+        return (execute("controlvm " + uuid + " poweroff") == 0 ? true : false);
     }
-    public static boolean acpiPowerMachine(String uuid){
-        return(execute("controlvm " + uuid + " acpipowerbutton") ==0 ? true : false );
+
+    public static boolean acpiPowerMachine(String uuid) {
+        return (execute("controlvm " + uuid + " acpipowerbutton") == 0 ? true : false);
     }
+
     public static int execute(String args) {
         String[] aargs = argsToArray(args);
         try {
@@ -64,14 +66,14 @@ public final class Hypervisor {
         }
     }
 
-    public static String[] getBridgedIfs(){
+    public static String[] getBridgedIfs() {
         return Extractor.extractInterfaces(getStream("list bridgedifs"));
     }
-    
-    public static String[] getHostOnlyIfs(){
+
+    public static String[] getHostOnlyIfs() {
         return Extractor.extractInterfaces(getStream("list hostonlyifs"));
     }
-    
+
     private static String[] argsToArray(String args) {
         ArrayList<String> alargs = new ArrayList<String>();
         alargs.add(Config.application);

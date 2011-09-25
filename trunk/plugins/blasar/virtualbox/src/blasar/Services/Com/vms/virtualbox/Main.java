@@ -26,15 +26,17 @@ import blasar.Services.Com.vms.VMCommands;
 public class Main implements PluginInterface{
 
     private Commands curCMD = null;
+    
     @Override
     public String getPluginName(){
         return Config.pluginName;
     }
+    
     @Override
     public String getEngine() {
        return Config.EngineCode;
     }
-
+    
     @Override
     public boolean Start() {
         Config.load();

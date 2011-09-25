@@ -48,6 +48,46 @@ public final class Extractor {
         return vmnames.toArray(machines);
     }
     
+    protected static String extractMachName(BufferedReader br, String uuid){
+        if(br == null) return null;
+        String line;
+        try{
+            while ((line = br.readLine()) != null){
+                line = line.trim();
+                if(line.startsWith("\"")){
+                    String name =line.substring(1, line.lastIndexOf('\"'));
+                    String suuid = line.substring(line.indexOf('{')+1, line.length()-1);
+                    if(suuid.equals(uuid)){
+                        return name;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            return null;
+        }
+        return null;
+    }
+    
+    protected static String extractMachUUID(BufferedReader br, String name) {
+        if(br == null) return null;
+        String line;
+        try{
+            while ((line = br.readLine()) != null){
+                line = line.trim();
+                if(line.startsWith("\"")){
+                    String sname =line.substring(1, line.lastIndexOf('\"'));
+                    String uuid = line.substring(line.indexOf('{')+1, line.length()-1);
+                    if(sname.equals(name)){
+                        return uuid;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            return null;
+        }
+        return null;
+    }
+    
     protected static String[] extractInterfaces(BufferedReader br){
         if(br ==null) return new String[]{};
         ArrayList<String> interfaces= new ArrayList<String>();

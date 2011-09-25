@@ -37,6 +37,7 @@ public final class Config {
     public static String hostoif=null;
     public static final String VMAPP = "VBoxManage";
     public static String EngineCode="VBX";
+    public static String EngineName="VirtualBox";
 
     public static void load() {
         File cfgFile = new File(startDir + File.separator + pluginName.toLowerCase() + ".cfg");

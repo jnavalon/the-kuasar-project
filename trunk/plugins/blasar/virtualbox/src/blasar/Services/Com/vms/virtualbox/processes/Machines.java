@@ -30,9 +30,35 @@ import java.util.Arrays;
  * @author Jesus Navalon i Pastor <jnavalon at redhermes dot net>
  */
 public final class Machines {
+    
+    public final static short PW_START = 0;
+    public final static short PW_RESET = 1;
+    public final static short PW_POWEROFF = 2;
+    public final static short PW_ACPIOFF = 3;
+    
     /*
      * Return vm registered on VirtualBox Hypervisor
      */
+    
+    public static boolean sendPower(String uuid, short status){
+        String cmd = status == 0 ? "startvm " : "controlvm ";
+        cmd += uuid + " ";
+        switch(status){
+            case PW_START:
+                cmd+="--type gui";
+                break;
+            case PW_RESET:
+                cmd+="reset";
+                break;
+            case PW_POWEROFF:
+                cmd+="poweroff";
+                break;
+            case PW_ACPIOFF:
+                cmd+="acpipowerbutton";
+                break;
+        }
+        return (Hypervisor.execute(cmd)==0);
+    }
     
     public static String[] getRegisteredMachines() {
         return Extractor.extractRegMach(Hypervisor.getStream("list vms"));
@@ -82,6 +108,7 @@ public final class Machines {
         return(Hypervisor.execute("storagectl " + uuid + " --name \"" + name + "\" --add "
                 + type + " --controller " + controller + " --hostiocache " + (cache ? "on" : "off"))==0? true: false);
     }
+    
     public static boolean addStorage(String uuid, String storagectl, int port, int device, String type, String filepath, boolean passthrought){
         if(type.equals("hdd")){
             Hypervisor.execute("internalcommands sethduuid " + filepath);
@@ -124,6 +151,18 @@ public final class Machines {
         return (Hypervisor.execute("modifyvm " + uuid + " --macaddress" + nicID + " " + mac) ==0 ? true : false );
     }
 
+    public static String getMachineName(String uuid) {
+        return Extractor.extractMachName(Hypervisor.getStream("list vms"), uuid);
+    }
+
+    public static String getMachineUUID(String name) {
+        return Extractor.extractMachUUID(Hypervisor.getStream("list vms"), name);
+    }
+
+    public static boolean deleteVM(String uuid) {
+        return (Hypervisor.execute("unregistervm "+ uuid + " --delete")==0)? true: false;
+    }
+
     protected synchronized void wakeUP(){
         this.notify();
     }
@@ -164,6 +203,7 @@ public final class Machines {
         }
         return os;
     }
+    
     public static boolean setNetwork(String uuid, String operator, String username, String password, String mac, String ip, String mask, String gw, String dns){
         boolean wasRunning = false;
         if(!isRunning(uuid)){
@@ -186,6 +226,7 @@ public final class Machines {
         
         
     }
+    
     public static boolean isRunning(String uuid){
         String[] rvms = Machines.getRunningMachines();
         boolean running = false;
@@ -197,6 +238,7 @@ public final class Machines {
         }
         return false;
     }
+    
     public static boolean setVideoRAM(String uuid, int vram){
         return (Hypervisor.execute("modifyvm "+ uuid + " --vram " + vram)==0)? true: false;
     }
