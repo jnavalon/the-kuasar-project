@@ -20,18 +20,17 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
-import kuasar.plugin.Global.CMD;
-import kuasar.plugin.deployer.Config;
+import kuasar.plugin.utils.Connection.CMD;
 import kuasar.plugin.deployer.gui.actions.infopns.pn_Connecting;
 import kuasar.plugin.deployer.gui.actions.infopns.pn_Creating;
 import kuasar.plugin.deployer.gui.pn_Deploy;
 import kuasar.plugin.utils.Connection;
+import kuasar.plugin.utils.Machine;
 import kuasar.plugin.utils.SSocketTools;
 import kuasar.plugin.utils.SSocketTools.IllegalStatement;
-import kuasar.plugin.utils.SSocketTools.InitSocketException;
+import kuasar.plugin.utils.Server;
 import kuasar.plugin.utils.Utils;
 import org.jdom.Element;
 
@@ -50,6 +49,7 @@ public class th_Deploy extends Thread {
     private String user;
     private ArrayList<String[]> errors = new ArrayList<String[]>();
     private pn_Creating creat=null;
+    private boolean stop = false;
     public th_Deploy(Element vms, pn_Deploy parent) {
         this.vms = vms;
         this.parent = parent;
@@ -73,6 +73,9 @@ public class th_Deploy extends Thread {
             } else {
                 recursiveDeploy(child, "/" + child.getName(), "/" + child.getAttributeValue("name"));
             }
+            if(stop){
+                return;
+            }
         }
     }
 
@@ -88,16 +91,17 @@ public class th_Deploy extends Thread {
         }
         SSocketTools st = new SSocketTools(address, port, ks, kspwd, user, userpwd);
         st.initSocket();
-        if (!startConnection(st)) {
+        if (!Server.startConnection(st)) {
             errors.add(new String[]{path, gpath, "It was impossible connect to server" + address});
             st.closeAll();
             return;
         }
-        if (!enterHVMode(st, vm.getAttributeValue("hv"))) {
+        if (!Server.enterHVMode(st, vm.getAttributeValue("hv"))) {
             errors.add(new String[]{path, gpath, "There aren't a Hypervisor plugin on server " + address + " with Engine Code: " + vm.getAttributeValue("hv")});
             st.closeAll();
             return;
         }
+        if(stop) return;
         conn.stopAnimation();
         creat = new pn_Creating();
         parent.setInfo("Creating Machine...");
@@ -110,16 +114,28 @@ public class th_Deploy extends Thread {
         if (!setMemory(st, vm, path, gpath)) {
             return;
         }
+        if(stop){
+            Machine.deleteMachine(st, vm.getAttributeValue("server.uuid"));
+            return;
+        }
         creat.setValueGlobal(20);
         creat.showPBDisk(true);
         parent.setInfo("Adding VM's Storage...");
         if (!addStorage(st, vm, path, gpath)) {
             return;
         }
+        if(stop){
+            Machine.deleteMachine(st, vm.getAttributeValue("server.uuid"));
+            return;
+        }
         creat.showPBDisk(false);
         creat.setValueGlobal(70);
         parent.setInfo("Adding VM's Interfaces...");
         if (!addIf(st, vm, path, gpath)) {
+            return;
+        }
+        if(stop){
+            Machine.deleteMachine(st, vm.getAttributeValue("server.uuid"));
             return;
         }
         creat.setValueGlobal(80);
@@ -140,7 +156,7 @@ public class th_Deploy extends Thread {
         userpwd = Connection.getUserPwd(address);
 
         if (ks == null) {
-            ks = Config.gkeystore;
+            ks = Connection.gkeystore;
             if (ks == null) {
                 //NOTIFY ERROR
                 return false;
@@ -148,7 +164,7 @@ public class th_Deploy extends Thread {
         }
 
         if (kspwd == null) {
-            kspwd = Config.gkssecret;
+            kspwd = Connection.gkssecret;
             if (kspwd == null) {
                 //NOTIFY ERROR
                 return false;
@@ -158,7 +174,7 @@ public class th_Deploy extends Thread {
         if (!Connection.isDNIe(address)) {
             user = Connection.getUserName(address);
             if (user == null) {
-                user = Config.guser;
+                user = Connection.guser;
                 if (user == null) {
                     //NOTIFY ERROR
                     return false;
@@ -169,45 +185,13 @@ public class th_Deploy extends Thread {
             user = "";
         }
         if (userpwd == null) {
-            userpwd = Config.gusersecret;
+            userpwd = Connection.gusersecret;
             if (userpwd == null) {
                 //NOTIFY ERROR
                 return false;
             }
         }
         return true;
-    }
-
-    private boolean startConnection(SSocketTools st) {
-        boolean ok;
-        try {
-            ok = st.login();
-        } catch (InitSocketException ex) {
-            st.closeAll();
-            return false;
-        }
-        if (!ok) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean enterHVMode(SSocketTools st, String hv) {
-        try {
-            st.sendLine(CMD.CHARS.QUESTION + "switchvm " + hv);
-            if (st.readLine(CMD.INFO).equals("OK")) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (IOException ex) {
-            st.closeAll();
-            return false;
-        } catch (IllegalStatement ex) {
-            st.closeAll();
-            return false;
-        }
     }
 
     private boolean createMachine(SSocketTools st, Element vm, String path, String gpath) {
@@ -460,6 +444,9 @@ public class th_Deploy extends Thread {
                 }
                 if(i%(BUFFER_SIZE*100)==0){
                     creat.setValueDisk(Math.round((float)((float)i/(float)size*100)));
+                    if(stop){
+                        return true;
+                    }
                 }
             }
             bis.close();
@@ -626,12 +613,11 @@ public class th_Deploy extends Thread {
     }
 
     private void closeConnection(SSocketTools st) {
-        try {
-            st.sendLine(CMD.CHARS.QUESTION+"exit");
-            st.sendLine(CMD.CHARS.QUESTION + "exit");
-        } catch (SocketException ex) {
-        } catch (IOException ex) {
-        }
+        if(Server.exitHVMode(st))
+            Server.closeServer(st);
         st.closeAll();
+    }
+    public void stopclean(){
+        stop = true;
     }
 }

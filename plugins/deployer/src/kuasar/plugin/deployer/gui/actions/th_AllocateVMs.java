@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
-import kuasar.plugin.Global.CMD;
-import kuasar.plugin.deployer.Config;
+import kuasar.plugin.utils.Connection.CMD;
 import kuasar.plugin.deployer.gui.pn_Allocating;
 import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.SSocketTools;
 import kuasar.plugin.utils.SSocketTools.IllegalStatement;
 import kuasar.plugin.utils.SSocketTools.InitSocketException;
+import kuasar.plugin.utils.Server;
 
 /**
  *
@@ -124,17 +124,9 @@ public class th_AllocateVMs extends Thread {
         if (!ok) {
             return;
         }
-        ArrayList<String> vma = new ArrayList<String>();
-        try {
-            st.sendLine(CMD.CHARS.QUESTION + "listvm");
-            int total = st.readInt(CMD.INFO);
-            for (int i = 0; i < total; i++) {
-                vma.add(st.readLine(CMD.ANSWER));
-                if(stop) return;
-            }
-        } catch (Exception ex) {
-            return;
-        }
+        
+        ArrayList<String> vma = Server.getHypervisors(st);
+        if(vma==null) return;
 
         long totalRAM, freeRAM;
         HashMap<String, Long> data = new HashMap<String, Long>();
@@ -194,7 +186,7 @@ public class th_AllocateVMs extends Thread {
         userpwd = Connection.getUserPwd(address);
 
         if (ks == null) {
-            ks = Config.gkeystore;
+            ks = Connection.gkeystore;
             if (ks == null) {
                 //NOTIFY ERROR
                 return;
@@ -202,7 +194,7 @@ public class th_AllocateVMs extends Thread {
         }
 
         if (kspwd == null) {
-            kspwd = Config.gkssecret;
+            kspwd = Connection.gkssecret;
             if (kspwd == null) {
                 //NOTIFY ERROR
                 return;
@@ -212,7 +204,7 @@ public class th_AllocateVMs extends Thread {
         if (!Connection.isDNIe(address)) {
             user = Connection.getUserName(address);
             if (user == null) {
-                user = Config.guser;
+                user = Connection.guser;
                 if (user == null) {
                     //NOTIFY ERROR
                     return;
@@ -223,7 +215,7 @@ public class th_AllocateVMs extends Thread {
             user = "";
         }
         if (userpwd == null) {
-            userpwd = Config.gusersecret;
+            userpwd = Connection.gusersecret;
             if (userpwd == null) {
                 //NOTIFY ERROR
                 return;

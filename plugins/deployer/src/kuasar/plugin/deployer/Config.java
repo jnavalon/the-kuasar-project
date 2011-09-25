@@ -32,9 +32,5 @@ public class Config {
     public static String SMdata;
     public static String startDir;
     public static String pluginDir;
-    public static String gkeystore = null;
-    public static char[] gkssecret = null;
-    public static String guser = null;
-    public static char[] gusersecret = null;
     
 }

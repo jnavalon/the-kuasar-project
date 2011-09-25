@@ -18,7 +18,6 @@ package kuasar.plugin.deployer.gui.actions;
 
 import java.util.HashMap;
 import java.util.List;
-import kuasar.plugin.deployer.Config;
 import kuasar.plugin.deployer.gui.pn_Checker;
 import kuasar.plugin.utils.Connection;
 import kuasar.plugin.utils.dialogs.dg_KeyStore;
@@ -40,13 +39,13 @@ public class ServerChecker {
         dg_KeyStore ksd = new dg_KeyStore(null, true, null);
         ksd.setHeader("Insert a global keystore (Optional)");
         ksd.setVisible(true);
-        Config.gkeystore = ksd.getKeyStore();
-        Config.gkssecret = ksd.getPassword();
+        Connection.gkeystore = ksd.getKeyStore();
+        Connection.gkssecret = ksd.getPassword();
         dg_Username userd = new dg_Username(null, true, null);
         userd.setHeader("Insert a global login (Optional)");
         userd.setVisible(true);
-        Config.guser = userd.getUserName();
-        Config.gusersecret = userd.getPassword();
+        Connection.guser = userd.getUserName();
+        Connection.gusersecret = userd.getPassword();
         if(root.getAttributeValue("type")==null){
             boolean correct = true;
             List<Element> children = root.getChildren();
@@ -103,7 +102,7 @@ public class ServerChecker {
         }
         String keystore = Connection.getKeyStore(address);
         if(keystore == null){
-            keystore = Config.gkeystore;
+            keystore = Connection.gkeystore;
             if(keystore==null){
                 String[] info = {name + root.getAttributeValue("name"), "KeyStore not found",  address, "2"};
                 errors.put(path+root.getName(), info);
@@ -112,7 +111,7 @@ public class ServerChecker {
         }
         char[] kssecret = Connection.getKeyStorePWD(address);
         if(kssecret == null){
-            kssecret = Config.gkssecret;
+            kssecret = Connection.gkssecret;
             if(kssecret == null){
                 String[] info = {name + root.getAttributeValue("name"), "KeyStore password not found", address, "3"};
                 errors.put(path+root.getName(), info);
@@ -125,7 +124,7 @@ public class ServerChecker {
         if(!Connection.isDNIe(address)){
             username = Connection.getUserName(address);
             if(username == null){
-                username = Config.guser;
+                username = Connection.guser;
                 if(username == null){
                     String[] info = {name+root.getAttributeValue("name"), "Username not found", address, "4"};
                     errors.put(path+root.getName(), info);
@@ -138,7 +137,7 @@ public class ServerChecker {
         
         char[] userpwd = Connection.getUserPwd(address);
         if(userpwd == null){
-            userpwd = Config.gusersecret;
+            userpwd = Connection.gusersecret;
             if(userpwd == null){
                 String[] info = {name+ root.getAttributeValue("name"), "User's password not found", address, "5"};
                 errors.put(path+root.getName(), info);

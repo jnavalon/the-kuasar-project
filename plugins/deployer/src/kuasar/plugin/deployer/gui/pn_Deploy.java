@@ -71,7 +71,7 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
 
         pn_Title.setOpaque(false);
 
-        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24));
+        lbl_Title.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lbl_Title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/start.png"))); // NOI18N
         lbl_Title.setText("Deploying");
@@ -99,6 +99,11 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
         btn_Stop.setForeground(new java.awt.Color(204, 204, 204));
         btn_Stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/abort22.png"))); // NOI18N
         btn_Stop.setText("Abort");
+        btn_Stop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_StopActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pn_ButtonsLayout = new javax.swing.GroupLayout(pn_Buttons);
         pn_Buttons.setLayout(pn_ButtonsLayout);
@@ -225,6 +230,13 @@ public class pn_Deploy extends kuasar.plugin.classMod.AbstractPanel implements I
                 .addComponent(pn_Buttons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_StopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StopActionPerformed
+        if(deploy!=null){
+            deploy.stopclean();
+        }
+    }//GEN-LAST:event_btn_StopActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Stop;
     private javax.swing.JLabel lbl_Current;
