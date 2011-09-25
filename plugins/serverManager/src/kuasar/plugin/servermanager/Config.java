@@ -48,7 +48,7 @@ public final class Config {
         public static boolean dnie = false;
         public static boolean checkServer = false;
         public static boolean checkClient = false;
-        public static int port = 46600;
+        public static int port = Connection.port;
         public static final int connection_timeout = 250;
     }
 

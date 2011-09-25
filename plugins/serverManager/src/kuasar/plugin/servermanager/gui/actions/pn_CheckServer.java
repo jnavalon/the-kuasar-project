@@ -40,10 +40,12 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
     /** Creates new form pn_CheckServer */
     pn_AddServer parent;
     String address;
+    int port;
 
     public pn_CheckServer(pn_AddServer parent, String address, int port) {
         this.address = address;
         this.parent = parent;
+        this.port = port;
         initComponents();
     }
 
@@ -147,6 +149,9 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
     // End of variables declaration//GEN-END:variables
 
     private boolean check() {
+        if(port<1 || port > 65535){
+            port = Config.GlobalServerCFG.port;
+        }
         if (!Config.GlobalServerCFG.checkServer) {
             return true;
         }
@@ -162,12 +167,12 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
         lbl_title.setText("Is port opened?");
         lbl_info.setText("<html>We 're trying to connect to the server. This test can take several minutes.");
         this.updateUI();
-        if (Connection.tryConnect(address, Config.GlobalServerCFG.port)) {
+        if (Connection.tryConnect(address, port)) {
             lbl_port.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/opened.png")));
             this.updateUI();
         }else{
             lbl_title.setText("No service listening on port!");
-            lbl_info.setText("<html>It seems there isn't any service listen on port " + Config.GlobalServerCFG.port + "<p> Aborted then.");
+            lbl_info.setText("<html>It seems there isn't any service listen on port " + port + "<p> Aborted then.");
             this.updateUI();
             return false;
         }
@@ -213,7 +218,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
             }
         }
 
-        int status = Connection.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, null, null, false);
+        int status = Connection.checkServer(address, port, ks, kspasswd, null, null, false);
         if (status < 1) {
             lbl_title.setText("BLASAR IS NOT LISTENING!");
             Connection.delKSPassword(address);
@@ -287,9 +292,9 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
 
             status = 3;
             if (dnie) {
-                status = Connection.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, "", password, true);
+                status = Connection.checkServer(address, port, ks, kspasswd, "", password, true);
             } else {
-                status = Connection.checkServer(address, Config.GlobalServerCFG.port, ks, kspasswd, user, password, true);
+                status = Connection.checkServer(address, port, ks, kspasswd, user, password, true);
             }
             if (status < 0) {
                 lbl_title.setText("Error Logging!");
