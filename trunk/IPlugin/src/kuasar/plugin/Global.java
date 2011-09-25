@@ -27,7 +27,7 @@ public final class Global {
         public static Class ODRClass = null;
         public static Object ODRClassInstance = null;
         
-        public final class CMD {
+        /*public final class CMD {
 
         public final static short NULL = 0;
         public final static short ANSWER = 1;
@@ -40,5 +40,5 @@ public final class Global {
             public final static char QUESTION = '>';
             public final static char INFO = '#';
         }
-    }
+    }*/
 }

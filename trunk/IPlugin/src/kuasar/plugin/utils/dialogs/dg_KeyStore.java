@@ -23,6 +23,7 @@
 package kuasar.plugin.utils.dialogs;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import javax.swing.JFileChooser;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.utils.Connection;
@@ -163,6 +164,11 @@ public class dg_KeyStore extends javax.swing.JDialog {
         pwd_password.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         pwd_password.setForeground(new java.awt.Color(0, 0, 0));
         pwd_password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pwd_password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pwd_passwordKeyPressed(evt);
+            }
+        });
 
         tb_save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/document-nosave.png"))); // NOI18N
         tb_save.setSelected(true);
@@ -220,7 +226,7 @@ public class dg_KeyStore extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        lbl_title.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 20));
         lbl_title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/certificate.png"))); // NOI18N
@@ -301,12 +307,14 @@ public class dg_KeyStore extends javax.swing.JDialog {
     }//GEN-LAST:event_txa_FileMouseClicked
 
     private void bt_AcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_AcceptActionPerformed
-        if(tb_save.isSelected())
-            saveKeyStore();
-        if(tb_saveKey.isSelected())
-            savePassword();
-        close();
+        accept();
     }//GEN-LAST:event_bt_AcceptActionPerformed
+
+    private void pwd_passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwd_passwordKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            accept();
+        }
+    }//GEN-LAST:event_pwd_passwordKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_Accept;
@@ -325,8 +333,15 @@ public class dg_KeyStore extends javax.swing.JDialog {
     private javax.swing.JTextArea txa_File;
     // End of variables declaration//GEN-END:variables
         
+    private void accept(){
+        if(tb_save.isSelected())
+            saveKeyStore();
+        if(tb_saveKey.isSelected())
+            savePassword();
+        close();
+    }
     private void saveKeyStore(){
-        Connection.saveKeyStore(txa_File.getText(), address);
+        Connection.saveKeyStore(keystore, address);
     }
     private void savePassword(){
         Connection.saveKSPassword(pwd_password.getPassword(), address);
@@ -343,5 +358,14 @@ public class dg_KeyStore extends javax.swing.JDialog {
     }
     private void close(){
         this.dispose();
+    }
+    
+    public void setData(String keystore, char[] password){
+        if(keystore != null){
+            this.keystore=keystore;
+            txa_File.setText(keystore);
+        }
+        if(password != null)
+            pwd_password.setText(String.valueOf(password));
     }
 }

@@ -23,6 +23,7 @@
 package kuasar.plugin.utils.dialogs;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.utils.Connection;
 
@@ -82,6 +83,11 @@ public class dg_Username extends javax.swing.JDialog {
 
         txt_username.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txt_username.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_username.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_usernameKeyReleased(evt);
+            }
+        });
 
         tb_save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/document-nosave.png"))); // NOI18N
         tb_save.setSelected(true);
@@ -104,8 +110,13 @@ public class dg_Username extends javax.swing.JDialog {
             }
         });
 
-        pwd_password.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        pwd_password.setFont(new java.awt.Font("Dialog", 0, 18));
         pwd_password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pwd_password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pwd_passwordKeyReleased(evt);
+            }
+        });
 
         lbl_username.setForeground(new java.awt.Color(204, 204, 204));
         lbl_username.setText("Username:");
@@ -152,7 +163,7 @@ public class dg_Username extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lbl_title.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        lbl_title.setFont(new java.awt.Font("Dialog", 1, 20));
         lbl_title.setForeground(new java.awt.Color(204, 204, 204));
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_title.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/icons/logged.png"))); // NOI18N
@@ -259,6 +270,18 @@ public class dg_Username extends javax.swing.JDialog {
         txt_username.setEditable(!tb_dnie.isSelected());
     }//GEN-LAST:event_tb_dnieItemStateChanged
 
+    private void pwd_passwordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwd_passwordKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            accept();
+        }
+    }//GEN-LAST:event_pwd_passwordKeyReleased
+
+    private void txt_usernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_usernameKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            accept();
+        }
+    }//GEN-LAST:event_txt_usernameKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_Accept;
     private javax.swing.JButton bt_Cancel;
@@ -307,5 +330,15 @@ public class dg_Username extends javax.swing.JDialog {
     public void disableDNIe(){
         tb_dnie.setSelected(false);
         tb_dnie.setEnabled(false);
+    }
+    
+    public void setData(String username, char[] password){
+        if(username!=null){
+            this.username = username;
+            txt_username.setText(username);
+        }
+        if(password!=null){
+            pwd_password.setText(String.valueOf(password));
+        }
     }
 }
