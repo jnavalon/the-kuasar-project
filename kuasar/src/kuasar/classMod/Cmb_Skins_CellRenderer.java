@@ -29,6 +29,7 @@ import kuasar.util.config.ScreenShootTemplate;
  */
 public class Cmb_Skins_CellRenderer implements ListCellRenderer{
 
+    @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         try{
             ScreenShootTemplate template = new ScreenShootTemplate();
