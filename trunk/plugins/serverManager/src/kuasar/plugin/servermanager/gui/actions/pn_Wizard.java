@@ -125,7 +125,7 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
 
         pn_Server.setOpaque(false);
 
-        lbl_keystore.setFont(new java.awt.Font("Dialog", 1, 18));
+        lbl_keystore.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lbl_keystore.setForeground(new java.awt.Color(204, 204, 204));
         lbl_keystore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/certificate.png"))); // NOI18N
         lbl_keystore.setText("KeyStore");
@@ -223,7 +223,7 @@ public class pn_Wizard extends kuasar.plugin.classMod.AbstractPanel {
                 .addComponent(pwd_Password, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tgb_DNIe)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         pn_loginLayout.setVerticalGroup(
             pn_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

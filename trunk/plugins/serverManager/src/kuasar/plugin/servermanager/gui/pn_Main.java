@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
 import kuasar.plugin.Intercom.GUI;
 import kuasar.plugin.servermanager.Config;
 import kuasar.plugin.servermanager.gui.actions.pn_AddGroup;
@@ -125,8 +126,12 @@ public final class pn_Main extends kuasar.plugin.classMod.AbstractPanel {
             if(lst_Servers.getSelectedIndices().length==0) return;
             String  nodename = (String) ((Object[])lst_Servers.getSelectedValue())[2];
             Element e = curDir == null?root.getChild(nodename):root.getChild(curDir).getChild(nodename);
-            if(e.getAttributeValue("type").isEmpty())
+            if(e.getAttributeValue("type").isEmpty()){
                 fillList(nodename);
+            }else if(e.getAttributeValue("type").equals("server")){
+                pn_InfoServer infoS = new pn_InfoServer(this, (JPanel) this.getParent());
+                infoS.showPanel(e.getAttributeValue("address"), e.getAttributeValue("port"));
+            }
         }
     }//GEN-LAST:event_lst_ServersMouseClicked
 
