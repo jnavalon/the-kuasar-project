@@ -63,11 +63,15 @@ public class Connection {
             public final static char INFO = '#';
         }
     }
+    
+    public static String gkeystore=null, guser =null;
+    public static char[] gkssecret=null, gusersecret = null;
     public static final String KEYSTORE = ".keystore";
     public static final String KS_PASSWD = ".kspass";
     public static final String USERNAME = ".user";
     public static final String PASSWD = ".pass";
     public static final String DNIE = ".dnie";
+    public static final int port = 46600;
     
     public static int timeout = 250;
     
@@ -280,7 +284,7 @@ public class Connection {
             case -20:
                 return "Error connection";
             case -1:
-                return "Server unknown";
+                return "Server unknown or is not reachable";
             case -11:
                 return "Error KeyStore";
             case -12:
@@ -439,8 +443,7 @@ public class Connection {
         char[] pwd = (char[]) map.get(address + KS_PASSWD);
         return pwd;
     }
-    
-    
+     
     public static void loadKSSecrets() {
         HashMap<String,Object> map = new HashMap<String,Object>();
         ODR.setValue("#KS_SECRET", map);
@@ -465,6 +468,14 @@ public class Connection {
         map.put(address + USERNAME, user);
         map.put(address + PASSWD, password);
         map.put(address + DNIE, dnie);
+        ODR.setValue("#USER_SECRET", map);
+    }
+    
+    public static void removeUserSecret(String address){
+        HashMap<String,Object> map = (HashMap<String,Object>) ODR.getValue("#USER_SECRET");
+        map.remove(address+USERNAME);
+        map.remove(address+PASSWD);
+        map.remove(address+DNIE);
         ODR.setValue("#USER_SECRET", map);
     }
     
@@ -517,6 +528,13 @@ public class Connection {
             }catch(IOException ex){}
         }
         return passwd;
+    }
+    public static int getPort(int port){
+        if(port>0 && port <65536){
+            return port;
+        }else{
+            return Connection.port;
+        }
     }
      public static class KSFilter implements FileFilter {
 
