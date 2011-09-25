@@ -75,7 +75,7 @@ public class UserService {
             return true;
         }else if(act.charAt(0) == '$'){
             return !SysCommands.splitter(act.substring(1), cmd ,st);
-        } else if (act.equals("listvm")) {
+        } else if (act.equals("listhvs")) {
             sendVMs();
         } else if (act.equals("switchvm")) {
             switchVM(cmd);

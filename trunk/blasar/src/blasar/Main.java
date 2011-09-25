@@ -64,7 +64,6 @@ public class Main {
         }
         System.exit(0);
     }
-
     private static boolean setArgs(String[] args) {
         boolean help = false;
         for (int i = 0; i < args.length; i++) {
@@ -121,8 +120,6 @@ public class Main {
         } catch (NoSuchAlgorithmException ex) {
             System.out.println("MD5 or SHA1 is not supported. Imposssible to generate Hash String");
         }
-
-
     }
 
     private static boolean isSimple(String arg) {
