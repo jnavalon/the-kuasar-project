@@ -22,5 +22,15 @@ public interface VMCommands {
     public boolean addNIC(String uuid, int nicID, String type, String mac);
     public boolean setNetwork(String uuid, String operator, String username, 
             String password, String mac, String ip, String mask, String gw, String dns);
-
+    public String getEngineName();
+    public String getMachineName(String uuid);
+    public String getMachineUUID(String name);
+    public boolean isRunning(String uuid);
+    
+    public boolean RunMachine(String uuid);
+    public boolean ShutdownMachine(String uuid);
+    public boolean ResetMachine(String uuid);
+    public boolean PowerOffMachine(String uuid);
+    
+    public boolean deleteVM(String uuid);
 }
