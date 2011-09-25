@@ -31,9 +31,14 @@ import java.util.UUID;
  */
 public class VMService {
 
-    PluginInterface plugin;
-    SocketTools st;
-    VMCommands intercom;
+    private PluginInterface plugin;
+    private SocketTools st;
+    private VMCommands intercom;
+    
+    public final static short PW_START = 0;
+    public final static short PW_RESET = 1;
+    public final static short PW_POWEROFF = 2;
+    public final static short PW_ACPIOFF = 3;
 
     public VMService(PluginInterface plugin, SocketTools st) {
         this.plugin = plugin;
@@ -79,12 +84,72 @@ public class VMService {
             addNIC(cmd);
         } else if (command.equals("setnetwork")) {
             setNetwork(cmd);
+        } else if (command.equals("getenginename")) {
+            getEngineName();
+        } else if (command.equals("getmachinename")) {
+            getMachineName(cmd);
+        } else if (command.equals("getmachineuuid")) {
+            getMachineUUID(cmd);
+        } else if (command.equals("isrunning")) {
+            isRunning(cmd);
+        } else if (command.equals("startvm")) {
+            sendPower(cmd,PW_START);
+        } else if (command.equals("resetvm")) {
+            sendPower(cmd,PW_RESET);
+        } else if (command.equals("poweroffvm")) {
+            sendPower(cmd,PW_POWEROFF);
+        } else if (command.equals("acpioffvm")) {
+            sendPower(cmd,PW_ACPIOFF);
+        } else if (command.equals("deletevm")) {
+            deleteVM(cmd);
         } else {
             st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
         }
         return false;
     }
-
+    
+    private void deleteVM(StringTokenizer cmd) throws SocketException{
+        if(cmd.countTokens()!=1){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        String uuid = cmd.nextToken();
+        if(intercom.deleteVM(uuid)){
+            st.sendLine(Config.CMD.CHARS.INFO + "OK");
+        }else{
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+        }
+    }
+    
+    private void sendPower(StringTokenizer cmd, short type) throws SocketException{
+        if(cmd.countTokens()!=1){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        String uuid = cmd.nextToken();
+        boolean status = false;
+        switch(type){
+            case PW_START:
+                status=intercom.RunMachine(uuid);
+                break;
+            case PW_RESET:
+                status=intercom.ResetMachine(uuid);
+                break;
+            case PW_POWEROFF:
+                status=intercom.PowerOffMachine(uuid);
+                break;
+            case PW_ACPIOFF:
+                status=intercom.ShutdownMachine(uuid);
+                break;
+        }
+        if(status){
+            st.sendLine(Config.CMD.CHARS.INFO + "OK");
+        }else{
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+        }
+        
+    }
+    
     private void getMachines() throws SocketException, IOException {
         st.Send(Config.CMD.CHARS.ANSWER, intercom.getRegisteredMachines());
     }
@@ -237,4 +302,48 @@ public class VMService {
         }
     }
 
+    private void getEngineName() throws SocketException{
+        st.sendLine(Config.CMD.CHARS.ANSWER + intercom.getEngineName());
+    }
+
+    private void getMachineName(StringTokenizer cmd) throws SocketException {
+        if(cmd.countTokens()!=1){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        String uuid = cmd.nextToken();
+        String name = intercom.getMachineName(uuid);
+        if(name == null){
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+        }else{
+            st.sendLine(Config.CMD.CHARS.ANSWER + name);
+        }
+    }
+
+    private void getMachineUUID(StringTokenizer cmd) throws SocketException {
+        if(cmd.countTokens()<1){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        String name = st.getFullArguments(cmd);
+        String uuid = intercom.getMachineUUID(name);
+        if(uuid == null){
+            st.sendLine(Config.CMD.CHARS.INFO + "ERROR");
+        }else{
+            st.sendLine(Config.CMD.CHARS.ANSWER + uuid);
+        }
+    }
+
+    private void isRunning(StringTokenizer cmd) throws SocketException {
+        if(cmd.countTokens()!=1){
+            st.sendLine(Config.CMD.CHARS.INFO + "BADARGS");
+            return;
+        }
+        String uuid = cmd.nextToken();
+        if(intercom.isRunning(uuid)){
+            st.sendLine(Config.CMD.CHARS.ANSWER + "true");
+        }else{
+            st.sendLine(Config.CMD.CHARS.ANSWER + "false");
+        }
+    }
 }
