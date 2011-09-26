@@ -26,6 +26,7 @@ public final class Global {
         public static Class mainClass = null;
         public static Class ODRClass = null;
         public static Object ODRClassInstance = null;
+        public static boolean DevMode = false;
         
         /*public final class CMD {
 

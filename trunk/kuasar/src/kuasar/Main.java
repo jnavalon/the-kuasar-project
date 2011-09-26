@@ -23,6 +23,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import kuasar.gui.PluginScan;
 import kuasar.gui.fun_frm_Main;
+import kuasar.plugin.Global;
 import kuasar.util.SetVariables;
 import kuasar.util.config.Configuration;
 
@@ -36,7 +37,12 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IllegalAccessException {
-
+        if(args.length>0){
+            if(args[0].equals("-d")){
+                Global.DevMode = true;
+                System.out.println("DEVELOPMENT MODE IS << ON >>");
+            }
+        }
         Splash splash = new Splash();
         splash.setLocationRelativeTo(null);
         splash.setVisible(true);

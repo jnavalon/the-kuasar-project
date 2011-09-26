@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.util.ArrayList;
 import javax.net.ssl.SSLSocket;
+import kuasar.plugin.Global;
 import kuasar.plugin.utils.Connection.CMD;
 import kuasar.plugin.utils.Connection.CMD.CHARS;
 
@@ -107,7 +108,8 @@ public class SSocketTools {
     }
     public String readLine() throws IOException{
         String line = in.readLine();
-        System.out.println(line);
+        if(Global.DevMode)
+            System.out.println(line);
         return line;
     }
     public String readLine(short commandFilter) throws IOException, IllegalStatement  {
@@ -140,6 +142,8 @@ public class SSocketTools {
     }
     public void sendLine(String msg) throws SocketException {
         isAlive();
+        if(Global.DevMode)
+            System.out.println(msg);
         out.println(msg);
         out.flush();
     }
@@ -149,6 +153,8 @@ public class SSocketTools {
         out.flush();
     }
     public void Send(String msg) throws SocketException, IOException  {
+        if(Global.DevMode)
+            System.out.println(msg);
         Send(transcribeUTF(msg));
     }
     public void Send(char command, String[] data) throws SocketException, IOException {
