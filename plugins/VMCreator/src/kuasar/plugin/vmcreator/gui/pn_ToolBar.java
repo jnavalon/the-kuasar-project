@@ -88,7 +88,7 @@ public class pn_ToolBar extends javax.swing.JPanel {
         tob_Add.setOpaque(false);
 
         lbl_addGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/vmcreator/icons/Group.png"))); // NOI18N
-        lbl_addGroup.setToolTipText("Add Group");
+        lbl_addGroup.setToolTipText("Add Project");
         lbl_addGroup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lbl_addGroup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {

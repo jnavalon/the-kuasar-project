@@ -66,7 +66,7 @@ public class pn_AllOK extends kuasar.plugin.classMod.AbstractPanel {
         lbl_Info.setForeground(new java.awt.Color(204, 204, 204));
         lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_Info.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/deployer/icons/allRight128.png"))); // NOI18N
-        lbl_Info.setText("All was well!");
+        lbl_Info.setText("All went well!");
         lbl_Info.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lbl_Info.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
