@@ -39,6 +39,10 @@ public final class Hypervisor {
     public static boolean acpiPowerMachine(String uuid) {
         return (execute("controlvm " + uuid + " acpipowerbutton") == 0 ? true : false);
     }
+    
+    public static boolean createHostOnlyInterface() {
+        return (execute("hostonlyif create") == 0 ? true : false);
+    }
 
     public static int execute(String args) {
         String[] aargs = argsToArray(args);

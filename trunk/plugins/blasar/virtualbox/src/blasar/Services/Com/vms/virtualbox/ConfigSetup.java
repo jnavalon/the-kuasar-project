@@ -113,7 +113,7 @@ public class ConfigSetup {
         String command;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            command = br.readLine();
+            command = br.readLine().toLowerCase();
         } catch (IOException ex) {
             return 0;
         }
@@ -141,7 +141,7 @@ public class ConfigSetup {
         System.out.println("1) Insert manually VBoxManage path");
         System.out.println("2) Search automatically");
         System.out.println();
-        System.out.print("Type your option [1,2] : ");
+        System.out.print("Type your choice [1,2] : ");
     }
     
     private String getVMIPath() {
@@ -329,10 +329,16 @@ public class ConfigSetup {
     }
 
     private String getHostOnlyIf() {
+        String[] ifs = Hypervisor.getHostOnlyIfs();
+        if(ifs.length==0){
+            if(!createNewHostOnlyIf()){
+                return null;
+            }
+            ifs = Hypervisor.getHostOnlyIfs();
+        }
         System.out.println();
         System.out.println("Select a Host Only Interface:");
         System.out.println();
-        String[] ifs = Hypervisor.getHostOnlyIfs();
         for(int i = 0 ; i <ifs.length; i++){
                String intf = ifs[i];
                System.out.println(i +")" + intf);
@@ -341,6 +347,18 @@ public class ConfigSetup {
         int option = getOption();
         if(option<0 || option>ifs.length) return null;
         return ifs[option];
+    }
+
+    private boolean createNewHostOnlyIf() {
+        System.out.println();
+        System.out.println("There aren't any Host Only Interface.");
+        System.out.print("Do you want to create one now? [y|n]: ");
+        if(getAnswer()=='y'){
+            return Hypervisor.createHostOnlyInterface();
+        }else{
+            System.out.println("Aborted then.");
+            return false;
+        }
     }
     
 }
