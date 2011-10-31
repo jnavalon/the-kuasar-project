@@ -71,6 +71,7 @@ public class fun_frm_Main extends frm_Main {
     private void setListeners() {
         mni_Preferences.addActionListener(new java.awt.event.ActionListener() {
 
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mni_PreferencesActionPerformed(evt);
             }
@@ -85,6 +86,7 @@ public class fun_frm_Main extends frm_Main {
 
         lst_Plugins.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 
+            @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (lst_Plugins.getSelectedIndices().length == 0) {
                     return;
