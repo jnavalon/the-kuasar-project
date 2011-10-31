@@ -64,6 +64,7 @@ public class PluginLoader {
             if (dirPlugins.isDirectory() && dirPlugins.exists()) {
                 File[] plugins = dirPlugins.listFiles(new FilenameFilter() {
 
+                    @Override
                     public boolean accept(File dir, String name) {
                         return name.endsWith(Plugins.extPlug);
                     }
