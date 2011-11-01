@@ -346,7 +346,7 @@ public class pn_CheckServer extends kuasar.plugin.classMod.AbstractPanel impleme
             lbl_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/logged.png")));
             lbl_status.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kuasar/plugin/servermanager/icons/face-laugh.png")));
             lbl_title.setText("Congrats!");
-            lbl_info.setText("<html>All was fine!");
+            lbl_info.setText("<html>All went fine!");
             this.updateUI();
         }
 
